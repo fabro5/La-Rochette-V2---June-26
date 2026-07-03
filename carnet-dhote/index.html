@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnet d'Hôte — Guides de bienvenue personnalisés & imprimés pour votre gîte</title>
+<meta name="description" content="Carnet d'Hôte crée pour les propriétaires de gîtes un guide de bienvenue personnalisé par IA : règlement, atouts du logement et bons plans des alentours. Rédigé, mis en page et imprimé pour vous.">
+<meta name="author" content="Carnet d'Hôte">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Carnet d'Hôte">
+<meta property="og:title" content="Carnet d'Hôte — Le guide de bienvenue qui fait aimer votre gîte">
+<meta property="og:description" content="Un guide de bienvenue personnalisé par IA, rédigé, mis en page et imprimé pour votre gîte. Règlement, atouts et bons plans des alentours.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ivory:#F8F3EA;
+    --ivory-2:#F2EADD;
+    --surface:#FFFFFF;
+    --surface-warm:#FCFAF5;
+    --ink:#2B2823;
+    --ink-soft:#4A443B;
+    --muted:#736A5D;
+    --sage:#5E6B52;
+    --sage-deep:#47523C;
+    --sage-soft:#7C8A6B;
+    --clay:#BC6A43;
+    --clay-soft:#D08A62;
+    --gold:#C29A46;
+    --line:#E6DCCB;
+    --shadow: 0 18px 50px -24px rgba(58,50,36,.35);
+    --shadow-sm: 0 6px 20px -12px rgba(58,50,36,.30);
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:var(--ivory);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.12;letter-spacing:.2px}
+  h2{font-size:clamp(2rem,4.2vw,3.1rem);color:var(--ink)}
+  p{color:var(--ink-soft)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-family:'Inter';font-weight:600;font-size:.78rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--clay);margin-bottom:14px;display:inline-block;
+  }
+  .section{padding:96px 0}
+  @media(max-width:640px){.section{padding:64px 0}}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.98rem;
+    padding:15px 30px;border-radius:100px;cursor:pointer;border:1px solid transparent;
+    transition:transform .18s ease, box-shadow .25s ease, background .25s ease;
+    font-family:'Inter';
+  }
+  .btn-primary{background:var(--sage);color:#fff;box-shadow:var(--shadow-sm)}
+  .btn-primary:hover{background:var(--sage-deep);transform:translateY(-2px);box-shadow:0 16px 34px -16px rgba(71,82,60,.7)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--sage);color:var(--sage-deep);transform:translateY(-2px)}
+  .btn-clay{background:var(--clay);color:#fff;box-shadow:var(--shadow-sm)}
+  .btn-clay:hover{background:#a85835;transform:translateY(-2px)}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(248,243,234,.82);backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid rgba(230,220,203,.7);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:.3px}
+  .brand .mark{width:34px;height:34px;flex:0 0 34px}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{font-size:.92rem;font-weight:500;color:var(--ink-soft);transition:color .2s}
+  .nav-links a:hover{color:var(--sage-deep)}
+  .nav-cta{padding:11px 22px;font-size:.9rem}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px}
+  .burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:.3s}
+  @media(max-width:860px){
+    .nav-links{position:fixed;inset:74px 0 auto 0;flex-direction:column;background:var(--ivory);
+      padding:24px;gap:18px;border-bottom:1px solid var(--line);transform:translateY(-140%);transition:transform .35s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .burger{display:block}
+  }
+
+  /* Hero */
+  .hero{position:relative;padding:88px 0 96px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+  .hero h1{font-size:clamp(2.7rem,6vw,4.4rem);color:var(--ink);margin-bottom:22px}
+  .hero h1 em{font-style:italic;color:var(--clay)}
+  .hero .lead{font-size:1.18rem;color:var(--ink-soft);max-width:520px;margin-bottom:32px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .hero-trust{display:flex;align-items:center;gap:14px;font-size:.9rem;color:var(--muted)}
+  .stars{color:var(--gold);letter-spacing:2px}
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;z-index:-1}
+  .blob.a{width:420px;height:420px;background:#DCE3CE;top:-120px;right:-80px}
+  .blob.b{width:360px;height:360px;background:#E8D3C2;bottom:-140px;left:-120px}
+
+  /* Hero visual: the booklet mockup */
+  .booklet{position:relative;perspective:1600px}
+  .booklet-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:30px 30px 26px;transform:rotateY(-9deg) rotateX(3deg);
+    transition:transform .5s ease;
+  }
+  .booklet:hover .booklet-card{transform:rotateY(-4deg) rotateX(1deg)}
+  .booklet-tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);background:#EEF1E6;padding:5px 12px;border-radius:100px;margin-bottom:16px}
+  .booklet-card h3{font-size:1.9rem;color:var(--ink);margin-bottom:4px}
+  .booklet-card .sub{font-size:.86rem;color:var(--muted);margin-bottom:18px}
+  .bk-line{height:9px;border-radius:6px;background:var(--ivory-2);margin:9px 0}
+  .bk-line.s{width:70%}.bk-line.m{width:88%}
+  .bk-block{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+  .bk-block .h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem;color:var(--sage-deep);margin-bottom:10px}
+  .bk-block .dot{width:8px;height:8px;border-radius:50%;background:var(--clay)}
+  .float-badge{
+    position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow-sm);padding:12px 16px;font-size:.82rem;font-weight:600;color:var(--ink);
+    display:flex;align-items:center;gap:9px;
+  }
+  .float-badge.one{top:-20px;left:-26px}
+  .float-badge.two{bottom:-22px;right:-18px}
+  @media(max-width:920px){.float-badge{display:none}}
+
+  /* Trust strip */
+  .strip{background:var(--sage-deep);color:#EBE6D8;padding:20px 0}
+  .strip-in{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;font-size:.9rem;letter-spacing:.02em}
+  .strip-in span{display:flex;align-items:center;gap:9px;opacity:.92}
+
+  /* Problem */
+  .prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  @media(max-width:820px){.prob-grid{grid-template-columns:1fr}}
+  .prob-card{background:var(--surface-warm);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .prob-card .ic{font-size:1.6rem;margin-bottom:12px}
+  .prob-card h3{font-size:1.35rem;margin-bottom:8px}
+  .prob-card p{font-size:.96rem}
+
+  /* Steps */
+  .steps{background:var(--surface-warm);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:52px;position:relative}
+  @media(max-width:820px){.steps-grid{grid-template-columns:1fr;gap:22px}}
+  .step{text-align:center;position:relative;padding:0 10px}
+  .step .num{
+    width:62px;height:62px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;
+    background:#fff;border:1px solid var(--line);font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--sage-deep);
+    box-shadow:var(--shadow-sm)
+  }
+  .step h3{font-size:1.45rem;margin-bottom:8px}
+  .step p{font-size:.97rem}
+
+  /* Content of the guide */
+  .content-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+  @media(max-width:820px){.content-grid{grid-template-columns:1fr}}
+  .feature{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px;transition:transform .25s ease,box-shadow .25s ease}
+  .feature:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+  .feature .ic{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px}
+  .feature.a .ic{background:#EEF1E6}
+  .feature.b .ic{background:#F6E7DC}
+  .feature.c .ic{background:#F1EAD6}
+  .feature h3{font-size:1.5rem;margin-bottom:10px}
+  .feature p{font-size:.97rem;margin-bottom:14px}
+  .feature ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .feature li{font-size:.92rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start}
+  .feature li::before{content:"✓";color:var(--sage);font-weight:700;flex:0 0 auto}
+
+  /* Highlight band */
+  .band{background:linear-gradient(135deg,var(--sage-deep),var(--sage));color:#F4F1E7;border-radius:26px;padding:60px 48px;text-align:center;position:relative;overflow:hidden}
+  .band h2{color:#fff;margin-bottom:16px}
+  .band p{color:#E7E5D6;max-width:640px;margin:0 auto 28px;font-size:1.08rem}
+  .band .pill-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .band .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:9px 18px;border-radius:100px;font-size:.9rem}
+
+  /* Pricing */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px;align-items:stretch}
+  @media(max-width:860px){.price-grid{grid-template-columns:1fr;max-width:440px;margin-inline:auto}}
+  .plan{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;display:flex;flex-direction:column}
+  .plan.featured{border:1.5px solid var(--sage);box-shadow:var(--shadow);position:relative}
+  .plan.featured::before{content:"Le plus choisi";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--clay);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:100px}
+  .plan h3{font-size:1.5rem;margin-bottom:4px}
+  .plan .tagl{font-size:.9rem;color:var(--muted);margin-bottom:18px;min-height:40px}
+  .plan .amt{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:var(--ink);line-height:1}
+  .plan .amt small{font-size:.95rem;font-family:'Inter';font-weight:500;color:var(--muted)}
+  .plan ul{list-style:none;margin:22px 0 26px;display:flex;flex-direction:column;gap:11px}
+  .plan li{font-size:.93rem;color:var(--ink-soft);display:flex;gap:10px}
+  .plan li::before{content:"✓";color:var(--sage);font-weight:700}
+  .plan .btn{width:100%;justify-content:center;margin-top:auto}
+  .price-note{text-align:center;font-size:.85rem;color:var(--muted);margin-top:22px}
+
+  /* Form */
+  .form-wrap{background:var(--surface-warm)}
+  .form-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+  @media(max-width:900px){.form-grid{grid-template-columns:1fr;gap:36px}}
+  .form-intro h2{margin-bottom:16px}
+  .form-intro p{font-size:1.03rem;margin-bottom:22px}
+  .form-intro .tick{display:flex;gap:11px;align-items:flex-start;margin-bottom:14px;font-size:.96rem;color:var(--ink-soft)}
+  .form-intro .tick .b{width:26px;height:26px;flex:0 0 26px;border-radius:8px;background:#EEF1E6;color:var(--sage-deep);display:flex;align-items:center;justify-content:center;font-weight:700}
+  form.lead{background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;box-shadow:var(--shadow)}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:.86rem;font-weight:600;color:var(--ink);margin-bottom:7px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:var(--surface-warm);
+    font-family:'Inter';font-size:.96rem;color:var(--ink);transition:border .2s, box-shadow .2s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(94,107,82,.14);background:#fff}
+  .field textarea{resize:vertical;min-height:88px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:520px){.row2{grid-template-columns:1fr}}
+  form.lead .btn{width:100%;justify-content:center;margin-top:6px}
+  .form-legal{font-size:.78rem;color:var(--muted);text-align:center;margin-top:14px}
+  .form-success{display:none;text-align:center;padding:26px 10px}
+  .form-success.show{display:block}
+  .form-success .big{font-size:2.6rem;margin-bottom:10px}
+  .form-success h3{font-size:1.7rem;margin-bottom:8px}
+
+  /* FAQ */
+  .faq-list{max-width:780px;margin:44px auto 0;display:flex;flex-direction:column;gap:14px}
+  .faq{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .faq summary{list-style:none;cursor:pointer;padding:20px 24px;font-weight:600;font-size:1.05rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:1.5rem;color:var(--sage);font-weight:400;transition:transform .2s}
+  .faq[open] summary::after{transform:rotate(45deg)}
+  .faq p{padding:0 24px 22px;font-size:.97rem}
+
+  /* Footer */
+  footer{background:var(--ink);color:#C9C2B4;padding:56px 0 28px}
+  .foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:34px}
+  .foot-brand{max-width:320px}
+  .foot-brand .brand{color:#F4F1E7;margin-bottom:12px}
+  .foot-brand p{color:#9C9585;font-size:.92rem}
+  .foot-col h4{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:#8A8272;margin-bottom:14px;font-weight:600}
+  .foot-col a{display:block;color:#C9C2B4;font-size:.93rem;margin-bottom:9px;transition:color .2s}
+  .foot-col a:hover{color:#fff}
+  .foot-bottom{border-top:1px solid #3A362E;padding-top:22px;text-align:center;font-size:.84rem;color:#7E7767}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="6" y="4" width="28" height="32" rx="3" fill="#5E6B52"/>
+        <rect x="6" y="4" width="7" height="32" rx="3" fill="#47523C"/>
+        <path d="M18 13h11M18 20h11M18 27h7" stroke="#F8F3EA" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="30.5" cy="9.5" r="3.2" fill="#BC6A43"/>
+      </svg>
+      Carnet d'Hôte
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#contenu">Le guide</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#faq">FAQ</a>
+      <a href="#devis" class="btn btn-primary nav-cta">Créer mon guide</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <span class="blob a"></span><span class="blob b"></span>
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Pour les propriétaires de gîtes &amp; locations</span>
+      <h1>Le guide de bienvenue qui fait <em>aimer</em> votre gîte.</h1>
+      <p class="lead">Vous nous confiez les infos de votre logement, notre intelligence artificielle rédige un guide de bienvenue élégant — règlement, atouts et <strong>bons plans des alentours</strong> — puis nous l'imprimons et vous le livrons prêt à poser sur la table.</p>
+      <div class="hero-cta">
+        <a href="#devis" class="btn btn-primary">Créer mon guide personnalisé →</a>
+        <a href="#comment" class="btn btn-ghost">Voir comment ça marche</a>
+      </div>
+      <div class="hero-trust">
+        <span class="stars">★★★★★</span>
+        <span>Conçu avec des hôtes exigeants · Impression &amp; livraison incluses</span>
+      </div>
+    </div>
+
+    <div class="booklet reveal">
+      <div class="float-badge one">✍️ Rédigé par IA</div>
+      <div class="float-badge two">🖨️ Imprimé &amp; livré</div>
+      <div class="booklet-card">
+        <span class="booklet-tag">Livret de bienvenue</span>
+        <h3>Le Gîte des Tilleuls</h3>
+        <div class="sub">Bienvenue chez vous · Vallée de la Dordogne</div>
+        <div class="bk-line m"></div><div class="bk-line s"></div>
+        <div class="bk-block">
+          <div class="h"><span class="dot"></span>Le règlement en douceur</div>
+          <div class="bk-line m"></div><div class="bk-line s"></div>
+        </div>
+        <div class="bk-block">
+          <div class="h"><span class="dot"></span>Les bons plans des alentours</div>
+          <div class="bk-line m"></div><div class="bk-line m"></div><div class="bk-line s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST STRIP ===== -->
+<div class="strip">
+  <div class="wrap strip-in">
+    <span>✦ Personnalisé pour votre gîte</span>
+    <span>✦ Mise en page premium</span>
+    <span>✦ Impression professionnelle incluse</span>
+    <span>✦ Livré chez vous</span>
+  </div>
+</div>
+
+<!-- ===== PROBLEM ===== -->
+<section class="section">
+  <div class="wrap" style="text-align:center;max-width:760px;margin-inline:auto">
+    <span class="eyebrow reveal">Le quotidien d'un hôte</span>
+    <h2 class="reveal">Vos voyageurs adorent votre gîte.<br>Ils ont juste… beaucoup de questions.</h2>
+  </div>
+  <div class="wrap">
+    <div class="prob-grid">
+      <div class="prob-card reveal"><div class="ic">📱</div><h3>Les mêmes questions, sans cesse</h3><p>« Où sont les poubelles ? », « Le code du wifi ? », « Un bon resto ? » — vous répondez au téléphone à toute heure.</p></div>
+      <div class="prob-card reveal"><div class="ic">🗒️</div><h3>Un livret bricolé</h3><p>Une feuille imprimée à la va-vite ne reflète pas le charme de votre logement ni le soin que vous y mettez.</p></div>
+      <div class="prob-card reveal"><div class="ic">⭐</div><h3>Des avis qui se jouent aux détails</h3><p>Un séjour fluide et de bons conseils locaux, c'est la différence entre 4 et 5 étoiles.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section steps" id="comment">
+  <div class="wrap" style="text-align:center;max-width:720px;margin-inline:auto">
+    <span class="eyebrow reveal">Comment ça marche</span>
+    <h2 class="reveal">Votre guide, en trois étapes simples.</h2>
+    <p class="reveal" style="margin-top:14px">Vous n'écrivez pas une ligne. Nous nous occupons de tout, de la rédaction à la livraison.</p>
+  </div>
+  <div class="wrap">
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="num">1</div>
+        <h3>Vous nous décrivez votre gîte</h3>
+        <p>Un questionnaire guidé : localisation, équipements, règles de la maison, votre ambiance. 5 minutes, pas plus.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">2</div>
+        <h3>L'IA rédige votre guide</h3>
+        <p>Notre intelligence artificielle rédige un livret élégant et met en avant les bons plans locaux autour de chez vous.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">3</div>
+        <h3>On imprime &amp; on livre</h3>
+        <p>Vous validez, nous imprimons sur un beau papier et livrons votre carnet prêt à accueillir vos voyageurs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTENT OF THE GUIDE ===== -->
+<section class="section" id="contenu">
+  <div class="wrap" style="text-align:center;max-width:760px;margin-inline:auto">
+    <span class="eyebrow reveal">Ce que contient votre carnet</span>
+    <h2 class="reveal">Tout ce dont vos voyageurs ont besoin, avec élégance.</h2>
+  </div>
+  <div class="wrap">
+    <div class="content-grid">
+      <div class="feature a reveal">
+        <div class="ic">📋</div>
+        <h3>Les règles, en douceur</h3>
+        <p>Le règlement de votre gîte présenté avec bienveillance — clair pour vos voyageurs, sans être rigide.</p>
+        <ul>
+          <li>Horaires d'arrivée &amp; de départ</li>
+          <li>Wifi, chauffage, équipements</li>
+          <li>Tri, poubelles, consignes de départ</li>
+        </ul>
+      </div>
+      <div class="feature b reveal">
+        <div class="ic">✨</div>
+        <h3>Les atouts de votre logement</h3>
+        <p>On met en valeur ce qui rend votre gîte unique pour créer l'émerveillement dès l'arrivée.</p>
+        <ul>
+          <li>Spa, cheminée, jardin, terrasse…</li>
+          <li>Le petit mot d'accueil personnalisé</li>
+          <li>Conseils d'usage pour un séjour parfait</li>
+        </ul>
+      </div>
+      <div class="feature c reveal">
+        <div class="ic">🗺️</div>
+        <h3>Les bons plans des alentours</h3>
+        <p>Le cœur du carnet : nos recommandations locales pour que vos voyageurs vivent la région comme des initiés.</p>
+        <ul>
+          <li>Restaurants, marchés &amp; producteurs</li>
+          <li>Randonnées, sites &amp; activités</li>
+          <li>Adresses secrètes &amp; coups de cœur</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HIGHLIGHT BAND ===== -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="band reveal">
+      <span class="eyebrow" style="color:#E9E3D3">Pourquoi ça change tout</span>
+      <h2>Moins de sollicitations. De meilleurs avis. Une image à la hauteur.</h2>
+      <p>Un beau carnet de bienvenue, c'est un voyageur autonome et rassuré, un hôte tranquille, et cette petite attention qui transforme un bon séjour en souvenir 5 étoiles.</p>
+      <div class="pill-row">
+        <span class="pill">↓ Moins d'appels &amp; de messages</span>
+        <span class="pill">↑ Des avis plus généreux</span>
+        <span class="pill">✦ Une image professionnelle</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section steps" id="tarifs">
+  <div class="wrap" style="text-align:center;max-width:720px;margin-inline:auto">
+    <span class="eyebrow reveal">Nos formules</span>
+    <h2 class="reveal">Un tarif simple, impression comprise.</h2>
+    <p class="reveal" style="margin-top:14px">Tarifs indicatifs de lancement — à affiner ensemble selon vos volumes.</p>
+  </div>
+  <div class="wrap">
+    <div class="price-grid">
+      <div class="plan reveal">
+        <h3>Numérique</h3>
+        <div class="tagl">Le guide personnalisé, en version PDF prête à imprimer vous-même.</div>
+        <div class="amt">39€ <small>/ guide</small></div>
+        <ul>
+          <li>Questionnaire guidé</li>
+          <li>Rédaction par IA + relecture</li>
+          <li>Mise en page premium</li>
+          <li>Fichier PDF haute qualité</li>
+        </ul>
+        <a href="#devis" class="btn btn-ghost">Choisir</a>
+      </div>
+      <div class="plan featured reveal">
+        <h3>Imprimé</h3>
+        <div class="tagl">Notre offre phare : le carnet rédigé, imprimé et livré chez vous.</div>
+        <div class="amt">79€ <small>/ guide</small></div>
+        <ul>
+          <li>Tout de l'offre Numérique</li>
+          <li>Impression sur beau papier</li>
+          <li>Finition &amp; reliure soignées</li>
+          <li>Livraison incluse</li>
+        </ul>
+        <a href="#devis" class="btn btn-primary">Créer mon guide</a>
+      </div>
+      <div class="plan reveal">
+        <h3>Conciergeries &amp; pros</h3>
+        <div class="tagl">Plusieurs biens à équiper ? Une offre sur mesure et dégressive.</div>
+        <div class="amt">Sur devis</div>
+        <ul>
+          <li>Tarifs dégressifs multi-gîtes</li>
+          <li>Charte graphique à votre image</li>
+          <li>Réassorts simplifiés</li>
+          <li>Accompagnement dédié</li>
+        </ul>
+        <a href="#devis" class="btn btn-ghost">Nous contacter</a>
+      </div>
+    </div>
+    <p class="price-note">Les tarifs affichés sont des estimations de lancement et pourront évoluer.</p>
+  </div>
+</section>
+
+<!-- ===== LEAD FORM ===== -->
+<section class="section form-wrap" id="devis">
+  <div class="wrap form-grid">
+    <div class="form-intro reveal">
+      <span class="eyebrow">Créons votre carnet</span>
+      <h2>Parlez-nous de votre gîte.</h2>
+      <p>Remplissez ces quelques informations : nous revenons vers vous avec un aperçu de votre guide de bienvenue personnalisé et le détail de l'offre.</p>
+      <div class="tick"><span class="b">✓</span><span>Sans engagement — vous validez avant toute impression.</span></div>
+      <div class="tick"><span class="b">✓</span><span>Réponse sous 48h avec un premier aperçu.</span></div>
+      <div class="tick"><span class="b">✓</span><span>Vos informations restent confidentielles.</span></div>
+    </div>
+
+    <div>
+      <form class="lead" id="leadForm" novalidate>
+        <div class="row2">
+          <div class="field">
+            <label for="name">Votre prénom &amp; nom *</label>
+            <input type="text" id="name" name="name" required placeholder="Marie Dupont">
+          </div>
+          <div class="field">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required placeholder="marie@exemple.fr">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="gite">Nom du gîte</label>
+            <input type="text" id="gite" name="gite" placeholder="Le Gîte des Tilleuls">
+          </div>
+          <div class="field">
+            <label for="ville">Ville / région *</label>
+            <input type="text" id="ville" name="ville" required placeholder="Saignes, Cantal">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="capacite">Capacité d'accueil</label>
+            <select id="capacite" name="capacite">
+              <option value="">Sélectionner…</option>
+              <option>1 à 2 personnes</option>
+              <option>3 à 5 personnes</option>
+              <option>6 à 9 personnes</option>
+              <option>10 personnes et +</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="formule">Formule souhaitée</label>
+            <select id="formule" name="formule">
+              <option value="">Sélectionner…</option>
+              <option>Numérique (PDF)</option>
+              <option>Imprimé &amp; livré</option>
+              <option>Conciergerie / plusieurs biens</option>
+              <option>Je ne sais pas encore</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="atouts">Les atouts &amp; l'ambiance de votre gîte (facultatif)</label>
+          <textarea id="atouts" name="atouts" placeholder="Spa extérieur, cheminée, grand jardin, vue sur les montagnes, ambiance familiale et cosy…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-clay">Recevoir mon aperçu gratuit →</button>
+        <p class="form-legal">En envoyant ce formulaire, vous acceptez d'être recontacté au sujet de votre projet de guide.</p>
+      </form>
+
+      <div class="form-success" id="formSuccess">
+        <div class="big">🎉</div>
+        <h3>Merci, c'est bien reçu !</h3>
+        <p>Nous préparons un premier aperçu de votre carnet de bienvenue et revenons vers vous très vite.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+  <div class="wrap" style="text-align:center;max-width:720px;margin-inline:auto">
+    <span class="eyebrow reveal">Questions fréquentes</span>
+    <h2 class="reveal">Tout ce que vous voulez savoir.</h2>
+  </div>
+  <div class="wrap">
+    <div class="faq-list">
+      <details class="faq reveal"><summary>Dois-je rédiger le contenu moi-même ?</summary><p>Non. Vous remplissez simplement un questionnaire guidé avec les informations de votre gîte. Notre intelligence artificielle se charge de toute la rédaction, et nous relisons chaque guide avant impression.</p></details>
+      <details class="faq reveal"><summary>Comme trouvez-vous les bons plans autour de mon gîte ?</summary><p>À partir de votre localisation, l'IA identifie les restaurants, marchés, randonnées et activités remarquables des environs. Vous pouvez ajouter vos propres coups de cœur : ce sont souvent les meilleures adresses.</p></details>
+      <details class="faq reveal"><summary>L'impression et la livraison sont-elles vraiment incluses ?</summary><p>Oui, dans la formule « Imprimé ». Nous imprimons votre carnet sur un beau papier avec une finition soignée, puis nous vous le livrons prêt à être posé dans votre logement.</p></details>
+      <details class="faq reveal"><summary>Puis-je modifier le guide avant impression ?</summary><p>Absolument. Vous recevez un aperçu et validez le contenu. Rien n'est imprimé sans votre accord.</p></details>
+      <details class="faq reveal"><summary>Et si j'ai plusieurs gîtes ?</summary><p>Nous proposons une offre dédiée aux conciergeries et propriétaires multi-biens, avec des tarifs dégressifs et une charte graphique à votre image. Indiquez-le dans le formulaire.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="6" y="4" width="28" height="32" rx="3" fill="#7C8A6B"/>
+            <rect x="6" y="4" width="7" height="32" rx="3" fill="#5E6B52"/>
+            <path d="M18 13h11M18 20h11M18 27h7" stroke="#2B2823" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="30.5" cy="9.5" r="3.2" fill="#BC6A43"/>
+          </svg>
+          Carnet d'Hôte
+        </div>
+        <p>Des guides de bienvenue personnalisés, rédigés par IA et imprimés, pour les propriétaires de gîtes qui aiment recevoir.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Le service</h4>
+        <a href="#comment">Comment ça marche</a>
+        <a href="#contenu">Le guide</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#devis">Créer mon guide</a>
+      </div>
+      <div class="foot-col">
+        <h4>Ressources</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#devis">Nous contacter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">© <span id="year"></span> Carnet d'Hôte — Fait avec soin pour les hôtes. Tous droits réservés.</div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.14});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Lead form handling
+  // ▸ POUR ACTIVER LA RÉCEPTION DES DEMANDES : créez un formulaire gratuit sur https://formspree.io
+  //   puis collez votre endpoint ci-dessous (ex: "https://formspree.io/f/xxxxxxx").
+  //   Tant qu'il est vide, les demandes sont simplement affichées en succès (mode démo).
+  const FORM_ENDPOINT = ""; // <-- collez votre endpoint Formspree ici
+
+  const form = document.getElementById('leadForm');
+  const success = document.getElementById('formSuccess');
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    // Simple validation
+    const required = ['name','email','ville'];
+    let ok = true;
+    required.forEach(id => {
+      const f = document.getElementById(id);
+      if(!f.value.trim()){ f.style.borderColor = '#BC6A43'; ok = false; }
+      else f.style.borderColor = '';
+    });
+    const email = document.getElementById('email');
+    if(email.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){ email.style.borderColor = '#BC6A43'; ok = false; }
+    if(!ok) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      if(FORM_ENDPOINT){
+        await fetch(FORM_ENDPOINT, {
+          method:'POST',
+          headers:{'Accept':'application/json'},
+          body: new FormData(form)
+        });
+      } else {
+        // Mode démo : on garde une trace locale
+        const stored = JSON.parse(localStorage.getItem('carnet_leads') || '[]');
+        stored.push({...data, at:new Date().toISOString()});
+        localStorage.setItem('carnet_leads', JSON.stringify(stored));
+      }
+      form.style.display = 'none';
+      success.classList.add('show');
+      success.scrollIntoView({behavior:'smooth', block:'center'});
+    } catch(err){
+      alert("Une erreur est survenue. Réessayez ou écrivez-nous directement.");
+    }
+  });
+</script>
+</body>
+</html>

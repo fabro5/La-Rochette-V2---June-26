@@ -132,6 +132,12 @@
   .badge-float.two{bottom:8%;right:4%}
   @media(max-width:520px){.badge-float{display:none}}
 
+  /* Hero photo */
+  .hero-photo{position:relative}
+  .hero-photo>img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;box-shadow:var(--shadow-book)}
+  .hero-photo::after{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  @media(max-width:940px){.hero-photo{margin-top:8px}}
+
   /* Trust */
   .trust{background:var(--ink)}
   .trust-in{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding:26px 0;color:#B7AC97;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}
@@ -314,40 +320,10 @@
       <div class="hero-trust"><span class="stars">★★★★★</span><span>Conçu &amp; imprimé pour vous · Livré chez vous</span></div>
     </div>
 
-    <div class="book-stage reveal" aria-hidden="true">
+    <div class="hero-photo reveal">
       <div class="badge-float one"><svg class="bic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 9V4h12v5M6 18H4v-5a2 2 0 012-2h12a2 2 0 012 2v5h-2M8 15h8v5H8z"/></svg> Imprimé &amp; relié</div>
       <div class="badge-float two"><svg class="bic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l2.1 4.3L18.8 8l-3.4 3.3.8 4.7L12 13.8 7.8 16l.8-4.7L5.2 8l4.7-.7z"/></svg> Sur-mesure</div>
-      <div class="book-shadow"></div>
-      <div class="cover-float">
-        <div class="frame"></div>
-        <div class="cover-inner">
-          <svg class="emb" width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="7" y="5" width="26" height="30" rx="2"/><line x1="14" y1="5" x2="14" y2="35"/><path d="M19 14h10M19 21h10" stroke-linecap="round"/></svg>
-          <div class="cover-bottom">
-            <div class="ctag">Carnet de bienvenue</div>
-            <h4>Le Gîte<br>des Tilleuls</h4>
-            <div class="cloc">Vallée de la Dordogne</div>
-          </div>
-        </div>
-      </div>
-      <div class="book-open">
-        <div class="pg l">
-          <div class="pg-h">Bienvenue</div>
-          <div class="pg-sub">Un mot de vos hôtes</div>
-          <div class="ln f"></div><div class="ln m"></div><div class="ln f"></div><div class="ln s"></div>
-          <div class="ln m"></div><div class="ln f"></div>
-          <div class="sign">Marie &amp; Julien</div>
-        </div>
-        <div class="pg r">
-          <div class="pg-h">Nos adresses</div>
-          <div class="pg-sub">Les bons plans du coin</div>
-          <div class="mini-list">
-            <div class="it"><span class="dot"></span><span class="ln m" style="margin:0;flex:1"></span></div>
-            <div class="it"><span class="dot"></span><span class="ln f" style="margin:0;flex:1"></span></div>
-            <div class="it"><span class="dot"></span><span class="ln s" style="margin:0;flex:1"></span></div>
-          </div>
-          <div class="mini-map"></div>
-        </div>
-      </div>
+      <img src="images/welcome-book.jpg" alt="Carnet de bienvenue relié et doré, posé sur une table en bois dans un salon de gîte en pierre">
     </div>
   </div>
 </section>

@@ -83,14 +83,14 @@
   .hero-bg{position:absolute;inset:0;z-index:-2}
   .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%}
   .hero-bg::after{content:"";position:absolute;inset:0;background:
-     linear-gradient(90deg,rgba(26,20,12,.74) 0%,rgba(26,20,12,.34) 46%,rgba(26,20,12,.12) 72%),
-     linear-gradient(0deg,rgba(26,20,12,.66) 0%,rgba(26,20,12,0) 42%)}
+     linear-gradient(0deg,rgba(28,21,12,.74) 0%,rgba(28,21,12,.30) 34%,rgba(28,21,12,0) 62%),
+     linear-gradient(90deg,rgba(28,21,12,.40) 0%,rgba(28,21,12,.06) 50%,rgba(28,21,12,0) 78%)}
   .hero-inner{position:relative;z-index:1;max-width:680px}
-  .hero .kicker{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.88);margin-bottom:24px;font-weight:400}
+  .hero .kicker{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:24px;font-weight:400;text-shadow:0 1px 14px rgba(0,0,0,.4)}
   .hero .kicker::before{content:"";display:inline-block;width:32px;height:1px;background:rgba(255,255,255,.7);vertical-align:middle;margin-right:14px;transform:translateY(-4px)}
-  .hero h1{font-size:clamp(2.9rem,6.4vw,5.4rem);font-weight:400;margin-bottom:26px;letter-spacing:.4px;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.25)}
-  .hero h1 em{font-style:italic;color:#E7C9A8}
-  .hero .lead{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.94);max-width:560px;margin-bottom:36px;line-height:1.65}
+  .hero h1{font-size:clamp(2.9rem,6.4vw,5.4rem);font-weight:400;margin-bottom:26px;letter-spacing:.4px;text-wrap:balance;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+  .hero h1 em{font-style:italic;color:#EBD1B4}
+  .hero .lead{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.95);max-width:560px;margin-bottom:36px;line-height:1.65;text-shadow:0 1px 16px rgba(0,0,0,.45)}
   .hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:28px}
   .hero-trust{display:flex;align-items:center;gap:12px;font-size:.92rem;color:rgba(255,255,255,.85)}
   .stars{color:#E7C9A8;letter-spacing:2px}
@@ -343,7 +343,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="images/welcome-book.jpg" alt="Carnet de bienvenue relié et doré, posé sur une table en bois dans un salon de gîte en pierre">
+    <img src="images/welcome-book-hero.jpg" alt="Carnet de bienvenue relié et doré, posé sur une table en bois dans un salon de gîte en pierre">
   </div>
   <div class="wrap">
     <div class="hero-inner reveal">
@@ -512,7 +512,17 @@
       <div class="pv-card">
         <div class="pv-ey">Les alentours</div>
         <div class="pv-h">Les bons plans</div>
-        <div class="mini-map" style="height:74px;margin:0 0 14px"></div>
+        <svg viewBox="0 0 260 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:auto;display:block;margin:0 0 14px;border-radius:6px">
+          <rect width="260" height="84" rx="6" fill="#EEEDE1"/>
+          <circle cx="40" cy="66" r="20" fill="#DCE3CD"/>
+          <rect x="196" y="-8" width="82" height="46" rx="12" fill="#D7E0DD"/>
+          <path d="M6 24 L118 50 L254 30" stroke="#DBD1BF" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M58 80 L120 46 L156 62 L222 22" stroke="#DBD1BF" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M44 60 C90 42 150 66 212 40" stroke="#B0663F" stroke-width="1.6" stroke-dasharray="3 4" fill="none"/>
+          <g fill="#B0663F"><path d="M44 60c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="44" cy="47.5" r="2.3" fill="#FBF7EF"/>
+          <g fill="#5B6A50"><path d="M128 52c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="128" cy="39.5" r="2.3" fill="#FBF7EF"/>
+          <g fill="#B0663F"><path d="M212 40c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="212" cy="27.5" r="2.3" fill="#FBF7EF"/>
+        </svg>
         <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>La Table de Margaux</b> — bistrot du village, 5 min</span></div>
         <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Marché de Sarlat</b> — samedi matin</span></div>
         <div class="pv-num">— 12 —</div>

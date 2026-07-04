@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exemples de carnets — Carnet d'Hôte</title>
+<meta name="description" content="Découvrez un exemple de guide de bienvenue Carnet d'Hôte, feuilletable, dans nos 3 styles au choix.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F7F2E9; --ivory-2:#EFE7D8; --paper:#FFFFFF; --paper-2:#FBF7EF;
+    --ink:#211E19; --ink-2:#3B362E; --muted:#7A7062;
+    --sage:#5B6A50; --sage-deep:#404B38; --clay:#B0663F; --clay-2:#C6825C; --gold:#B79246;
+    --line:#E2D8C6; --line-2:#D6C9B2;
+    --shadow:0 30px 70px -34px rgba(40,34,22,.5); --shadow-sm:0 14px 34px -20px rgba(40,34,22,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;line-height:1.1}
+  a{color:inherit;text-decoration:none}
+  .cd-logo{display:inline-block;background-color:currentColor;-webkit-mask:url(images/logo-mask.png) center/contain no-repeat;mask:url(images/logo-mask.png) center/contain no-repeat}
+
+  .topbar{background:rgba(247,242,233,.92);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .topbar-in{max-width:900px;margin:0 auto;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;color:var(--ink)}
+  .brand .mark{width:34px;height:34px;flex:0 0 34px;color:var(--sage-deep)}
+  .back-link{font-size:.86rem;color:var(--muted)}
+  .back-link:hover{color:var(--clay)}
+
+  .shell{max-width:780px;margin:0 auto;padding:44px 24px 90px;text-align:center}
+  .eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--clay);font-weight:500}
+  .shell h1{font-size:clamp(2rem,5vw,2.9rem);margin:12px 0 10px}
+  .shell .lead{color:var(--ink-2);font-weight:300;max-width:520px;margin:0 auto 8px}
+
+  .tpl-label{text-align:center;font-size:.82rem;font-weight:500;color:var(--ink);margin:34px 0 12px}
+  .tpl-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px;max-width:560px;margin-inline:auto}
+  @media(max-width:480px){.tpl-picker{grid-template-columns:1fr}}
+  .tpl-opt{cursor:pointer;border:1px solid var(--line-2);border-radius:10px;padding:14px 12px;text-align:center;background:var(--paper-2);transition:.2s;position:relative}
+  .tpl-opt:hover{border-color:#7C8A6B}
+  .tpl-opt.active{border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
+  .tpl-opt .sw{display:flex;gap:5px;justify-content:center;margin-bottom:9px}
+  .tpl-opt .sw i{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .tpl-opt .nm{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink)}
+  .tpl-opt .ds{font-size:.72rem;color:var(--muted)}
+  .tpl-opt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
+  .tpl-opt.active .chk{display:flex}
+
+  .pv-sec{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--ink);margin:30px 0 16px;position:relative}
+  .pv-sec::after{content:"";display:block;width:36px;height:1px;background:var(--line-2);margin:12px auto 0}
+  .pv-ey{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--clay);margin-bottom:10px}
+  .pv-h{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.05}
+  .pv-txt{font-size:.8rem;line-height:1.7;color:var(--ink-2)}
+  .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--sage-deep);margin-top:auto;padding-top:14px}
+  .pv-rlist{list-style:none;display:flex;flex-direction:column;gap:7px;text-align:left}
+  .pv-rlist li{font-size:.76rem;display:flex;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:1px dotted var(--line-2)}
+  .pv-rlist li b{color:var(--ink);font-weight:500}
+  .pv-rlist li span{color:var(--sage-deep)}
+  .pv-chips2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;justify-content:center}
+  .pv-chip2{font-size:.68rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:4px 10px;border-radius:16px}
+  .pv-reco2{font-size:.76rem;color:var(--ink-2);display:flex;gap:6px;margin-top:8px;line-height:1.4;text-align:left}
+  .pv-reco2 .pin{color:var(--clay);flex:0 0 auto;margin-top:1px}
+  .cl{width:46px;height:46px;color:var(--sage-deep);margin:0 auto 14px}
+  .clabel{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--clay);margin-bottom:14px}
+  .ctitle{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--ink);line-height:1.04}
+  .crule{width:40px;height:1px;background:var(--line-2);margin:14px auto}
+  .cloc{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+  .flip-wrap{--pw:min(320px,80vw);--ph:calc(var(--pw)*1.34)}
+  .flip-stage{position:relative;width:var(--pw);height:var(--ph);margin:0 auto;perspective:1900px;cursor:pointer;user-select:none}
+  .flip-page{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.4,.16,.2,1)}
+  .flip-page.flipped{transform:rotateY(-180deg)}
+  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:3px 9px 9px 3px;overflow:hidden;background:linear-gradient(180deg,#FCFAF3,#F2EBDC);box-shadow:0 20px 44px -24px rgba(40,30,15,.55);padding:28px 24px;display:flex;flex-direction:column}
+  .flip-face.cover,.flip-face.closing{align-items:center;justify-content:center;text-align:center}
+  .flip-face.back{transform:rotateY(180deg);align-items:center;justify-content:center;background:linear-gradient(180deg,#F4EEE0,#EDE5D3)}
+  .flip-face.back .cd-logo{width:42px;height:42px;color:#E0D5C1}
+  .flip-ctrls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}
+  .flip-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
+  .flip-btn:hover:not(:disabled){background:var(--sage);color:#fff;border-color:var(--sage)}
+  .flip-btn:disabled{opacity:.32;cursor:default}
+  .flip-count{font-size:.84rem;color:var(--muted);min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
+  .flip-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:10px}
+
+  .book3d{perspective:1300px;display:flex;justify-content:center;padding:20px 0 6px}
+  .book3d .cv{width:224px;height:296px;transform:rotateY(-24deg);position:relative;border-radius:3px 8px 8px 3px;background:linear-gradient(120deg,#35322b,#211E19);box-shadow:-18px 26px 48px -18px rgba(40,30,15,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 26px;color:#EFE7D8}
+  .book3d .cv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:rgba(0,0,0,.34);border-radius:3px 0 0 3px}
+  .book3d .cv .frame{position:absolute;inset:15px;border:1px solid rgba(199,153,70,.42);border-radius:3px}
+  .book3d .cv .bl{width:44px;height:44px;color:#C9A24B;margin-bottom:14px}
+  .book3d .cv .blabel{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px}
+  .book3d .cv h4{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;line-height:1.05;color:#F3EDE1}
+  .book3d .cv .bloc{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:#C9A24B;margin-top:10px}
+  .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:8px}
+
+  /* Thèmes */
+  .tpl-elegance .flip-face{background:linear-gradient(180deg,#FCFBF8,#F1EFE8)}
+  .tpl-elegance .flip-face.back{background:linear-gradient(180deg,#F1EFE8,#E9E6DC)}
+  .tpl-elegance .pv-ey,.tpl-elegance .clabel,.tpl-elegance .cl,.tpl-elegance .pv-reco2 .pin{color:#B79246}
+  .tpl-elegance .pv-h,.tpl-elegance .ctitle{color:#1A1813}
+  .tpl-elegance .pv-sign{color:#6B6459}
+  .tpl-elegance .crule{background:#CDB56A}
+  .tpl-elegance .pv-chip2{background:#F3ECD9;border-color:#E4D6AB;color:#8A6D24}
+  .tpl-elegance .book3d .cv{background:linear-gradient(120deg,#232019,#131210)}
+  .tpl-champetre .flip-face{background:linear-gradient(180deg,#FCF4EA,#F3E4D2)}
+  .tpl-champetre .flip-face.back{background:linear-gradient(180deg,#F3E4D2,#EAD7C0)}
+  .tpl-champetre .pv-ey,.tpl-champetre .clabel,.tpl-champetre .cl,.tpl-champetre .pv-reco2 .pin{color:#B85C38}
+  .tpl-champetre .pv-h,.tpl-champetre .ctitle{color:#3A2A20}
+  .tpl-champetre .pv-sign{color:#6E7A4E}
+  .tpl-champetre .crule{background:#D9A67E}
+  .tpl-champetre .pv-chip2{background:#F3E3D1;border-color:#E4C9AC;color:#9A4E2C}
+  .tpl-champetre .book3d .cv{background:linear-gradient(120deg,#7C4A30,#59331F)}
+  .tpl-champetre .book3d .cv .bl,.tpl-champetre .book3d .cv .blabel,.tpl-champetre .book3d .cv .bloc{color:#EAC9A0}
+  .tpl-champetre .book3d .cv .frame{border-color:rgba(234,201,160,.5)}
+
+  .cta{margin-top:44px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:500;font-size:.96rem;padding:15px 34px;border-radius:8px;background:var(--clay);color:#fff;transition:.2s}
+  .btn:hover{background:#9a5433;transform:translateY(-1px)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="brand" href="index.html"><span class="mark cd-logo" aria-hidden="true"></span>Carnet d'Hôte</a>
+  <a class="back-link" href="index.html">← Retour au site</a>
+</div></div>
+
+<div class="shell">
+  <span class="eyebrow">Un exemple de carnet</span>
+  <h1>Feuilletez un carnet, dans 3 styles</h1>
+  <p class="lead">Voici un exemple pour « Le Gîte des Tilleuls ». Choisissez un style et tournez les pages — c'est exactement ce que verront vos voyageurs.</p>
+
+  <div class="tpl-label">Choisissez le style</div>
+  <div class="tpl-picker">
+    <div class="tpl-opt active" data-cls="tpl-serenite"><span class="chk">✓</span><span class="sw"><i style="background:#5B6A50"></i><i style="background:#B0663F"></i><i style="background:#EDE5D3"></i></span><div class="nm">Sérénité</div><div class="ds">Nature &amp; chaleureux</div></div>
+    <div class="tpl-opt" data-cls="tpl-elegance"><span class="chk">✓</span><span class="sw"><i style="background:#1A1813"></i><i style="background:#B79246"></i><i style="background:#F1EFE8"></i></span><div class="nm">Élégance</div><div class="ds">Ivoire &amp; doré</div></div>
+    <div class="tpl-opt" data-cls="tpl-champetre"><span class="chk">✓</span><span class="sw"><i style="background:#B85C38"></i><i style="background:#6E7A4E"></i><i style="background:#F3E4D2"></i></span><div class="nm">Champêtre</div><div class="ds">Terracotta &amp; olive</div></div>
+  </div>
+
+  <div id="pvArea" class="tpl-serenite">
+    <div class="pv-sec">Feuilletez le carnet</div>
+    <div class="flip-wrap">
+      <div class="flip-stage" id="flipStage"></div>
+      <div class="flip-ctrls">
+        <button type="button" class="flip-btn" id="flipPrev" aria-label="Précédent">‹</button>
+        <span class="flip-count" id="flipCount"></span>
+        <button type="button" class="flip-btn" id="flipNext" aria-label="Suivant">›</button>
+      </div>
+      <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches</div>
+    </div>
+    <div class="pv-sec">Le livre imprimé</div>
+    <div id="book"></div>
+  </div>
+
+  <div class="cta"><a class="btn" href="questionnaire.html">Créer le mien →</a></div>
+</div>
+
+<script>
+  const S = {
+    gite:"Le Gîte des Tilleuls", loc:"Sarlat · Dordogne", hosts:"Marie & Julien",
+    checkin:"16h00", checkout:"10h30", wifi:"Tilleuls_24",
+    rules:["Animaux bienvenus","Non-fumeur"],
+    ams:["Bain nordique","Cheminée / Poêle","Jardin","Terrasse"],
+    highlights:"Le bain nordique face au coucher de soleil et la grande cheminée du salon.",
+    recos:["L'Auberge du Village — cuisine du terroir, 5 min à pied","Sentier des Crêtes — 2h de rando, vue panoramique"]
+  };
+  const back = `<div class="flip-face back"><span class="cd-logo" aria-hidden="true"></span></div>`;
+  const faces = [
+    `<div class="flip-face cover"><span class="cd-logo cl" aria-hidden="true"></span><div class="clabel">Carnet de bienvenue</div><div class="ctitle">${S.gite}</div><div class="crule"></div><div class="cloc">${S.loc}</div></div>`,
+    `<div class="flip-face"><div class="pv-ey">Le mot d'accueil</div><div class="pv-h">Bienvenue chez vous.</div><p class="pv-txt">Nous sommes ravis de vous accueillir à ${S.gite}. Une maison de charme au calme, face aux collines, que nous avons préparée avec soin. Prenez le temps de vous poser — vous trouverez ici tout le nécessaire et nos meilleures adresses.</p><div class="pv-sign">${S.hosts}</div></div>`,
+    `<div class="flip-face"><div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div><ul class="pv-rlist"><li><b>Arrivée</b><span>${S.checkin}</span></li><li><b>Départ</b><span>${S.checkout}</span></li><li><b>Wifi</b><span>${S.wifi}</span></li>${S.rules.map(r=>`<li><b>${r}</b><span>✓</span></li>`).join('')}</ul></div>`,
+    `<div class="flip-face"><div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div><div class="pv-chips2">${S.ams.map(a=>`<span class="pv-chip2">${a}</span>`).join('')}</div><p class="pv-txt">${S.highlights}</p></div>`,
+    `<div class="flip-face"><div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>${S.recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${r}</span></div>`).join('')}<div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:10px">+ une carte illustrée de vos environs</div></div>`,
+    `<div class="flip-face closing"><div class="pv-h" style="margin-bottom:8px">Au plaisir de<br>vous accueillir.</div><div class="pv-sign" style="padding-top:0">${S.hosts}</div><span class="cd-logo" aria-hidden="true" style="width:36px;height:36px;color:var(--sage-deep);margin-top:20px"></span></div>`
+  ];
+  const stage=document.getElementById('flipStage');
+  stage.innerHTML=faces.map(f=>`<div class="flip-page">${f}${back}</div>`).join('');
+  document.getElementById('book').innerHTML=`<div class="book3d"><div class="cv"><div class="frame"></div><span class="cd-logo bl" aria-hidden="true"></span><div class="blabel">Carnet de bienvenue</div><h4>${S.gite}</h4><div class="bloc">${S.loc}</div></div></div><p class="book-cap">Votre carnet, imprimé sur beau papier et relié — livré chez vous.</p>`;
+
+  const pages=[...stage.querySelectorAll('.flip-page')], N=pages.length;
+  let cur=0, ignoreClick=false;
+  const count=document.getElementById('flipCount'), prevB=document.getElementById('flipPrev'), nextB=document.getElementById('flipNext');
+  function upd(){ pages.forEach((p,i)=>{const f=i<cur;p.classList.toggle('flipped',f);p.style.zIndex=f?i:(N-i);}); count.textContent=(cur+1)+' / '+N; prevB.disabled=cur===0; nextB.disabled=cur===N-1; }
+  const go=d=>{const n=Math.min(Math.max(cur+d,0),N-1); if(n!==cur){cur=n;upd();}};
+  prevB.onclick=e=>{e.stopPropagation();go(-1);}; nextB.onclick=e=>{e.stopPropagation();go(1);};
+  stage.onclick=e=>{ if(ignoreClick){ignoreClick=false;return;} const r=stage.getBoundingClientRect(); ((e.clientX-r.left)>r.width/2)?go(1):go(-1); };
+  let sx=null; stage.ontouchstart=e=>{sx=e.changedTouches[0].clientX;};
+  stage.ontouchend=e=>{ if(sx==null)return; const dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40){ignoreClick=true;go(dx<0?1:-1);} sx=null; };
+  upd();
+
+  const pvArea=document.getElementById('pvArea');
+  document.querySelectorAll('.tpl-opt').forEach(o=>o.addEventListener('click',()=>{
+    document.querySelectorAll('.tpl-opt').forEach(x=>x.classList.remove('active'));
+    o.classList.add('active'); pvArea.className=o.dataset.cls;
+  }));
+</script>
+</body>
+</html>

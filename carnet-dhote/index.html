@@ -238,8 +238,13 @@
   .pv-txt{font-size:.88rem;line-height:1.75;color:var(--ink-2)}
   .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--sage-deep);margin-top:auto;padding-top:20px}
   .pv-num{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted);letter-spacing:.14em}
-  .pv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:840px;margin:22px auto 0}
-  @media(max-width:760px){.pv-grid{grid-template-columns:1fr;max-width:380px}}
+  .pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:840px;margin:22px auto 0}
+  @media(max-width:640px){.pv-grid{grid-template-columns:1fr;max-width:380px}}
+  .pv-wide{max-width:840px;margin:22px auto 0;background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:5px;padding:32px 34px 28px;box-shadow:var(--shadow-sm);position:relative}
+  .pv-wide .pv-h{font-size:1.7rem;margin-bottom:2px}
+  .pv-map-img{width:100%;border-radius:6px;margin:16px 0 20px;border:1px solid var(--line);display:block}
+  .pv-recos{display:grid;grid-template-columns:1fr 1fr;gap:13px 30px}
+  @media(max-width:560px){.pv-recos{grid-template-columns:1fr}}
   .pv-card{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:5px;padding:28px 26px 34px;box-shadow:var(--shadow-sm);position:relative;min-height:256px;transition:transform .3s,box-shadow .3s}
   .pv-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
   .pv-card .pv-h{font-size:1.45rem;margin-bottom:16px}
@@ -509,27 +514,22 @@
         <p class="pv-txt">Profitez du bain nordique face aux collines, et des grandes tablées au coin du feu. Le petit plus : les œufs frais du voisin, chaque matin.</p>
         <div class="pv-num">— 7 —</div>
       </div>
-      <div class="pv-card">
-        <div class="pv-ey">Les alentours</div>
-        <div class="pv-h">Les bons plans</div>
-        <svg viewBox="0 0 260 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:auto;display:block;margin:0 0 14px;border-radius:6px">
-          <rect width="260" height="84" rx="6" fill="#EEEDE1"/>
-          <circle cx="40" cy="66" r="20" fill="#DCE3CD"/>
-          <rect x="196" y="-8" width="82" height="46" rx="12" fill="#D7E0DD"/>
-          <path d="M6 24 L118 50 L254 30" stroke="#DBD1BF" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <path d="M58 80 L120 46 L156 62 L222 22" stroke="#DBD1BF" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <path d="M44 60 C90 42 150 66 212 40" stroke="#B0663F" stroke-width="1.6" stroke-dasharray="3 4" fill="none"/>
-          <g fill="#B0663F"><path d="M44 60c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="44" cy="47.5" r="2.3" fill="#FBF7EF"/>
-          <g fill="#5B6A50"><path d="M128 52c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="128" cy="39.5" r="2.3" fill="#FBF7EF"/>
-          <g fill="#B0663F"><path d="M212 40c-4-6-6.5-8-6.5-12a6.5 6.5 0 1 1 13 0c0 4-2.5 6-6.5 12z"/></g><circle cx="212" cy="27.5" r="2.3" fill="#FBF7EF"/>
-        </svg>
-        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>La Table de Margaux</b> — bistrot du village, 5 min</span></div>
-        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Marché de Sarlat</b> — samedi matin</span></div>
-        <div class="pv-num">— 12 —</div>
-      </div>
     </div>
 
-    <p class="pv-cap reveal">Un exemple — votre carnet reprend vos textes, votre logement et votre région.</p>
+    <div class="pv-wide reveal">
+      <div class="pv-ey">Les alentours</div>
+      <div class="pv-h">Les bons plans des environs</div>
+      <img class="pv-map-img" src="images/local-map.jpg" alt="Carte illustrée des environs du gîte : village, rivière, vignoble et sentiers">
+      <div class="pv-recos">
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>L'Auberge du Village</b> — cuisine du terroir, 5 min à pied</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Vignoble de Saint-Pierre</b> — dégustation sur rendez-vous</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Sentier des Crêtes</b> — 2h de rando, vue panoramique</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Ruines du Château</b> — visite libre, à 10 min</span></div>
+      </div>
+      <div class="pv-num" style="position:static;text-align:right;margin-top:18px">— 12 —</div>
+    </div>
+
+    <p class="pv-cap reveal">Un exemple — votre carnet reprend vos textes, votre logement, votre région et vos adresses.</p>
   </div>
 </section>
 

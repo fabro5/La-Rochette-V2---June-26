@@ -55,7 +55,8 @@
   header.scrolled{background:rgba(247,242,233,.92);backdrop-filter:saturate(150%) blur(14px);border-color:rgba(226,216,198,.8)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:82px}
   .brand{display:flex;align-items:center;gap:12px;font-family:'Cormorant Garamond',serif;font-size:1.62rem;font-weight:600;letter-spacing:.4px;color:#F7F2E9;transition:color .4s}
-  .brand .mark{width:38px;height:38px;flex:0 0 38px;color:#F7F2E9;transition:color .4s}
+  .cd-logo{display:inline-block;background-color:currentColor;-webkit-mask:url(images/logo-mask.png) center/contain no-repeat;mask:url(images/logo-mask.png) center/contain no-repeat}
+  .brand .mark{width:42px;height:42px;flex:0 0 42px;color:#F7F2E9;transition:color .4s}
   header.scrolled .brand,header.scrolled .brand .mark{color:var(--ink)}
   .nav-links{display:flex;align-items:center;gap:34px}
   .nav-links a{font-size:.9rem;font-weight:400;color:rgba(255,255,255,.9);transition:color .25s}
@@ -219,17 +220,39 @@
   .band .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
   .band .pill{border:1px solid rgba(255,255,255,.34);padding:11px 22px;border-radius:2px;font-size:.86rem;letter-spacing:.04em;color:#F3EDE1}
 
-  /* Aperçu — page spreads */
-  .spreads{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:64px}
-  @media(max-width:920px){.spreads{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.spreads{grid-template-columns:1fr;max-width:340px;margin-inline:auto}}
-  .spread{background:linear-gradient(180deg,var(--paper),var(--paper-2));border:1px solid var(--line);border-radius:4px;padding:26px 22px 24px;position:relative;box-shadow:var(--shadow-sm);min-height:300px;transition:transform .3s,box-shadow .3s}
-  .spread:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-  .spread::before{content:"";position:absolute;left:14px;top:14px;bottom:14px;width:2px;background:rgba(40,30,15,.08);border-radius:2px}
-  .spread .pnum{position:absolute;bottom:12px;right:16px;font-size:.62rem;color:var(--muted);letter-spacing:.1em}
-  .spread .stag{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--clay);margin-bottom:8px}
-  .spread h4{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.1}
-  .spread .ln{background:#E7DFD0}
+  /* Aperçu — sample pages (style papier crème/botanique) */
+  .pv-spread{display:grid;grid-template-columns:1fr 1fr;max-width:840px;margin:56px auto 0;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-book)}
+  @media(max-width:640px){.pv-spread{grid-template-columns:1fr;max-width:380px}}
+  .pv-page{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);padding:42px 38px 40px;position:relative;min-height:440px;display:flex;flex-direction:column}
+  .pv-page.left{box-shadow:inset -20px 0 36px -24px rgba(60,45,20,.32)}
+  .pv-page.right{box-shadow:inset 20px 0 36px -24px rgba(60,45,20,.32)}
+  @media(max-width:640px){.pv-page{min-height:auto;padding:36px 30px}.pv-page.left{box-shadow:inset 0 -18px 30px -22px rgba(60,45,20,.22)}}
+  .pv-cover{text-align:center;align-items:center;justify-content:center}
+  .cov-logo{width:60px;height:60px;color:var(--sage-deep);margin:0 auto 18px}
+  .cov-label{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--clay);margin-bottom:18px}
+  .cov-title{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1.04}
+  .cov-rule{width:46px;height:1px;background:var(--line-2);margin:18px auto}
+  .cov-loc{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .pv-ey{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
+  .pv-h{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:500;color:var(--ink);line-height:1.05;margin-bottom:16px}
+  .pv-txt{font-size:.88rem;line-height:1.75;color:var(--ink-2)}
+  .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--sage-deep);margin-top:auto;padding-top:20px}
+  .pv-num{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted);letter-spacing:.14em}
+  .pv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:840px;margin:22px auto 0}
+  @media(max-width:760px){.pv-grid{grid-template-columns:1fr;max-width:380px}}
+  .pv-card{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:5px;padding:28px 26px 34px;box-shadow:var(--shadow-sm);position:relative;min-height:256px;transition:transform .3s,box-shadow .3s}
+  .pv-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .pv-card .pv-h{font-size:1.45rem;margin-bottom:16px}
+  .pv-rule-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .pv-rule-list li{font-size:.82rem;display:flex;justify-content:space-between;gap:12px;padding-bottom:8px;border-bottom:1px dotted var(--line-2)}
+  .pv-rule-list li b{font-weight:500;color:var(--ink)}
+  .pv-rule-list li span{color:var(--sage-deep);white-space:nowrap}
+  .pv-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .pv-chip{font-size:.74rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:5px 12px;border-radius:20px}
+  .pv-reco{display:flex;gap:9px;align-items:flex-start;margin-top:10px;font-size:.8rem;color:var(--ink-2);line-height:1.4}
+  .pv-reco .pin{color:var(--clay);flex:0 0 auto;margin-top:1px}
+  .pv-reco b{font-weight:600;color:var(--ink)}
+  .pv-cap{text-align:center;font-size:.86rem;color:var(--muted);font-style:italic;margin-top:26px}
 
   /* Pricing */
   .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:66px;align-items:stretch}
@@ -301,14 +324,7 @@
 <header id="hdr">
   <div class="wrap nav">
     <a class="brand" href="#top">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M20 29C20 24 20 19 20 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M20 23.5C16.8 23 15 21 15 18C18.2 18.4 19.6 20.4 20 23.5Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
-        <path d="M20 20C23.2 19.5 25 17.5 25 14.5C21.8 14.9 20.4 16.9 20 20Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
-        <circle cx="20" cy="12.4" r="2.1" fill="#BC6A43"/>
-        <path d="M20 30C15 26.5 9 26.5 4.5 28L4.5 35C9 33.2 15 33.2 20 35.8C25 33.2 31 33.2 35.5 35L35.5 28C31 26.5 25 26.5 20 30Z" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M20 30V35.8" stroke="currentColor" stroke-width="1.3"/>
-      </svg>
+      <span class="mark cd-logo" aria-hidden="true"></span>
       Carnet d'Hôte
     </a>
     <nav class="nav-links" id="navLinks">
@@ -448,41 +464,62 @@
 <section class="section" id="apercu">
   <div class="wrap">
     <div class="narrow reveal" style="margin-inline:auto;text-align:center">
-      <span class="eyebrow">Un aperçu des pages</span>
-      <h2>Feuilletez le carnet.</h2>
-      <p class="lede" style="margin-top:14px">Chaque livret suit le même fil, raffiné et clair — de l'accueil aux bonnes adresses.</p>
+      <span class="eyebrow">Un aperçu du carnet</span>
+      <h2>Voici à quoi ressemble votre guide.</h2>
+      <p class="lede" style="margin-top:14px">Une maquette standard, personnalisée avec vos informations, vos photos et vos adresses. Papier crème, motifs botaniques, reliure soignée.</p>
     </div>
-    <div class="spreads reveal">
-      <div class="spread">
-        <div class="stag">Page 1</div><h4>Le mot<br>d'accueil</h4>
-        <div class="ln f"></div><div class="ln m"></div><div class="ln f"></div><div class="ln s"></div><div class="ln m"></div>
-        <div class="sign" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-2);margin-top:14px">Vos hôtes</div>
-        <div class="pnum">— 1 —</div>
+
+    <div class="pv-spread reveal">
+      <div class="pv-page left pv-cover">
+        <span class="cd-logo cov-logo" aria-hidden="true"></span>
+        <div class="cov-label">Carnet de bienvenue</div>
+        <div class="cov-title">Le Gîte<br>des Tilleuls</div>
+        <div class="cov-rule"></div>
+        <div class="cov-loc">Vallée de la Dordogne</div>
+        <div class="pv-num">Couverture</div>
       </div>
-      <div class="spread">
-        <div class="stag">Le séjour</div><h4>Le règlement,<br>en douceur</h4>
-        <div class="mini-list">
-          <div class="it"><span class="dot" style="background:var(--sage)"></span><span class="ln m" style="margin:0;flex:1"></span></div>
-          <div class="it"><span class="dot" style="background:var(--sage)"></span><span class="ln f" style="margin:0;flex:1"></span></div>
-          <div class="it"><span class="dot" style="background:var(--sage)"></span><span class="ln s" style="margin:0;flex:1"></span></div>
-          <div class="it"><span class="dot" style="background:var(--sage)"></span><span class="ln m" style="margin:0;flex:1"></span></div>
+      <div class="pv-page right">
+        <div class="pv-ey">Le mot d'accueil</div>
+        <div class="pv-h">Bienvenue chez vous.</div>
+        <p class="pv-txt">Nous sommes ravis de vous accueillir aux Tilleuls. Cette maison nous est chère, et nous l'avons préparée avec soin pour que vous vous y sentiez comme chez vous. Prenez le temps de vous poser — le café vous attend dans la cuisine, et les meilleures adresses du coin dans les pages qui suivent.</p>
+        <div class="pv-sign">Marie &amp; Julien</div>
+        <div class="pv-num">— 2 —</div>
+      </div>
+    </div>
+
+    <div class="pv-grid reveal">
+      <div class="pv-card">
+        <div class="pv-ey">Le séjour</div>
+        <div class="pv-h">Le règlement</div>
+        <ul class="pv-rule-list">
+          <li><b>Arrivée</b><span>dès 16h00</span></li>
+          <li><b>Départ</b><span>avant 10h30</span></li>
+          <li><b>Wifi</b><span>LesTilleuls_24</span></li>
+          <li><b>Animaux</b><span>bienvenus</span></li>
+          <li><b>Au départ</b><span>tri &amp; poubelles</span></li>
+        </ul>
+        <div class="pv-num">— 4 —</div>
+      </div>
+      <div class="pv-card">
+        <div class="pv-ey">La maison</div>
+        <div class="pv-h">Les atouts</div>
+        <div class="pv-chips">
+          <span class="pv-chip">Bain nordique</span><span class="pv-chip">Cheminée</span><span class="pv-chip">Jardin clos</span><span class="pv-chip">Terrasse</span>
         </div>
-        <div class="pnum">— 4 —</div>
+        <p class="pv-txt">Profitez du bain nordique face aux collines, et des grandes tablées au coin du feu. Le petit plus : les œufs frais du voisin, chaque matin.</p>
+        <div class="pv-num">— 7 —</div>
       </div>
-      <div class="spread">
-        <div class="stag">La maison</div><h4>Les atouts<br>du gîte</h4>
-        <div class="ln f"></div><div class="ln s"></div>
-        <div style="display:flex;gap:8px;margin:14px 0"><span style="width:34px;height:34px;border-radius:4px;background:#EEF1E6"></span><span style="width:34px;height:34px;border-radius:4px;background:#F6E7DC"></span><span style="width:34px;height:34px;border-radius:4px;background:#F1EAD6"></span></div>
-        <div class="ln m"></div><div class="ln f"></div>
-        <div class="pnum">— 7 —</div>
-      </div>
-      <div class="spread">
-        <div class="stag">Les alentours</div><h4>Les bons<br>plans</h4>
-        <div class="mini-map" style="margin-top:8px;height:110px"></div>
-        <div class="ln m" style="margin-top:12px"></div><div class="ln s"></div>
-        <div class="pnum">— 12 —</div>
+      <div class="pv-card">
+        <div class="pv-ey">Les alentours</div>
+        <div class="pv-h">Les bons plans</div>
+        <div class="mini-map" style="height:74px;margin:0 0 14px"></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>La Table de Margaux</b> — bistrot du village, 5 min</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Marché de Sarlat</b> — samedi matin</span></div>
+        <div class="pv-num">— 12 —</div>
       </div>
     </div>
+
+    <p class="pv-cap reveal">Un exemple — votre carnet reprend vos textes, votre logement et votre région.</p>
   </div>
 </section>
 
@@ -586,15 +623,8 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <div class="fb" style="display:flex;align-items:center;gap:11px;color:#F3EDE1">
-          <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="color:#EFE7D8">
-            <path d="M20 29C20 24 20 19 20 14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M20 23.5C16.8 23 15 21 15 18C18.2 18.4 19.6 20.4 20 23.5Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
-            <path d="M20 20C23.2 19.5 25 17.5 25 14.5C21.8 14.9 20.4 16.9 20 20Z" fill="currentColor" fill-opacity=".2" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
-            <circle cx="20" cy="12.4" r="2.1" fill="#C6825C"/>
-            <path d="M20 30C15 26.5 9 26.5 4.5 28L4.5 35C9 33.2 15 33.2 20 35.8C25 33.2 31 33.2 35.5 35L35.5 28C31 26.5 25 26.5 20 30Z" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M20 30V35.8" stroke="currentColor" stroke-width="1.3"/>
-          </svg>
+        <div class="fb" style="display:flex;align-items:center;gap:12px;color:#F3EDE1">
+          <span class="cd-logo" aria-hidden="true" style="width:38px;height:38px;flex:0 0 38px;color:#EFE7D8"></span>
           Carnet d'Hôte
         </div>
         <p>Des guides de bienvenue sur-mesure, conçus et imprimés, pour les propriétaires de gîtes qui aiment recevoir.</p>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnet d'Hôte — Guides de bienvenue d'exception pour votre gîte</title>
+<meta name="description" content="Carnet d'Hôte crée pour les propriétaires de gîtes un guide de bienvenue sur-mesure : règlement, atouts du logement et bons plans des alentours. Conçu, mis en page et imprimé pour vous.">
+<meta name="author" content="Carnet d'Hôte">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Carnet d'Hôte">
+<meta property="og:title" content="Carnet d'Hôte — Le guide de bienvenue qui fait aimer votre gîte">
+<meta property="og:description" content="Un guide de bienvenue sur-mesure, conçu, mis en page et imprimé pour votre gîte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F7F2E9; --ivory-2:#EFE7D8; --paper:#FFFFFF; --paper-2:#FBF7EF;
+    --ink:#211E19; --ink-2:#3B362E; --muted:#7A7062;
+    --sage:#5B6A50; --sage-deep:#404B38; --clay:#B0663F; --clay-2:#C6825C; --gold:#B79246;
+    --line:#E2D8C6; --line-2:#D6C9B2;
+    --shadow: 0 30px 70px -34px rgba(40,34,22,.5);
+    --shadow-sm: 0 14px 34px -20px rgba(40,34,22,.45);
+    --shadow-book: 0 40px 80px -30px rgba(40,30,15,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--ivory);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:.2px}
+  h2{font-size:clamp(2.1rem,4.4vw,3.4rem);color:var(--ink)}
+  p{color:var(--ink-2)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+  .narrow{max-width:820px}
+  .eyebrow{font-family:'Inter';font-weight:500;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);margin-bottom:20px;display:inline-block}
+  .eyebrow::before{content:"";display:inline-block;width:26px;height:1px;background:var(--clay);vertical-align:middle;margin-right:12px;transform:translateY(-3px)}
+  .section{padding:120px 0}
+  @media(max-width:760px){.section{padding:76px 0}}
+  .lede{font-size:1.15rem;color:var(--ink-2);font-weight:300}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:.95rem;letter-spacing:.02em;padding:16px 34px;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:transform .25s cubic-bezier(.2,.8,.2,1),background .3s,color .3s,border-color .3s;font-family:'Inter'}
+  .btn-primary{background:var(--ink);color:#F3EDE1}
+  .btn-primary:hover{background:var(--sage-deep);transform:translateY(-2px)}
+  .btn-clay{background:var(--clay);color:#fff}
+  .btn-clay:hover{background:#9a5433;transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .link-arrow{display:inline-flex;align-items:center;gap:8px;font-weight:500;font-size:.95rem;color:var(--sage-deep);border-bottom:1px solid transparent;transition:.25s}
+  .link-arrow:hover{gap:12px;border-color:var(--sage)}
+
+  /* Header — light over hero, solid on scroll */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .4s,box-shadow .4s,border-color .4s;border-bottom:1px solid transparent}
+  header.scrolled{background:rgba(247,242,233,.92);backdrop-filter:saturate(150%) blur(14px);border-color:rgba(226,216,198,.8)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:82px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:'Cormorant Garamond',serif;font-size:1.62rem;font-weight:600;letter-spacing:.4px;color:#F7F2E9;transition:color .4s}
+  .cd-logo{display:inline-block;background-color:currentColor;-webkit-mask:url(images/logo-mask.png) center/contain no-repeat;mask:url(images/logo-mask.png) center/contain no-repeat}
+  .brand .mark{width:42px;height:42px;flex:0 0 42px;color:#F7F2E9;transition:color .4s}
+  header.scrolled .brand,header.scrolled .brand .mark{color:var(--ink)}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .nav-links a{font-size:.9rem;font-weight:400;color:rgba(255,255,255,.9);transition:color .25s}
+  header.scrolled .nav-links a{color:var(--ink-2)}
+  .nav-links a:hover{color:var(--clay-2)}
+  header.scrolled .nav-links a:hover{color:var(--clay)}
+  .nav-cta{padding:12px 24px;font-size:.86rem;border:1px solid rgba(255,255,255,.55);border-radius:2px;color:#fff}
+  .nav-cta:hover{background:#fff;color:var(--ink)!important;border-color:#fff}
+  header.scrolled .nav-cta{border-color:var(--ink);color:var(--ink)}
+  header.scrolled .nav-cta:hover{background:var(--ink);color:#fff!important}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:8px}
+  .burger span{display:block;width:26px;height:2px;background:#fff;margin:6px 0;transition:.3s}
+  header.scrolled .burger span{background:var(--ink)}
+  @media(max-width:900px){
+    .nav-links{position:fixed;inset:82px 0 auto 0;flex-direction:column;background:var(--ink);padding:28px;gap:20px;transform:translateY(-140%);transition:transform .4s ease;box-shadow:var(--shadow)}
+    .nav-links.open{transform:translateY(0)}
+    .nav-links a{color:#F3EDE1!important;font-size:1rem}
+    .nav-cta{border-color:rgba(255,255,255,.4)}
+    .burger{display:block}
+  }
+
+  /* HERO — full-bleed editorial */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;color:#fff;padding:0 0 80px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:-2}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:
+     linear-gradient(0deg,rgba(28,21,12,.74) 0%,rgba(28,21,12,.30) 34%,rgba(28,21,12,0) 62%),
+     linear-gradient(90deg,rgba(28,21,12,.40) 0%,rgba(28,21,12,.06) 50%,rgba(28,21,12,0) 78%)}
+  .hero-inner{position:relative;z-index:1;max-width:680px}
+  .hero .kicker{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:24px;font-weight:400;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+  .hero .kicker::before{content:"";display:inline-block;width:32px;height:1px;background:rgba(255,255,255,.7);vertical-align:middle;margin-right:14px;transform:translateY(-4px)}
+  .hero h1{font-size:clamp(2.9rem,6.4vw,5.4rem);font-weight:400;margin-bottom:26px;letter-spacing:.4px;text-wrap:balance;text-shadow:0 2px 24px rgba(0,0,0,.45)}
+  .hero h1 em{font-style:italic;color:#EBD1B4}
+  .hero .lead{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.95);max-width:560px;margin-bottom:36px;line-height:1.65;text-shadow:0 1px 16px rgba(0,0,0,.45)}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:28px}
+  .hero-trust{display:flex;align-items:center;gap:12px;font-size:.92rem;color:rgba(255,255,255,.85)}
+  .stars{color:#E7C9A8;letter-spacing:2px}
+  .btn-light{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.55);backdrop-filter:blur(4px)}
+  .btn-light:hover{background:#fff;color:var(--ink);border-color:#fff;transform:translateY(-2px)}
+  .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:1;color:rgba(255,255,255,.8);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scroll-cue .bar{width:1px;height:46px;background:linear-gradient(rgba(255,255,255,.8),transparent);animation:cue 2.2s ease-in-out infinite}
+  @keyframes cue{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+  @media(max-width:760px){.scroll-cue{display:none}.hero{padding-bottom:64px}}
+
+  /* ===== BOOK MOCKUPS (pure CSS/SVG) ===== */
+  .book-stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:440px;perspective:1800px}
+  .book-shadow{position:absolute;bottom:6%;left:50%;transform:translateX(-50%);width:62%;height:38px;background:radial-gradient(ellipse,rgba(40,30,15,.34),rgba(40,30,15,0) 70%);filter:blur(6px)}
+  /* open book */
+  .book-open{position:relative;display:flex;transform:rotateX(6deg) rotateY(-16deg) rotateZ(1deg);transform-style:preserve-3d;filter:drop-shadow(var(--shadow-book));border-radius:6px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .book-stage:hover .book-open{transform:rotateX(4deg) rotateY(-8deg)}
+  .pg{width:200px;height:270px;background:linear-gradient(180deg,var(--paper) 0%,var(--paper-2) 100%);padding:24px 22px;position:relative}
+  .pg.l{border-radius:5px 0 0 5px;box-shadow:inset -22px 0 30px -22px rgba(40,30,15,.28)}
+  .pg.r{border-radius:0 5px 5px 0;box-shadow:inset 22px 0 30px -22px rgba(40,30,15,.28)}
+  .pg::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:rgba(40,30,15,.12)}
+  .pg.l::after{right:0}.pg.r::after{left:0}
+  .pg-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;color:var(--clay);margin-bottom:4px}
+  .pg-sub{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  .ln{height:5px;border-radius:3px;background:#E7DFD0;margin:7px 0}
+  .ln.s{width:55%}.ln.m{width:78%}.ln.f{width:92%}
+  .pg .sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--ink-2);margin-top:14px;transform:rotate(-4deg)}
+  .mini-list{margin-top:12px}
+  .mini-list .it{display:flex;align-items:center;gap:7px;margin:9px 0}
+  .mini-list .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);flex:0 0 auto}
+  .mini-map{margin-top:12px;height:96px;border-radius:4px;background:
+     radial-gradient(circle at 30% 40%,rgba(176,102,63,.18) 0 3px,transparent 4px),
+     radial-gradient(circle at 62% 30%,rgba(91,106,80,.22) 0 3px,transparent 4px),
+     radial-gradient(circle at 72% 66%,rgba(176,102,63,.22) 0 3px,transparent 4px),
+     radial-gradient(circle at 40% 72%,rgba(91,106,80,.2) 0 3px,transparent 4px),
+     linear-gradient(120deg,#F2EEE3,#EDE6D6);
+     border:1px solid var(--line);position:relative;overflow:hidden}
+  .mini-map::before{content:"";position:absolute;top:44%;left:-4%;width:64%;height:2px;background:rgba(176,102,63,.35);transform:rotate(14deg)}
+  .mini-map::after{content:"";position:absolute;top:30%;left:38%;width:52%;height:2px;background:rgba(91,106,80,.3);transform:rotate(-24deg)}
+  /* floating cover behind */
+  .cover-float{position:absolute;left:-6%;top:2%;width:158px;height:214px;border-radius:5px;
+    background:linear-gradient(150deg,#5B6A50,#404B38);color:#EFE7D8;padding:22px 18px;
+    box-shadow:var(--shadow-book);transform:rotateY(18deg) rotateZ(-4deg);border:1px solid rgba(255,255,255,.08);z-index:-1}
+  @media(max-width:940px){.cover-float{display:none}}
+  .cover-float .frame{position:absolute;inset:12px;border:1px solid rgba(239,231,216,.34);border-radius:3px}
+  .cover-float .emb{width:30px;height:30px;color:#E7C9A8;margin-bottom:auto}
+  .cover-float .ctag{font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(239,231,216,.72);margin-bottom:6px}
+  .cover-float h4{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:500;line-height:1.05;color:#fff}
+  .cover-float .cloc{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:#E7C9A8;margin-top:6px}
+  .cover-inner{position:relative;height:100%;display:flex;flex-direction:column}
+  .cover-bottom{margin-top:auto}
+  .badge-float{position:absolute;background:var(--paper);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-sm);padding:11px 15px;font-size:.8rem;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:9px;z-index:3}
+  .badge-float .bic{color:var(--clay)}
+  .badge-float.one{top:2%;right:-2%}
+  .badge-float.two{bottom:8%;right:4%}
+  @media(max-width:520px){.badge-float{display:none}}
+
+  /* Hero photo */
+  .hero-photo{position:relative}
+  .hero-photo>img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;box-shadow:var(--shadow-book)}
+  .hero-photo::after{content:"";position:absolute;inset:0;border-radius:6px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+  @media(max-width:940px){.hero-photo{margin-top:8px}}
+
+  /* Trust */
+  .trust{background:var(--ink)}
+  .trust-in{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;padding:26px 0;color:#B7AC97;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}
+  .trust-in span{display:flex;align-items:center;gap:11px}
+  .trust-in .ic{color:var(--clay-2)}
+
+  /* Split editorial */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+  .split.rev .txt{order:2}
+  @media(max-width:900px){.split{grid-template-columns:1fr;gap:44px}.split.rev .txt{order:0}}
+  .split h2{margin-bottom:22px}
+  .split p{margin-bottom:18px;font-size:1.04rem}
+  .split .fig{position:relative}
+  .split .fig>img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:6px;box-shadow:var(--shadow)}
+  .fig-cap{position:absolute;left:18px;bottom:18px;background:rgba(251,247,239,.85);backdrop-filter:blur(4px);padding:8px 18px;border-radius:24px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink);font-size:1.08rem;box-shadow:var(--shadow-sm)}
+
+  /* Book-on-table scene (concept) */
+  .scene{position:relative;aspect-ratio:1/.92;border-radius:6px;overflow:hidden;background:
+     radial-gradient(120% 90% at 50% 8%,#F3EEE3 0%,#E7DECB 60%,#DCCFB6 100%);box-shadow:var(--shadow)}
+  .scene .table{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,#B98A5B,#9A6E43);box-shadow:0 -14px 30px -18px rgba(40,20,0,.4)}
+  .scene .table::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 26px)}
+  .scene .cast{position:absolute;left:50%;bottom:30%;transform:translateX(-50%);width:56%;height:26px;background:radial-gradient(ellipse,rgba(40,20,0,.36),transparent 70%);filter:blur(5px)}
+  .scene .tent{position:absolute;left:50%;bottom:32%;transform:translateX(-50%);display:flex;filter:drop-shadow(0 22px 30px rgba(40,20,0,.32))}
+  .scene .tent .tp{width:118px;height:150px;background:linear-gradient(180deg,#FCF8F0,#F1E9D9)}
+  .scene .tent .tp.l{transform:skewY(9deg);transform-origin:bottom right;border-radius:4px 0 0 0;box-shadow:inset -14px 0 22px -14px rgba(40,30,15,.25)}
+  .scene .tent .tp.r{transform:skewY(-9deg);transform-origin:bottom left;border-radius:0 4px 0 0;box-shadow:inset 14px 0 22px -14px rgba(40,30,15,.25)}
+  .scene .tp .thd{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--clay);font-size:.9rem;padding:16px 14px 0}
+  .scene .tp .tl{height:4px;border-radius:2px;background:#E7DFD0;margin:6px 14px}
+  .scene .plant{position:absolute;right:14%;bottom:31%;color:var(--sage-deep)}
+  .scene .cup{position:absolute;left:15%;bottom:30%;color:#8A6E52}
+  .scene .cap{position:absolute;left:22px;top:20px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-2);font-size:1.05rem;background:rgba(255,255,255,.7);padding:6px 14px;border-radius:20px;backdrop-filter:blur(3px)}
+
+  /* Steps */
+  .steps-head{text-align:center;max-width:640px;margin:0 auto 70px}
+  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+  @media(max-width:860px){.steps-grid{grid-template-columns:1fr;gap:44px}}
+  .step{text-align:center;padding:0 34px;position:relative}
+  .step:not(:last-child)::after{content:"";position:absolute;top:34px;right:0;width:1px;height:120px;background:var(--line-2)}
+  @media(max-width:860px){.step:not(:last-child)::after{display:none}}
+  .step .ic{width:66px;height:66px;margin:0 auto 22px;color:var(--sage-deep);display:flex;align-items:center;justify-content:center}
+  .step .n{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--clay);margin-bottom:8px}
+  .step h3{font-size:1.55rem;margin-bottom:12px;font-weight:500}
+  .step p{font-size:.98rem}
+
+  /* Contenu features */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:66px}
+  @media(max-width:860px){.feat-grid{grid-template-columns:1fr;max-width:460px;margin-inline:auto}}
+  .feat{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:40px 34px;transition:transform .3s,box-shadow .3s}
+  .feat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .feat .ic{width:48px;height:48px;color:var(--clay);margin-bottom:24px}
+  .feat h3{font-size:1.7rem;margin-bottom:14px;font-weight:500}
+  .feat p{font-size:.98rem;margin-bottom:20px}
+  .feat ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .feat li{font-size:.92rem;color:var(--ink-2);display:flex;gap:12px;align-items:flex-start;padding-top:11px;border-top:1px solid var(--line)}
+  .feat li .d{color:var(--sage);flex:0 0 auto;margin-top:1px}
+
+  /* CTA vers questionnaire */
+  .cta-band{text-align:center;max-width:720px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:60px 44px;box-shadow:var(--shadow)}
+  @media(max-width:600px){.cta-band{padding:44px 24px}}
+  .cta-band h2{margin:12px 0 14px}
+  .cta-band p{color:var(--ink-2);max-width:520px;margin:0 auto 28px;font-weight:300;font-size:1.08rem}
+  .cta-band .btn{font-size:1rem;padding:17px 38px}
+  .cta-ticks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:24px;font-size:.85rem;color:var(--muted)}
+  .cta-ticks span{display:inline-flex;align-items:center;gap:7px}
+
+  /* Band */
+  .band{position:relative;color:#fff;text-align:center;padding:150px 0;overflow:hidden}
+  .band-bg{position:absolute;inset:0;z-index:0}
+  .band-bg img{width:100%;height:100%;object-fit:cover}
+  .band-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(38,32,22,.58),rgba(38,32,22,.7))}
+  .band .wrap{position:relative;z-index:1}
+  .band h2{color:#fff;font-size:clamp(2rem,4.6vw,3.4rem);max-width:900px;margin:0 auto 26px;font-style:italic;font-weight:400;line-height:1.2}
+  .band p{color:rgba(255,255,255,.9);max-width:620px;margin:0 auto 34px;font-size:1.1rem;font-weight:300}
+  .band .pills{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .band .pill{border:1px solid rgba(255,255,255,.34);padding:11px 22px;border-radius:2px;font-size:.86rem;letter-spacing:.04em;color:#F3EDE1}
+
+  /* Aperçu — sample pages (style papier crème/botanique) */
+  .pv-spread{display:grid;grid-template-columns:1fr 1fr;max-width:840px;margin:56px auto 0;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-book)}
+  @media(max-width:640px){.pv-spread{grid-template-columns:1fr;max-width:380px}}
+  .pv-page{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);padding:42px 38px 40px;position:relative;min-height:440px;display:flex;flex-direction:column}
+  .pv-page.left{box-shadow:inset -20px 0 36px -24px rgba(60,45,20,.32)}
+  .pv-page.right{box-shadow:inset 20px 0 36px -24px rgba(60,45,20,.32)}
+  @media(max-width:640px){.pv-page{min-height:auto;padding:36px 30px}.pv-page.left{box-shadow:inset 0 -18px 30px -22px rgba(60,45,20,.22)}}
+  .pv-cover{text-align:center;align-items:center;justify-content:center}
+  .cov-logo{width:60px;height:60px;color:var(--sage-deep);margin:0 auto 18px}
+  .cov-label{font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--clay);margin-bottom:18px}
+  .cov-title{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:600;color:var(--ink);line-height:1.04}
+  .cov-rule{width:46px;height:1px;background:var(--line-2);margin:18px auto}
+  .cov-loc{font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .pv-ey{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--clay);margin-bottom:12px}
+  .pv-h{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:500;color:var(--ink);line-height:1.05;margin-bottom:16px}
+  .pv-txt{font-size:.88rem;line-height:1.75;color:var(--ink-2)}
+  .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--sage-deep);margin-top:auto;padding-top:20px}
+  .pv-num{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:.58rem;color:var(--muted);letter-spacing:.14em}
+  .pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:840px;margin:22px auto 0}
+  @media(max-width:640px){.pv-grid{grid-template-columns:1fr;max-width:380px}}
+  .pv-wide{max-width:840px;margin:22px auto 0;background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:5px;padding:32px 34px 28px;box-shadow:var(--shadow-sm);position:relative}
+  .pv-wide .pv-h{font-size:1.7rem;margin-bottom:2px}
+  .pv-map-img{width:100%;border-radius:6px;margin:16px 0 20px;border:1px solid var(--line);display:block}
+  .pv-recos{display:grid;grid-template-columns:1fr 1fr;gap:13px 30px}
+  @media(max-width:560px){.pv-recos{grid-template-columns:1fr}}
+  .pv-card{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:5px;padding:28px 26px 34px;box-shadow:var(--shadow-sm);position:relative;min-height:256px;transition:transform .3s,box-shadow .3s}
+  .pv-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .pv-card .pv-h{font-size:1.45rem;margin-bottom:16px}
+  .pv-rule-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .pv-rule-list li{font-size:.82rem;display:flex;justify-content:space-between;gap:12px;padding-bottom:8px;border-bottom:1px dotted var(--line-2)}
+  .pv-rule-list li b{font-weight:500;color:var(--ink)}
+  .pv-rule-list li span{color:var(--sage-deep);white-space:nowrap}
+  .pv-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .pv-chip{font-size:.74rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:5px 12px;border-radius:20px}
+  .pv-reco{display:flex;gap:9px;align-items:flex-start;margin-top:10px;font-size:.8rem;color:var(--ink-2);line-height:1.4}
+  .pv-reco .pin{color:var(--clay);flex:0 0 auto;margin-top:1px}
+  .pv-reco b{font-weight:600;color:var(--ink)}
+  .pv-cap{text-align:center;font-size:.86rem;color:var(--muted);font-style:italic;margin-top:26px}
+
+  /* Pricing */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:66px;align-items:stretch}
+  @media(max-width:880px){.price-grid{grid-template-columns:1fr;max-width:440px;margin-inline:auto}}
+  .plan{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:40px 34px;display:flex;flex-direction:column}
+  .plan.featured{background:var(--ink);color:#EFE7D8;border-color:var(--ink);box-shadow:var(--shadow);position:relative}
+  .plan.featured .tagl,.plan.featured li{color:#C4BAA6}
+  .plan.featured .amt{color:#fff}
+  .plan.featured::before{content:"Le plus choisi";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--clay);color:#fff;font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 16px;border-radius:2px}
+  .plan h3{font-size:1.7rem;margin-bottom:6px;font-weight:500}
+  .plan .tagl{font-size:.9rem;color:var(--muted);margin-bottom:22px;min-height:44px;line-height:1.5}
+  .plan .amt{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:500;color:var(--ink);line-height:1}
+  .plan .amt small{font-size:.9rem;font-family:'Inter';font-weight:400;color:var(--muted)}
+  .plan ul{list-style:none;margin:26px 0 30px;display:flex;flex-direction:column;gap:13px}
+  .plan li{font-size:.93rem;color:var(--ink-2);display:flex;gap:11px;align-items:flex-start}
+  .plan li .d{color:var(--sage);flex:0 0 auto;margin-top:2px}
+  .plan.featured li .d{color:var(--clay-2)}
+  .plan .btn{width:100%;justify-content:center;margin-top:auto}
+  .price-note{text-align:center;font-size:.84rem;color:var(--muted);margin-top:26px;font-style:italic}
+
+  /* Form */
+  .form-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+  @media(max-width:920px){.form-grid{grid-template-columns:1fr;gap:40px}}
+  .form-aside h2{margin:0 0 16px}
+  .form-aside .tick{display:flex;gap:13px;align-items:flex-start;margin-bottom:14px;font-size:.97rem;color:var(--ink-2)}
+  .form-aside .tick .d{color:var(--sage);margin-top:3px;flex:0 0 auto}
+  form.lead{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:40px;box-shadow:var(--shadow)}
+  .field{margin-bottom:20px}
+  .field label{display:block;font-size:.82rem;font-weight:500;letter-spacing:.02em;color:var(--ink);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;padding:14px 16px;border:1px solid var(--line-2);border-radius:3px;background:var(--ivory);font-family:'Inter';font-size:.96rem;color:var(--ink);transition:border .2s,box-shadow .2s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.13);background:#fff}
+  .field textarea{resize:vertical;min-height:92px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:520px){.row2{grid-template-columns:1fr}}
+  form.lead .btn{width:100%;justify-content:center;margin-top:6px}
+  .form-legal{font-size:.78rem;color:var(--muted);text-align:center;margin-top:16px}
+  .form-success{display:none;text-align:center;padding:40px 16px;background:var(--paper);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow)}
+  .form-success.show{display:block}
+  .form-success .big{color:var(--sage);margin-bottom:16px}
+  .form-success h3{font-size:1.9rem;margin-bottom:10px;font-weight:500}
+
+  /* FAQ */
+  .faq-list{max-width:820px;margin:60px auto 0}
+  .faq{border-bottom:1px solid var(--line-2)}
+  .faq summary{list-style:none;cursor:pointer;padding:26px 0;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--ink);display:flex;justify-content:space-between;align-items:center;gap:20px;font-weight:500}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-size:1.6rem;color:var(--clay);font-weight:300;transition:transform .25s;flex:0 0 auto}
+  .faq[open] summary::after{transform:rotate(45deg)}
+  .faq p{padding:0 0 26px;font-size:1rem;max-width:90%}
+
+  /* Footer */
+  footer{background:var(--ink);color:#B7AC97;padding:80px 0 34px}
+  .foot-grid{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;margin-bottom:48px}
+  .foot-brand{max-width:340px}
+  .foot-brand .fb{color:#F3EDE1;font-size:1.6rem;font-family:'Cormorant Garamond',serif;font-weight:600;margin-bottom:16px}
+  .foot-brand p{color:#948A76;font-size:.94rem}
+  .foot-col h4{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:#7C7361;margin-bottom:18px;font-weight:500}
+  .foot-col a{display:block;color:#B7AC97;font-size:.94rem;margin-bottom:11px;transition:color .2s}
+  .foot-col a:hover{color:#fff}
+  .foot-bottom{border-top:1px solid #38332B;padding-top:26px;text-align:center;font-size:.83rem;color:#6E6656}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.book-open,.book-stage:hover .book-open{transition:none}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="mark cd-logo" aria-hidden="true"></span>
+      Carnet d'Hôte
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#histoire">Le concept</a>
+      <a href="#comment">Comment ça marche</a>
+      <a href="#contenu">Le guide</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="questionnaire.html" class="nav-cta">Créer mon guide</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="images/welcome-book-hero.jpg" alt="Carnet de bienvenue relié et doré, posé sur une table en bois dans un salon de gîte en pierre">
+  </div>
+  <div class="wrap">
+    <div class="hero-inner reveal">
+      <div class="kicker">Pour les propriétaires de gîtes &amp; maisons d'hôtes</div>
+      <h1>Le guide de bienvenue qui fait <em>aimer</em> votre gîte.</h1>
+      <p class="lead">Un livret d'accueil sur-mesure — règlement, atouts du logement et les meilleurs bons plans des alentours. Nous le concevons, le mettons en page et l'imprimons pour vous. Vous n'avez qu'à le poser sur la table.</p>
+      <div class="hero-cta">
+        <a href="questionnaire.html" class="btn btn-clay">Créer mon guide sur-mesure</a>
+        <a href="#comment" class="btn btn-light">Découvrir la démarche</a>
+      </div>
+      <div class="hero-trust"><span class="stars">★★★★★</span><span>Conçu &amp; imprimé pour vous · Livré chez vous</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Découvrir</span><span class="bar"></span></div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="wrap trust-in">
+    <span><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.09 4.26L18.8 8l-3.4 3.32.8 4.68L12 13.8 7.8 16l.8-4.68L5.2 8l4.71-.74z"/></svg> Sur-mesure</span>
+    <span><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></svg> Mise en page premium</span>
+    <span><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9V4h12v5M6 18H4v-5a2 2 0 012-2h12a2 2 0 012 2v5h-2M8 15h8v5H8z"/></svg> Impression incluse</span>
+    <span><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/></svg> Livré chez vous</span>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="section" id="histoire">
+  <div class="wrap split">
+    <div class="txt reveal">
+      <span class="eyebrow">Le concept</span>
+      <h2>L'accueil parfait commence avant l'arrivée.</h2>
+      <p>Vos voyageurs adorent votre gîte. Mais entre le code du wifi, les consignes de tri, les horaires et l'inévitable « vous connaissez un bon resto ? », vous répondez sans cesse aux mêmes questions.</p>
+      <p>Carnet d'Hôte réunit tout cela dans un beau livret, posé bien en vue dans votre salon. Vos hôtes se sentent attendus, deviennent autonomes, et gardent un souvenir à la hauteur du lieu.</p>
+      <a href="#comment" class="link-arrow">Voir comment nous procédons →</a>
+    </div>
+    <div class="fig reveal">
+      <img src="images/welcome-living.jpg" alt="Carnet de bienvenue ouvert sur la table basse d'un salon de gîte chaleureux">
+      <span class="fig-cap">Posé bien en vue dans votre salon</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT -->
+<section class="section" id="comment" style="background:var(--ivory-2)">
+  <div class="wrap">
+    <div class="steps-head reveal">
+      <span class="eyebrow">La démarche</span>
+      <h2>Votre carnet, en trois temps.</h2>
+      <p class="lede" style="margin-top:14px">Vous n'écrivez pas une ligne. Nous nous occupons de tout, de la conception à la livraison.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="ic"><svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M14 6h20a2 2 0 012 2v32a2 2 0 01-2 2H14a2 2 0 01-2-2V8a2 2 0 012-2z"/><path d="M18 16h12M18 23h12M18 30h7"/><path d="M31 6v5h5"/></svg></div>
+        <div class="n">Premier temps</div><h3>Vous décrivez votre gîte</h3>
+        <p>Un questionnaire guidé : localisation, équipements, règles de la maison, votre ambiance. Cinq minutes suffisent.</p>
+      </div>
+      <div class="step reveal">
+        <div class="ic"><svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M30 8l10 10-20 20-10 2 2-10L30 8z"/><path d="M27 11l10 10"/><path d="M14 6l1.5 3L19 10.5 15.5 12 14 15l-1.5-3L9 10.5 12.5 9z"/></svg></div>
+        <div class="n">Deuxième temps</div><h3>Nous composons le guide</h3>
+        <p>Nos rédacteurs, épaulés par la technologie, façonnent un livret raffiné et sélectionnent les meilleurs bons plans autour de chez vous.</p>
+      </div>
+      <div class="step reveal">
+        <div class="ic"><svg width="52" height="52" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 18V6h24v12M12 36h-4V20a2 2 0 012-2h28a2 2 0 012 2v16h-4"/><rect x="14" y="30" width="20" height="12" rx="1"/></svg></div>
+        <div class="n">Troisième temps</div><h3>Nous imprimons &amp; livrons</h3>
+        <p>Vous validez l'aperçu. Nous imprimons sur un beau papier, avec une finition soignée, et livrons votre carnet prêt à accueillir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENU -->
+<section class="section" id="contenu">
+  <div class="wrap">
+    <div class="narrow reveal" style="margin-inline:auto;text-align:center">
+      <span class="eyebrow">Ce que contient votre carnet</span>
+      <h2>Tout ce dont vos voyageurs ont besoin, avec élégance.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="ic"><svg width="44" height="44" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="14" cy="20" r="7"/><path d="M21 20h13M30 20v6M34 20v4"/><circle cx="14" cy="20" r="2.4"/></svg></div>
+        <h3>Les règles, en douceur</h3>
+        <p>Le règlement de votre gîte présenté avec bienveillance — clair pour vos hôtes, sans jamais être rigide.</p>
+        <ul><li><span class="d">—</span>Horaires d'arrivée &amp; de départ</li><li><span class="d">—</span>Wifi, chauffage, équipements</li><li><span class="d">—</span>Tri, poubelles, consignes de départ</li></ul>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg width="44" height="44" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 5l3.5 7.2L31.5 13l-5.7 5.5L27 27l-7-3.6L13 27l1.2-8.5L8.5 13l8-0.8z"/></svg></div>
+        <h3>Les atouts du logement</h3>
+        <p>On met en valeur ce qui rend votre gîte unique, pour créer l'émerveillement dès le premier regard.</p>
+        <ul><li><span class="d">—</span>Spa, cheminée, jardin, terrasse…</li><li><span class="d">—</span>Le petit mot d'accueil personnalisé</li><li><span class="d">—</span>Conseils d'usage pour un séjour parfait</li></ul>
+      </div>
+      <div class="feat reveal">
+        <div class="ic"><svg width="44" height="44" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 4c-5.5 0-10 4.3-10 9.7C10 21 20 34 20 34s10-13 10-20.3C30 8.3 25.5 4 20 4z"/><circle cx="20" cy="14" r="3.6"/></svg></div>
+        <h3>Les bons plans des alentours</h3>
+        <p>Le cœur du carnet : nos recommandations locales pour vivre la région comme un initié, pas comme un touriste.</p>
+        <ul><li><span class="d">—</span>Restaurants, marchés &amp; producteurs</li><li><span class="d">—</span>Randonnées, sites &amp; activités</li><li><span class="d">—</span>Adresses secrètes &amp; coups de cœur</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BAND -->
+<section class="band">
+  <div class="band-bg"><img src="images/welcome-kitchen.jpg" alt="Table d'accueil : carnet de bienvenue, vin local, corbeille de fruits et mot manuscrit"></div>
+  <div class="wrap">
+    <span class="eyebrow reveal" style="color:#E7C9A8">Pourquoi ça change tout</span>
+    <h2 class="reveal">« Un carnet posé sur la table, et tout un séjour qui s'illumine. »</h2>
+    <p class="reveal">Moins de sollicitations pour vous, des voyageurs rassurés et autonomes, et cette attention qui transforme un bon séjour en souvenir cinq étoiles.</p>
+    <div class="pills reveal">
+      <span class="pill">Moins d'appels &amp; de messages</span>
+      <span class="pill">Des avis plus généreux</span>
+      <span class="pill">Une image à la hauteur du lieu</span>
+    </div>
+  </div>
+</section>
+
+<!-- APERÇU -->
+<section class="section" id="apercu">
+  <div class="wrap">
+    <div class="narrow reveal" style="margin-inline:auto;text-align:center">
+      <span class="eyebrow">Un aperçu du carnet</span>
+      <h2>Voici à quoi ressemble votre guide.</h2>
+      <p class="lede" style="margin-top:14px">Une maquette standard, personnalisée avec vos informations, vos photos et vos adresses. Papier crème, motifs botaniques, reliure soignée.</p>
+    </div>
+
+    <div class="pv-spread reveal">
+      <div class="pv-page left pv-cover">
+        <span class="cd-logo cov-logo" aria-hidden="true"></span>
+        <div class="cov-label">Carnet de bienvenue</div>
+        <div class="cov-title">Le Gîte<br>des Tilleuls</div>
+        <div class="cov-rule"></div>
+        <div class="cov-loc">Vallée de la Dordogne</div>
+        <div class="pv-num">Couverture</div>
+      </div>
+      <div class="pv-page right">
+        <div class="pv-ey">Le mot d'accueil</div>
+        <div class="pv-h">Bienvenue chez vous.</div>
+        <p class="pv-txt">Nous sommes ravis de vous accueillir aux Tilleuls. Cette maison nous est chère, et nous l'avons préparée avec soin pour que vous vous y sentiez comme chez vous. Prenez le temps de vous poser — le café vous attend dans la cuisine, et les meilleures adresses du coin dans les pages qui suivent.</p>
+        <div class="pv-sign">Marie &amp; Julien</div>
+        <div class="pv-num">— 2 —</div>
+      </div>
+    </div>
+
+    <div class="pv-grid reveal">
+      <div class="pv-card">
+        <div class="pv-ey">Le séjour</div>
+        <div class="pv-h">Le règlement</div>
+        <ul class="pv-rule-list">
+          <li><b>Arrivée</b><span>dès 16h00</span></li>
+          <li><b>Départ</b><span>avant 10h30</span></li>
+          <li><b>Wifi</b><span>LesTilleuls_24</span></li>
+          <li><b>Animaux</b><span>bienvenus</span></li>
+          <li><b>Au départ</b><span>tri &amp; poubelles</span></li>
+        </ul>
+        <div class="pv-num">— 4 —</div>
+      </div>
+      <div class="pv-card">
+        <div class="pv-ey">La maison</div>
+        <div class="pv-h">Les atouts</div>
+        <div class="pv-chips">
+          <span class="pv-chip">Bain nordique</span><span class="pv-chip">Cheminée</span><span class="pv-chip">Jardin clos</span><span class="pv-chip">Terrasse</span>
+        </div>
+        <p class="pv-txt">Profitez du bain nordique face aux collines, et des grandes tablées au coin du feu. Le petit plus : les œufs frais du voisin, chaque matin.</p>
+        <div class="pv-num">— 7 —</div>
+      </div>
+    </div>
+
+    <div class="pv-wide reveal">
+      <div class="pv-ey">Les alentours</div>
+      <div class="pv-h">Les bons plans des environs</div>
+      <img class="pv-map-img" src="images/local-map.jpg" alt="Carte illustrée des environs du gîte : village, rivière, vignoble et sentiers">
+      <div class="pv-recos">
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>L'Auberge du Village</b> — cuisine du terroir, 5 min à pied</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Vignoble de Saint-Pierre</b> — dégustation sur rendez-vous</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Sentier des Crêtes</b> — 2h de rando, vue panoramique</span></div>
+        <div class="pv-reco"><svg class="pin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span><b>Ruines du Château</b> — visite libre, à 10 min</span></div>
+      </div>
+      <div class="pv-num" style="position:static;text-align:right;margin-top:18px">— 12 —</div>
+    </div>
+
+    <p class="pv-cap reveal">Un exemple — votre carnet reprend vos textes, votre logement, votre région et vos adresses.</p>
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section class="section" id="tarifs" style="background:var(--ivory-2)">
+  <div class="wrap">
+    <div class="narrow reveal" style="margin-inline:auto;text-align:center">
+      <span class="eyebrow">Nos formules</span>
+      <h2>Un tarif simple, impression comprise.</h2>
+      <p class="lede" style="margin-top:14px">Tarifs indicatifs de lancement — à affiner ensemble selon vos volumes.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan reveal">
+        <h3>Numérique</h3>
+        <div class="tagl">Le guide sur-mesure en version PDF, prêt à imprimer vous-même.</div>
+        <div class="amt">39€ <small>/ guide</small></div>
+        <ul><li><span class="d">✓</span>Questionnaire guidé</li><li><span class="d">✓</span>Conception &amp; rédaction</li><li><span class="d">✓</span>Mise en page premium</li><li><span class="d">✓</span>Fichier PDF haute qualité</li></ul>
+        <a href="questionnaire.html" class="btn btn-ghost">Choisir</a>
+      </div>
+      <div class="plan featured reveal">
+        <h3>Imprimé</h3>
+        <div class="tagl">Notre offre phare : le carnet conçu, imprimé et livré chez vous.</div>
+        <div class="amt">79€ <small>/ guide</small></div>
+        <ul><li><span class="d">✓</span>Tout de l'offre Numérique</li><li><span class="d">✓</span>Impression sur beau papier</li><li><span class="d">✓</span>Finition &amp; reliure soignées</li><li><span class="d">✓</span>Livraison incluse</li></ul>
+        <a href="questionnaire.html" class="btn btn-clay">Créer mon guide</a>
+      </div>
+      <div class="plan reveal">
+        <h3>Conciergeries &amp; pros</h3>
+        <div class="tagl">Plusieurs biens à équiper ? Une offre sur mesure et dégressive.</div>
+        <div class="amt">Sur devis</div>
+        <ul><li><span class="d">✓</span>Tarifs dégressifs multi-gîtes</li><li><span class="d">✓</span>Charte graphique à votre image</li><li><span class="d">✓</span>Réassorts simplifiés</li><li><span class="d">✓</span>Accompagnement dédié</li></ul>
+        <a href="questionnaire.html" class="btn btn-ghost">Nous contacter</a>
+      </div>
+    </div>
+    <p class="price-note">Les tarifs affichés sont des estimations de lancement et pourront évoluer.</p>
+  </div>
+</section>
+
+<!-- CTA vers le questionnaire -->
+<section class="section" id="devis">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <span class="eyebrow" style="margin-bottom:4px">Créons votre carnet</span>
+      <h2>Prêt à offrir un accueil inoubliable ?</h2>
+      <p>Décrivez votre gîte en cinq minutes. Nous composons un premier aperçu de votre guide de bienvenue — offert et sans engagement.</p>
+      <a href="questionnaire.html" class="btn btn-clay">Créer mon guide sur-mesure →</a>
+      <div class="cta-ticks">
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Réponse sous 48h</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Vous validez avant impression</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Sans engagement</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background:var(--ivory-2)">
+  <div class="wrap">
+    <div class="narrow reveal" style="margin-inline:auto;text-align:center">
+      <span class="eyebrow">Questions fréquentes</span>
+      <h2>Tout ce que vous voulez savoir.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq reveal"><summary>Dois-je rédiger le contenu moi-même ?</summary><p>Non. Vous remplissez simplement un questionnaire guidé avec les informations de votre gîte. Nous nous chargeons de toute la conception et de la rédaction, et nous relisons chaque guide avant impression.</p></details>
+      <details class="faq reveal"><summary>Comment trouvez-vous les bons plans autour de mon gîte ?</summary><p>À partir de votre localisation, nous identifions les restaurants, marchés, randonnées et activités remarquables des environs. Vous pouvez ajouter vos propres coups de cœur : ce sont souvent les meilleures adresses.</p></details>
+      <details class="faq reveal"><summary>L'impression et la livraison sont-elles vraiment incluses ?</summary><p>Oui, dans la formule « Imprimé ». Nous imprimons votre carnet sur un beau papier avec une finition soignée, puis nous vous le livrons prêt à être posé dans votre logement.</p></details>
+      <details class="faq reveal"><summary>Puis-je modifier le guide avant impression ?</summary><p>Absolument. Vous recevez un aperçu et validez le contenu. Rien n'est imprimé sans votre accord.</p></details>
+      <details class="faq reveal"><summary>Et si j'ai plusieurs gîtes ?</summary><p>Nous proposons une offre dédiée aux conciergeries et propriétaires multi-biens, avec des tarifs dégressifs et une charte graphique à votre image. Indiquez-le dans le formulaire.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="fb" style="display:flex;align-items:center;gap:12px;color:#F3EDE1">
+          <span class="cd-logo" aria-hidden="true" style="width:38px;height:38px;flex:0 0 38px;color:#EFE7D8"></span>
+          Carnet d'Hôte
+        </div>
+        <p>Des guides de bienvenue sur-mesure, conçus et imprimés, pour les propriétaires de gîtes qui aiment recevoir.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Le service</h4>
+        <a href="#comment">Comment ça marche</a><a href="#contenu">Le guide</a><a href="#tarifs">Tarifs</a><a href="questionnaire.html">Créer mon guide</a>
+      </div>
+      <div class="foot-col">
+        <h4>Ressources</h4>
+        <a href="#faq">FAQ</a><a href="questionnaire.html">Nous contacter</a>
+      </div>
+    </div>
+    <div class="foot-bottom">© <span id="year"></span> Carnet d'Hôte — Fait avec soin pour les hôtes. Tous droits réservés.</div>
+  </div>
+</footer>
+
+<script>
+  const hdr=document.getElementById('hdr');
+  const onScroll=()=>hdr.classList.toggle('scrolled',window.scrollY>40);
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  const burger=document.getElementById('burger'),navLinks=document.getElementById('navLinks');
+  burger.addEventListener('click',()=>navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+  document.getElementById('year').textContent=new Date().getFullYear();
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -209,6 +209,15 @@
   .feat li{font-size:.92rem;color:var(--ink-2);display:flex;gap:12px;align-items:flex-start;padding-top:11px;border-top:1px solid var(--line)}
   .feat li .d{color:var(--sage);flex:0 0 auto;margin-top:1px}
 
+  /* CTA vers questionnaire */
+  .cta-band{text-align:center;max-width:720px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:60px 44px;box-shadow:var(--shadow)}
+  @media(max-width:600px){.cta-band{padding:44px 24px}}
+  .cta-band h2{margin:12px 0 14px}
+  .cta-band p{color:var(--ink-2);max-width:520px;margin:0 auto 28px;font-weight:300;font-size:1.08rem}
+  .cta-band .btn{font-size:1rem;padding:17px 38px}
+  .cta-ticks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:24px;font-size:.85rem;color:var(--muted)}
+  .cta-ticks span{display:inline-flex;align-items:center;gap:7px}
+
   /* Band */
   .band{position:relative;color:#fff;text-align:center;padding:150px 0;overflow:hidden}
   .band-bg{position:absolute;inset:0;z-index:0}
@@ -547,7 +556,7 @@
         <div class="tagl">Le guide sur-mesure en version PDF, prêt à imprimer vous-même.</div>
         <div class="amt">39€ <small>/ guide</small></div>
         <ul><li><span class="d">✓</span>Questionnaire guidé</li><li><span class="d">✓</span>Conception &amp; rédaction</li><li><span class="d">✓</span>Mise en page premium</li><li><span class="d">✓</span>Fichier PDF haute qualité</li></ul>
-        <a href="#devis" class="btn btn-ghost">Choisir</a>
+        <a href="questionnaire.html" class="btn btn-ghost">Choisir</a>
       </div>
       <div class="plan featured reveal">
         <h3>Imprimé</h3>
@@ -561,51 +570,25 @@
         <div class="tagl">Plusieurs biens à équiper ? Une offre sur mesure et dégressive.</div>
         <div class="amt">Sur devis</div>
         <ul><li><span class="d">✓</span>Tarifs dégressifs multi-gîtes</li><li><span class="d">✓</span>Charte graphique à votre image</li><li><span class="d">✓</span>Réassorts simplifiés</li><li><span class="d">✓</span>Accompagnement dédié</li></ul>
-        <a href="#devis" class="btn btn-ghost">Nous contacter</a>
+        <a href="questionnaire.html" class="btn btn-ghost">Nous contacter</a>
       </div>
     </div>
     <p class="price-note">Les tarifs affichés sont des estimations de lancement et pourront évoluer.</p>
   </div>
 </section>
 
-<!-- FORM -->
+<!-- CTA vers le questionnaire -->
 <section class="section" id="devis">
-  <div class="wrap form-grid">
-    <div class="form-aside reveal">
-      <span class="eyebrow">Créons votre carnet</span>
-      <h2>Parlez-nous de votre gîte.</h2>
-      <div class="tick"><span class="d">✓</span><span>Un premier aperçu de votre guide, offert et sans engagement.</span></div>
-      <div class="tick"><span class="d">✓</span><span>Réponse sous 48h.</span></div>
-      <div class="tick"><span class="d">✓</span><span>Vous validez tout avant impression.</span></div>
-    </div>
-    <div>
-      <form class="lead" id="leadForm" novalidate>
-        <div class="row2">
-          <div class="field"><label for="name">Prénom &amp; nom *</label><input type="text" id="name" name="name" required placeholder="Marie Dupont"></div>
-          <div class="field"><label for="email">Email *</label><input type="email" id="email" name="email" required placeholder="marie@exemple.fr"></div>
-        </div>
-        <div class="row2">
-          <div class="field"><label for="gite">Nom du gîte</label><input type="text" id="gite" name="gite" placeholder="Le Gîte des Tilleuls"></div>
-          <div class="field"><label for="ville">Ville / région *</label><input type="text" id="ville" name="ville" required placeholder="Sarlat, Dordogne"></div>
-        </div>
-        <div class="row2">
-          <div class="field"><label for="capacite">Capacité d'accueil</label>
-            <select id="capacite" name="capacite"><option value="">Sélectionner…</option><option>1 à 2 personnes</option><option>3 à 5 personnes</option><option>6 à 9 personnes</option><option>10 personnes et +</option></select>
-          </div>
-          <div class="field"><label for="formule">Formule souhaitée</label>
-            <select id="formule" name="formule"><option value="">Sélectionner…</option><option>Numérique (PDF)</option><option>Imprimé &amp; livré</option><option>Conciergerie / plusieurs biens</option><option>Je ne sais pas encore</option></select>
-          </div>
-        </div>
-        <div class="field"><label for="atouts">Les atouts &amp; l'ambiance de votre gîte (facultatif)</label>
-          <textarea id="atouts" name="atouts" placeholder="Spa extérieur, cheminée, grand jardin, vue sur les montagnes, ambiance familiale et cosy…"></textarea>
-        </div>
-        <button type="submit" class="btn btn-clay">Recevoir mon aperçu gratuit →</button>
-        <p class="form-legal">En envoyant ce formulaire, vous acceptez d'être recontacté au sujet de votre projet de guide.</p>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <div class="big"><svg width="54" height="54" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="M15 24l6 6 12-13"/></svg></div>
-        <h3>Merci, c'est bien reçu !</h3>
-        <p>Nous préparons un premier aperçu de votre carnet de bienvenue et revenons vers vous très vite.</p>
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <span class="eyebrow" style="margin-bottom:4px">Créons votre carnet</span>
+      <h2>Prêt à offrir un accueil inoubliable ?</h2>
+      <p>Décrivez votre gîte en cinq minutes. Nous composons un premier aperçu de votre guide de bienvenue — offert et sans engagement.</p>
+      <a href="questionnaire.html" class="btn btn-clay">Créer mon guide sur-mesure →</a>
+      <div class="cta-ticks">
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Réponse sous 48h</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Vous validez avant impression</span>
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2"><path d="M5 12l5 5 9-11"/></svg> Sans engagement</span>
       </div>
     </div>
   </div>
@@ -641,11 +624,11 @@
       </div>
       <div class="foot-col">
         <h4>Le service</h4>
-        <a href="#comment">Comment ça marche</a><a href="#contenu">Le guide</a><a href="#tarifs">Tarifs</a><a href="#devis">Créer mon guide</a>
+        <a href="#comment">Comment ça marche</a><a href="#contenu">Le guide</a><a href="#tarifs">Tarifs</a><a href="questionnaire.html">Créer mon guide</a>
       </div>
       <div class="foot-col">
         <h4>Ressources</h4>
-        <a href="#faq">FAQ</a><a href="#devis">Nous contacter</a>
+        <a href="#faq">FAQ</a><a href="questionnaire.html">Nous contacter</a>
       </div>
     </div>
     <div class="foot-bottom">© <span id="year"></span> Carnet d'Hôte — Fait avec soin pour les hôtes. Tous droits réservés.</div>
@@ -662,24 +645,6 @@
   document.getElementById('year').textContent=new Date().getFullYear();
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  // ▸ POUR ACTIVER LA RÉCEPTION DES DEMANDES : créez un formulaire gratuit sur https://formspree.io
-  //   puis collez votre endpoint ci-dessous (ex: "https://formspree.io/f/xxxxxxx").
-  const FORM_ENDPOINT="";
-  const form=document.getElementById('leadForm'),success=document.getElementById('formSuccess');
-  form.addEventListener('submit',async(ev)=>{
-    ev.preventDefault();let ok=true;
-    ['name','email','ville'].forEach(id=>{const f=document.getElementById(id);if(!f.value.trim()){f.style.borderColor='#B0663F';ok=false}else f.style.borderColor=''});
-    const email=document.getElementById('email');
-    if(email.value&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value)){email.style.borderColor='#B0663F';ok=false}
-    if(!ok)return;
-    const data=Object.fromEntries(new FormData(form).entries());
-    try{
-      if(FORM_ENDPOINT){await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)});}
-      else{const s=JSON.parse(localStorage.getItem('carnet_leads')||'[]');s.push({...data,at:new Date().toISOString()});localStorage.setItem('carnet_leads',JSON.stringify(s));}
-      form.style.display='none';success.classList.add('show');success.scrollIntoView({behavior:'smooth',block:'center'});
-    }catch(e){alert("Une erreur est survenue. Réessayez ou écrivez-nous directement.");}
-  });
 </script>
 </body>
 </html>

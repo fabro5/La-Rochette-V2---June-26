@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Créer mon guide — Carnet d'Hôte</title>
-<meta name="description" content="Décrivez votre gîte en quelques minutes : nous composons votre guide de bienvenue personnalisé, imprimé et livré.">
+<meta name="description" content="Décrivez votre gîte, visualisez un aperçu de votre guide et du livre imprimé, puis choisissez votre formule.">
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,6 @@
   a{color:inherit;text-decoration:none}
   .cd-logo{display:inline-block;background-color:currentColor;-webkit-mask:url(images/logo-mask.png) center/contain no-repeat;mask:url(images/logo-mask.png) center/contain no-repeat}
 
-  /* Top bar */
   .topbar{background:rgba(247,242,233,.92);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
   .topbar-in{max-width:900px;margin:0 auto;padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:11px;font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;color:var(--ink)}
@@ -33,28 +32,29 @@
   .back-link{font-size:.86rem;color:var(--muted);display:flex;align-items:center;gap:7px;transition:color .2s}
   .back-link:hover{color:var(--clay)}
 
-  .shell{max-width:760px;margin:0 auto;padding:44px 24px 90px}
+  .shell{max-width:780px;margin:0 auto;padding:44px 24px 90px}
 
-  /* Progress */
   .steps{display:flex;justify-content:space-between;margin-bottom:14px;position:relative}
-  .steps::before{content:"";position:absolute;top:15px;left:6%;right:6%;height:2px;background:var(--line-2);z-index:0}
-  .steps .prog{position:absolute;top:15px;left:6%;height:2px;background:var(--sage);z-index:1;transition:width .4s ease;width:0}
+  .steps::before{content:"";position:absolute;top:15px;left:5%;right:5%;height:2px;background:var(--line-2);z-index:0}
+  .steps .prog{position:absolute;top:15px;left:5%;height:2px;background:var(--sage);z-index:1;transition:width .4s ease;width:0}
   .stepdot{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:9px;flex:1}
-  .stepdot .b{width:32px;height:32px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600;color:var(--muted);transition:.35s}
-  .stepdot .t{font-size:.72rem;color:var(--muted);text-align:center;font-weight:500;letter-spacing:.02em;transition:color .3s}
+  .stepdot .b{width:32px;height:32px;border-radius:50%;background:var(--paper);border:2px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:600;color:var(--muted);transition:.35s}
+  .stepdot .t{font-size:.68rem;color:var(--muted);text-align:center;font-weight:500;letter-spacing:.02em;transition:color .3s}
   .stepdot.active .b{background:var(--sage);border-color:var(--sage);color:#fff}
   .stepdot.done .b{background:var(--sage-deep);border-color:var(--sage-deep);color:#fff}
   .stepdot.active .t,.stepdot.done .t{color:var(--sage-deep)}
-  @media(max-width:600px){.stepdot .t{display:none}.steps{margin-bottom:6px}}
+  @media(max-width:640px){.stepdot .t{display:none}.steps{margin-bottom:6px}}
 
-  .intro{text-align:center;margin:34px 0 30px}
+  .intro{text-align:center;margin:34px 0 26px}
   .intro .eyebrow{font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--clay);font-weight:500}
-  .intro h1{font-size:clamp(1.9rem,4.5vw,2.7rem);margin:12px 0 8px}
-  .intro p{color:var(--ink-2);font-weight:300;max-width:520px;margin:0 auto;font-size:1rem}
+  .intro h1{font-size:clamp(1.9rem,4.5vw,2.7rem);margin:12px 0 10px}
+  .intro p{color:var(--ink-2);font-weight:300;max-width:560px;margin:0 auto;font-size:1rem}
+  .intro .flow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px;font-size:.8rem;color:var(--muted)}
+  .intro .flow span{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);padding:7px 14px;border-radius:30px}
+  .intro .flow b{color:var(--sage-deep);font-weight:600}
 
-  /* Card / steps */
   .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:38px}
-  @media(max-width:600px){.card{padding:26px 20px}}
+  @media(max-width:600px){.card{padding:24px 18px}}
   .step-panel{display:none;animation:fade .45s ease}
   .step-panel.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -79,19 +79,16 @@
   .err-msg{color:var(--clay);font-size:.78rem;margin-top:6px;display:none}
   .err-msg.show{display:block}
 
-  /* chips (checkbox amenities & radios) */
   .chips{display:flex;flex-wrap:wrap;gap:10px}
   .chip{position:relative}
   .chip input{position:absolute;opacity:0;pointer-events:none}
   .chip label{display:inline-flex;align-items:center;gap:8px;margin:0;padding:10px 16px;border:1px solid var(--line-2);border-radius:30px;font-size:.88rem;font-weight:400;color:var(--ink-2);cursor:pointer;background:var(--paper-2);transition:.2s;user-select:none}
-  .chip label:hover{border-color:var(--sage-soft,#7C8A6B)}
+  .chip label:hover{border-color:#7C8A6B}
   .chip input:checked+label{background:#EDF0E5;border-color:var(--sage);color:var(--sage-deep);font-weight:500}
   .chip input:focus-visible+label{box-shadow:0 0 0 3px rgba(91,106,80,.2)}
-
   .seg{display:flex;gap:10px;flex-wrap:wrap}
   .seg .chip label{border-radius:8px}
 
-  /* nav buttons */
   .nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:14px}
   .btn{display:inline-flex;align-items:center;gap:9px;font-weight:500;font-size:.96rem;padding:14px 30px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:transform .2s,background .25s,border-color .25s;font-family:'Inter'}
   .btn-primary{background:var(--sage);color:#fff}
@@ -104,18 +101,63 @@
 
   .reassure{display:flex;align-items:center;justify-content:center;gap:8px;font-size:.82rem;color:var(--muted);margin-top:22px}
 
-  /* review */
   .recap{display:flex;flex-direction:column;gap:8px}
   .recap .row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px dotted var(--line-2);font-size:.9rem}
   .recap .row .k{color:var(--muted);flex:0 0 42%}
   .recap .row .v{color:var(--ink);text-align:right;font-weight:500}
 
-  /* success */
+  /* ===== APERÇU (généré) ===== */
+  .pv-note{background:#EDF0E5;border:1px solid #DAE0CD;color:var(--sage-deep);font-size:.85rem;padding:12px 16px;border-radius:8px;margin-bottom:24px;display:flex;gap:9px;align-items:flex-start}
+  .pv-sec{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--ink);margin:26px 0 16px;text-align:center;position:relative}
+  .pv-sec::after{content:"";display:block;width:36px;height:1px;background:var(--line-2);margin:12px auto 0}
+  .pv-spread{display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+  @media(max-width:560px){.pv-spread{grid-template-columns:1fr}}
+  .pv-page{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);padding:28px 24px;min-height:280px;display:flex;flex-direction:column;position:relative}
+  .pv-page.left{box-shadow:inset -16px 0 30px -20px rgba(60,45,20,.3)}
+  .pv-page.right{box-shadow:inset 16px 0 30px -20px rgba(60,45,20,.3)}
+  @media(max-width:560px){.pv-page{min-height:auto}}
+  .pv-cover{text-align:center;align-items:center;justify-content:center}
+  .pv-cover .cl{width:46px;height:46px;color:var(--sage-deep);margin:0 auto 14px}
+  .pv-cover .clabel{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--clay);margin-bottom:14px}
+  .pv-cover .ctitle{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--ink);line-height:1.04}
+  .pv-cover .crule{width:40px;height:1px;background:var(--line-2);margin:14px auto}
+  .pv-cover .cloc{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .pv-ey{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--clay);margin-bottom:10px}
+  .pv-h{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.05}
+  .pv-txt{font-size:.82rem;line-height:1.7;color:var(--ink-2)}
+  .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--sage-deep);margin-top:auto;padding-top:14px}
+  .pv-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:640px){.pv-cards{grid-template-columns:1fr}}
+  .pv-card{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:6px;padding:20px 18px;box-shadow:var(--shadow-sm)}
+  .pv-card .pv-h{font-size:1.2rem;margin-bottom:12px}
+  .pv-rlist{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .pv-rlist li{font-size:.76rem;display:flex;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:1px dotted var(--line-2)}
+  .pv-rlist li b{color:var(--ink);font-weight:500}
+  .pv-rlist li span{color:var(--sage-deep);text-align:right}
+  .pv-chips2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .pv-chip2{font-size:.68rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:4px 10px;border-radius:16px}
+  .pv-reco2{font-size:.76rem;color:var(--ink-2);display:flex;gap:6px;margin-top:8px;line-height:1.4}
+  .pv-reco2 .pin{color:var(--clay);flex:0 0 auto;margin-top:1px}
+
+  .book3d{perspective:1300px;display:flex;justify-content:center;padding:20px 0 6px}
+  .book3d .cv{width:224px;height:296px;transform:rotateY(-24deg);position:relative;border-radius:3px 8px 8px 3px;
+    background:linear-gradient(120deg,#35322b 0%,#211E19 100%);box-shadow:-18px 26px 48px -18px rgba(40,30,15,.6);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 26px;color:#EFE7D8}
+  .book3d .cv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:rgba(0,0,0,.34);border-radius:3px 0 0 3px}
+  .book3d .cv .frame{position:absolute;inset:15px;border:1px solid rgba(199,153,70,.42);border-radius:3px}
+  .book3d .cv .bl{width:44px;height:44px;color:#C9A24B;margin-bottom:14px}
+  .book3d .cv .blabel{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px}
+  .book3d .cv h4{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;line-height:1.05;color:#F3EDE1}
+  .book3d .cv .bloc{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:#C9A24B;margin-top:10px}
+  .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:8px}
+
+  .price-hint{font-size:.82rem;color:var(--muted);margin-top:6px}
+
   .done-screen{display:none;text-align:center;padding:20px 10px}
   .done-screen.on{display:block;animation:fade .5s ease}
   .done-screen .ic{color:var(--sage);margin-bottom:18px}
   .done-screen h2{font-size:2rem;margin-bottom:12px}
-  .done-screen p{color:var(--ink-2);max-width:460px;margin:0 auto 10px}
+  .done-screen p{color:var(--ink-2);max-width:470px;margin:0 auto 10px}
   .done-actions{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 </style>
 </head>
@@ -130,27 +172,33 @@
 
 <div class="shell">
 
-  <!-- progress -->
   <div class="steps" id="steps">
     <div class="prog" id="prog"></div>
     <div class="stepdot" data-i="0"><span class="b">1</span><span class="t">Votre gîte</span></div>
     <div class="stepdot" data-i="1"><span class="b">2</span><span class="t">Règlement</span></div>
     <div class="stepdot" data-i="2"><span class="b">3</span><span class="t">Atouts</span></div>
     <div class="stepdot" data-i="3"><span class="b">4</span><span class="t">Alentours</span></div>
-    <div class="stepdot" data-i="4"><span class="b">5</span><span class="t">Finalisation</span></div>
+    <div class="stepdot" data-i="4"><span class="b">5</span><span class="t">Aperçu</span></div>
+    <div class="stepdot" data-i="5"><span class="b">6</span><span class="t">Commande</span></div>
   </div>
 
   <div class="intro" id="intro">
     <span class="eyebrow">Créons votre carnet</span>
-    <h1>Parlez-nous de votre gîte</h1>
-    <p>Environ 5 minutes. Vous validez tout avant impression — rien n'est définitif.</p>
+    <h1>Créez votre guide de bienvenue</h1>
+    <p>Décrivez votre gîte en quelques minutes. À la fin, vous découvrirez un <strong>aperçu de votre guide</strong> et un <strong>rendu du livre imprimé</strong> — et vous ne choisissez de commander <em>que</em> si le résultat vous plaît. Aucun engagement avant.</p>
+    <div class="flow">
+      <span><b>1.</b> Vous décrivez</span>
+      <span><b>2.</b> Vous visualisez l'aperçu</span>
+      <span><b>3.</b> Vous commandez si ça vous plaît</span>
+    </div>
   </div>
 
   <form id="qForm" class="card" novalidate>
+    <input type="hidden" name="_subject" value="Nouvelle demande — Carnet d'Hôte">
 
     <!-- STEP 1 -->
     <section class="step-panel on" data-step="0">
-      <div class="step-head"><div class="kx">Étape 1 / 5</div><h2>Votre gîte</h2><p>L'identité de votre logement.</p></div>
+      <div class="step-head"><div class="kx">Étape 1 / 6</div><h2>Votre gîte</h2><p>L'identité de votre logement.</p></div>
       <div class="field">
         <label for="giteName">Nom du gîte *</label>
         <input type="text" id="giteName" name="giteName" required placeholder="Le Gîte des Tilleuls">
@@ -189,26 +237,14 @@
 
     <!-- STEP 2 -->
     <section class="step-panel" data-step="1">
-      <div class="step-head"><div class="kx">Étape 2 / 5</div><h2>Le règlement &amp; les infos pratiques</h2><p>Tout ce que vos voyageurs doivent savoir pour un séjour fluide.</p></div>
+      <div class="step-head"><div class="kx">Étape 2 / 6</div><h2>Le règlement &amp; les infos pratiques</h2><p>Tout ce que vos voyageurs doivent savoir pour un séjour fluide.</p></div>
       <div class="grid2">
-        <div class="field half">
-          <label for="checkin">Arrivée à partir de</label>
-          <input type="text" id="checkin" name="checkin" placeholder="16h00">
-        </div>
-        <div class="field half">
-          <label for="checkout">Départ avant</label>
-          <input type="text" id="checkout" name="checkout" placeholder="10h30">
-        </div>
+        <div class="field half"><label for="checkin">Arrivée à partir de</label><input type="text" id="checkin" name="checkin" placeholder="16h00"></div>
+        <div class="field half"><label for="checkout">Départ avant</label><input type="text" id="checkout" name="checkout" placeholder="10h30"></div>
       </div>
       <div class="grid2">
-        <div class="field half">
-          <label for="wifiName">Nom du réseau Wifi <span class="opt">(facultatif)</span></label>
-          <input type="text" id="wifiName" name="wifiName" placeholder="LesTilleuls_24">
-        </div>
-        <div class="field half">
-          <label for="wifiPass">Mot de passe Wifi <span class="opt">(facultatif)</span></label>
-          <input type="text" id="wifiPass" name="wifiPass" placeholder="bienvenue2024">
-        </div>
+        <div class="field half"><label for="wifiName">Nom du réseau Wifi <span class="opt">(facultatif)</span></label><input type="text" id="wifiName" name="wifiName" placeholder="LesTilleuls_24"></div>
+        <div class="field half"><label for="wifiPass">Mot de passe Wifi <span class="opt">(facultatif)</span></label><input type="text" id="wifiPass" name="wifiPass" placeholder="bienvenue2024"></div>
       </div>
       <div class="field">
         <label>Règles de la maison</label>
@@ -219,19 +255,17 @@
           <span class="chip"><input type="checkbox" id="r4" name="rules" value="Parking sur place"><label for="r4">🅿️ Parking sur place</label></span>
         </div>
       </div>
-      <div class="field">
-        <label for="checkoutInstr">Consignes de départ <span class="opt">(tri, poubelles, clés…)</span></label>
+      <div class="field"><label for="checkoutInstr">Consignes de départ <span class="opt">(tri, poubelles, clés…)</span></label>
         <textarea id="checkoutInstr" name="checkoutInstr" placeholder="Merci de sortir les poubelles (tri au portail), lancer le lave-vaisselle et laisser les clés dans la boîte."></textarea>
       </div>
-      <div class="field">
-        <label for="contact">Contact en cas de souci <span class="opt">(nom + téléphone)</span></label>
+      <div class="field"><label for="contact">Contact en cas de souci <span class="opt">(nom + téléphone)</span></label>
         <input type="text" id="contact" name="contact" placeholder="Marie — 06 12 34 56 78">
       </div>
     </section>
 
     <!-- STEP 3 -->
     <section class="step-panel" data-step="2">
-      <div class="step-head"><div class="kx">Étape 3 / 5</div><h2>Les atouts du logement</h2><p>Ce qui rend votre gîte unique.</p></div>
+      <div class="step-head"><div class="kx">Étape 3 / 6</div><h2>Les atouts du logement</h2><p>Ce qui rend votre gîte unique.</p></div>
       <div class="field">
         <label>Équipements &amp; atouts <span class="opt">(cochez tout ce qui s'applique)</span></label>
         <div class="chips">
@@ -249,46 +283,50 @@
           <span class="chip"><input type="checkbox" id="a12" name="amenities" value="Vélos"><label for="a12">Vélos</label></span>
         </div>
       </div>
-      <div class="field">
-        <label for="highlights">Vos 2-3 atouts phares, en quelques mots</label>
+      <div class="field"><label for="highlights">Vos 2-3 atouts phares, en quelques mots</label>
         <textarea id="highlights" name="highlights" placeholder="Le bain nordique face au coucher de soleil, la grande cheminée du salon, le silence absolu."></textarea>
       </div>
       <div class="grid2">
-        <div class="field half">
-          <label for="hosts">Signature du mot d'accueil</label>
-          <input type="text" id="hosts" name="hosts" placeholder="Marie &amp; Julien">
-        </div>
-        <div class="field half">
-          <label for="attentions">Petites attentions <span class="opt">(facultatif)</span></label>
-          <input type="text" id="attentions" name="attentions" placeholder="Café, confiture maison, bouteille de vin local">
-        </div>
+        <div class="field half"><label for="hosts">Signature du mot d'accueil</label><input type="text" id="hosts" name="hosts" placeholder="Marie &amp; Julien"></div>
+        <div class="field half"><label for="attentions">Petites attentions <span class="opt">(facultatif)</span></label><input type="text" id="attentions" name="attentions" placeholder="Café, confiture maison, vin local"></div>
       </div>
     </section>
 
     <!-- STEP 4 -->
     <section class="step-panel" data-step="3">
-      <div class="step-head"><div class="kx">Étape 4 / 5</div><h2>Les alentours &amp; vos bons plans</h2><p>Vos adresses préférées — nous en trouverons d'autres autour de vous.</p></div>
-      <div class="field">
-        <label for="restos">Restaurants &amp; tables à recommander</label>
+      <div class="step-head"><div class="kx">Étape 4 / 6</div><h2>Les alentours &amp; vos bons plans</h2><p>Vos adresses préférées — nous en trouverons d'autres autour de vous.</p></div>
+      <div class="field"><label for="restos">Restaurants &amp; tables à recommander</label>
         <textarea id="restos" name="restos" placeholder="L'Auberge du Village (cuisine du terroir, 5 min), la crêperie sur la place…"></textarea>
       </div>
-      <div class="field">
-        <label for="activites">Activités, sites &amp; balades à ne pas manquer</label>
+      <div class="field"><label for="activites">Activités, sites &amp; balades à ne pas manquer</label>
         <textarea id="activites" name="activites" placeholder="Le sentier des Crêtes, le lac à 15 min, les ruines du château, le marché du samedi…"></textarea>
       </div>
-      <div class="field">
-        <label for="commerces">Commerces utiles <span class="opt">(boulangerie, marché, supérette…)</span></label>
-        <textarea id="commerces" name="commerces" placeholder="Boulangerie à 800 m, supérette au village, marché le samedi matin à Sarlat."></textarea>
+      <div class="field"><label for="commerces">Commerces utiles <span class="opt">(boulangerie, marché, supérette…)</span></label>
+        <textarea id="commerces" name="commerces" placeholder="Boulangerie à 800 m, supérette au village, marché le samedi matin."></textarea>
       </div>
-      <div class="field">
-        <label for="secret">Vos adresses secrètes &amp; coups de cœur <span class="opt">(facultatif)</span></label>
-        <textarea id="secret" name="secret" placeholder="Le producteur de fromage sur la route de… , le point de vue au lever du soleil."></textarea>
+      <div class="field"><label for="secret">Vos adresses secrètes &amp; coups de cœur <span class="opt">(facultatif)</span></label>
+        <textarea id="secret" name="secret" placeholder="Le producteur de fromage sur la route de…, le point de vue au lever du soleil."></textarea>
       </div>
     </section>
 
-    <!-- STEP 5 -->
+    <!-- STEP 5 : APERÇU -->
     <section class="step-panel" data-step="4">
-      <div class="step-head"><div class="kx">Étape 5 / 5</div><h2>Formule &amp; finalisation</h2><p>Dernière étape — nous revenons vers vous avec un aperçu.</p></div>
+      <div class="step-head"><div class="kx">Étape 5 / 6</div><h2>Votre aperçu</h2><p>Voici un aperçu de votre guide et du livre imprimé, à partir de vos réponses.</p></div>
+      <div class="pv-note">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex:0 0 auto;margin-top:1px"><path d="M12 3l2 5 5 .5-3.8 3.3L16.5 17 12 14.2 7.5 17l1.3-5.2L5 8.5 10 8z"/></svg>
+        <span>Ceci est un aperçu indicatif, généré depuis vos réponses. Le guide final est <strong>rédigé et peaufiné par notre équipe</strong>, avec une carte illustrée de vos environs, avant impression.</span>
+      </div>
+
+      <div class="pv-sec">Votre guide</div>
+      <div id="pvGuide"></div>
+
+      <div class="pv-sec">Votre livre imprimé</div>
+      <div id="pvBook"></div>
+    </section>
+
+    <!-- STEP 6 : COMMANDE -->
+    <section class="step-panel" data-step="5">
+      <div class="step-head"><div class="kx">Étape 6 / 6</div><h2>Votre formule &amp; commande</h2><p>L'aperçu vous plaît ? Choisissez votre formule — nous revenons vers vous sous 48h.</p></div>
       <div class="field">
         <label>Formule souhaitée</label>
         <div class="chips seg">
@@ -296,6 +334,7 @@
           <span class="chip"><input type="radio" id="f2" name="formule" value="Imprimé &amp; livré — 79€" checked><label for="f2">Imprimé &amp; livré · 79€</label></span>
           <span class="chip"><input type="radio" id="f3" name="formule" value="Conciergerie / plusieurs biens"><label for="f3">Plusieurs biens</label></span>
         </div>
+        <div class="price-hint">Numérique : le PDF prêt à imprimer. Imprimé : le carnet relié, livré chez vous. Plusieurs biens : tarif dégressif sur devis.</div>
       </div>
       <div class="field">
         <label>Langue(s) du guide</label>
@@ -307,58 +346,41 @@
         </div>
       </div>
       <div class="grid2">
-        <div class="field half">
-          <label for="ownerName">Votre prénom &amp; nom *</label>
-          <input type="text" id="ownerName" name="ownerName" required placeholder="Marie Dupont">
-          <div class="err-msg">Merci d'indiquer votre nom.</div>
-        </div>
-        <div class="field half">
-          <label for="email">Votre email *</label>
-          <input type="email" id="email" name="email" required placeholder="marie@exemple.fr">
-          <div class="err-msg">Merci d'indiquer un email valide.</div>
-        </div>
+        <div class="field half"><label for="ownerName">Votre prénom &amp; nom *</label><input type="text" id="ownerName" name="ownerName" required placeholder="Marie Dupont"><div class="err-msg">Merci d'indiquer votre nom.</div></div>
+        <div class="field half"><label for="email">Votre email *</label><input type="email" id="email" name="email" required placeholder="marie@exemple.fr"><div class="err-msg">Merci d'indiquer un email valide.</div></div>
       </div>
-      <div class="field">
-        <label for="phone">Téléphone <span class="opt">(facultatif)</span></label>
-        <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78">
-      </div>
+      <div class="field"><label for="phone">Téléphone <span class="opt">(facultatif)</span></label><input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78"></div>
 
       <div class="field" style="margin-top:10px">
-        <label>Récapitulatif</label>
+        <label>Récapitulatif de votre commande</label>
         <div class="recap" id="recap"></div>
       </div>
     </section>
 
-    <!-- nav -->
     <div class="nav-btns">
       <button type="button" class="btn btn-ghost" id="prevBtn" hidden>← Précédent</button>
       <div style="flex:1"></div>
       <button type="button" class="btn btn-primary" id="nextBtn">Continuer →</button>
-      <button type="submit" class="btn btn-clay" id="submitBtn" hidden>Envoyer ma demande ✓</button>
+      <button type="submit" class="btn btn-clay" id="submitBtn" hidden>Valider ma commande ✓</button>
     </div>
   </form>
 
   <div class="reassure" id="reassure">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
-    Vos informations restent confidentielles · Sans engagement
+    Vos informations restent confidentielles · Aucun engagement avant l'aperçu
   </div>
 
-  <!-- success -->
   <div class="card done-screen" id="doneScreen">
     <div class="ic"><svg width="60" height="60" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="M15 24l6 6 12-13"/></svg></div>
-    <h2>Merci, c'est bien reçu !</h2>
-    <p>Nous avons toutes les informations de votre gîte. Notre équipe compose un premier aperçu de votre carnet de bienvenue et revient vers vous sous 48h.</p>
-    <p style="color:var(--muted);font-size:.88rem">Un récapitulatif vient de vous être préparé. Rien n'est imprimé sans votre validation.</p>
-    <div class="done-actions">
-      <a href="index.html" class="btn btn-ghost">Retour au site</a>
-    </div>
+    <h2>Merci, votre demande est bien reçue !</h2>
+    <p>Nous avons toutes les informations de votre gîte et votre choix de formule. Notre équipe prépare votre carnet et revient vers vous <strong>sous 48h</strong> avec l'aperçu détaillé et les modalités de commande.</p>
+    <p style="color:var(--muted);font-size:.88rem">Rien n'est imprimé sans votre validation finale.</p>
+    <div class="done-actions"><a href="index.html" class="btn btn-ghost">Retour au site</a></div>
   </div>
 
 </div>
 
 <script>
-  // ▸ POUR RECEVOIR LES DEMANDES : créez un formulaire sur https://formspree.io
-  //   et collez l'endpoint ci-dessous (ex : "https://formspree.io/f/xxxxxxx").
   const FORM_ENDPOINT = "https://formspree.io/f/meebvdwg";
 
   const form = document.getElementById('qForm');
@@ -369,7 +391,16 @@
   const nextBtn = document.getElementById('nextBtn');
   const submitBtn = document.getElementById('submitBtn');
   let step = 0;
-  const LAST = panels.length - 1;
+  const LAST = panels.length - 1;      // 5
+  const PREVIEW = 4;
+
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  function collect(){
+    const fd = new FormData(form); const data = {};
+    for(const [k,v] of fd.entries()){ if(data[k]) data[k] = [].concat(data[k], v); else data[k] = v; }
+    return data;
+  }
 
   function render(){
     panels.forEach((p,i)=>p.classList.toggle('on', i===step));
@@ -378,17 +409,18 @@
       d.classList.toggle('done', i<step);
       d.querySelector('.b').textContent = i<step ? '✓' : (i+1);
     });
-    prog.style.width = (step/(LAST)) * 88 + '%';
+    prog.style.width = (step/LAST) * 90 + '%';
     prevBtn.hidden = step===0;
     nextBtn.hidden = step===LAST;
     submitBtn.hidden = step!==LAST;
+    nextBtn.textContent = step===3 ? 'Voir mon aperçu →' : (step===PREVIEW ? 'Choisir ma formule →' : 'Continuer →');
+    if(step===PREVIEW) buildPreview();
     if(step===LAST) buildRecap();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
   function validateStep(){
-    const panel = panels[step];
-    let ok = true;
+    const panel = panels[step]; let ok = true;
     panel.querySelectorAll('[required]').forEach(f=>{
       const bad = !f.value.trim() || (f.type==='email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value));
       f.classList.toggle('invalid', bad);
@@ -401,24 +433,73 @@
 
   nextBtn.addEventListener('click', ()=>{ if(validateStep()){ step=Math.min(step+1,LAST); render(); } });
   prevBtn.addEventListener('click', ()=>{ step=Math.max(step-1,0); render(); });
-
-  // allow jumping back via progress dots
-  dots.forEach(d=>d.addEventListener('click', ()=>{
-    const i = +d.dataset.i;
-    if(i < step){ step = i; render(); }
-  }));
-
+  dots.forEach(d=>d.addEventListener('click', ()=>{ const i=+d.dataset.i; if(i<step){ step=i; render(); } }));
   form.querySelectorAll('input,select,textarea').forEach(f=>{
     f.addEventListener('input', ()=>{ f.classList.remove('invalid'); const m=f.parentElement.querySelector('.err-msg'); if(m) m.classList.remove('show'); });
   });
 
-  function collect(){
-    const fd = new FormData(form);
-    const data = {};
-    for(const [k,v] of fd.entries()){
-      if(data[k]) data[k] = [].concat(data[k], v); else data[k] = v;
-    }
-    return data;
+  function buildPreview(){
+    const d = collect();
+    const gite = d.giteName || 'Votre Gîte';
+    const loc  = [d.city, d.postal].filter(Boolean).join(' ');
+    const hosts = d.hosts || 'Vos hôtes';
+    const amb = d.ambiance ? esc(d.ambiance) : "Nous avons préparé cette maison avec soin pour que vous vous y sentiez comme chez vous.";
+    const mot = `Nous sommes ravis de vous accueillir à ${esc(gite)}. ${amb} Prenez le temps de vous poser — vous trouverez dans ce carnet tout le nécessaire pour votre séjour, ainsi que nos meilleures adresses des environs.`;
+    const ams = [].concat(d.amenities||[]);
+    const rules = [].concat(d.rules||[]);
+    const recos = [];
+    if(d.restos && d.restos.trim())     recos.push(d.restos.trim());
+    if(d.activites && d.activites.trim()) recos.push(d.activites.trim());
+
+    document.getElementById('pvGuide').innerHTML = `
+      <div class="pv-spread">
+        <div class="pv-page left pv-cover">
+          <span class="cd-logo cl" aria-hidden="true"></span>
+          <div class="clabel">Carnet de bienvenue</div>
+          <div class="ctitle">${esc(gite)}</div>
+          <div class="crule"></div>
+          <div class="cloc">${esc(loc)}</div>
+        </div>
+        <div class="pv-page right">
+          <div class="pv-ey">Le mot d'accueil</div>
+          <div class="pv-h">Bienvenue chez vous.</div>
+          <p class="pv-txt">${mot}</p>
+          <div class="pv-sign">${esc(hosts)}</div>
+        </div>
+      </div>
+      <div class="pv-cards">
+        <div class="pv-card">
+          <div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div>
+          <ul class="pv-rlist">
+            <li><b>Arrivée</b><span>${esc(d.checkin)||'à préciser'}</span></li>
+            <li><b>Départ</b><span>${esc(d.checkout)||'à préciser'}</span></li>
+            <li><b>Wifi</b><span>${esc(d.wifiName)||'à préciser'}</span></li>
+            ${rules.map(r=>`<li><b>${esc(r)}</b><span>✓</span></li>`).join('')}
+          </ul>
+        </div>
+        <div class="pv-card">
+          <div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div>
+          <div class="pv-chips2">${ams.length? ams.map(a=>`<span class="pv-chip2">${esc(a)}</span>`).join('') : '<span class="pv-chip2">Vos équipements</span>'}</div>
+          ${d.highlights? `<p class="pv-txt">${esc(d.highlights)}</p>` : ''}
+        </div>
+        <div class="pv-card">
+          <div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>
+          ${recos.length ? recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${esc(r)}</span></div>`).join('') : '<p class="pv-txt">Vos adresses préférées, complétées par nos recommandations locales.</p>'}
+          <div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:12px">+ une carte illustrée de vos environs</div>
+        </div>
+      </div>`;
+
+    document.getElementById('pvBook').innerHTML = `
+      <div class="book3d">
+        <div class="cv">
+          <div class="frame"></div>
+          <span class="cd-logo bl" aria-hidden="true"></span>
+          <div class="blabel">Carnet de bienvenue</div>
+          <h4>${esc(gite)}</h4>
+          <div class="bloc">${esc(loc)}</div>
+        </div>
+      </div>
+      <p class="book-cap">Votre carnet, imprimé sur beau papier et relié — livré chez vous.</p>`;
   }
 
   function buildRecap(){
@@ -432,8 +513,7 @@
       ['Langue(s)', langues || '—'],
     ];
     document.getElementById('recap').innerHTML = rows.map(r=>
-      `<div class="row"><span class="k">${r[0]}</span><span class="v">${String(r[1]).replace(/</g,'&lt;')}</span></div>`
-    ).join('');
+      `<div class="row"><span class="k">${r[0]}</span><span class="v">${esc(r[1])}</span></div>`).join('');
   }
 
   form.addEventListener('submit', async (e)=>{
@@ -453,7 +533,7 @@
       document.getElementById('reassure').style.display='none';
       document.getElementById('steps').style.opacity='.5';
       dots.forEach(x=>{x.classList.add('done');x.querySelector('.b').textContent='✓'});
-      prog.style.width='88%';
+      prog.style.width='90%';
       document.getElementById('doneScreen').classList.add('on');
       window.scrollTo({top:0, behavior:'smooth'});
     }catch(err){

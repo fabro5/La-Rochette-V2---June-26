@@ -169,6 +169,42 @@
   .flip-count{font-size:.84rem;color:var(--muted);min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
   .flip-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:10px}
 
+  /* ===== SÉLECTEUR DE TEMPLATES ===== */
+  .tpl-label{text-align:center;font-size:.82rem;font-weight:500;letter-spacing:.02em;color:var(--ink);margin-bottom:12px}
+  .tpl-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px}
+  @media(max-width:480px){.tpl-picker{grid-template-columns:1fr}}
+  .tpl-opt{cursor:pointer;border:1px solid var(--line-2);border-radius:10px;padding:14px 12px;text-align:center;background:var(--paper-2);transition:.2s;position:relative}
+  .tpl-opt:hover{border-color:#7C8A6B}
+  .tpl-opt.active{border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
+  .tpl-opt .sw{display:flex;gap:5px;justify-content:center;margin-bottom:9px}
+  .tpl-opt .sw i{width:16px;height:16px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .tpl-opt .nm{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.1}
+  .tpl-opt .ds{font-size:.72rem;color:var(--muted)}
+  .tpl-opt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
+  .tpl-opt.active .chk{display:flex}
+
+  /* Thème ÉLÉGANCE — ivoire & doré */
+  .tpl-elegance .flip-face{background:linear-gradient(180deg,#FCFBF8,#F1EFE8)}
+  .tpl-elegance .flip-face.back{background:linear-gradient(180deg,#F1EFE8,#E9E6DC)}
+  .tpl-elegance .pv-ey,.tpl-elegance .clabel,.tpl-elegance .cl,.tpl-elegance .pv-reco2 .pin{color:#B79246}
+  .tpl-elegance .pv-h,.tpl-elegance .ctitle{color:#1A1813}
+  .tpl-elegance .pv-sign{color:#6B6459}
+  .tpl-elegance .crule{background:#CDB56A}
+  .tpl-elegance .pv-chip2{background:#F3ECD9;border-color:#E4D6AB;color:#8A6D24}
+  .tpl-elegance .book3d .cv{background:linear-gradient(120deg,#232019,#131210)}
+
+  /* Thème CHAMPÊTRE — terracotta & olive */
+  .tpl-champetre .flip-face{background:linear-gradient(180deg,#FCF4EA,#F3E4D2)}
+  .tpl-champetre .flip-face.back{background:linear-gradient(180deg,#F3E4D2,#EAD7C0)}
+  .tpl-champetre .pv-ey,.tpl-champetre .clabel,.tpl-champetre .cl,.tpl-champetre .pv-reco2 .pin{color:#B85C38}
+  .tpl-champetre .pv-h,.tpl-champetre .ctitle{color:#3A2A20}
+  .tpl-champetre .pv-sign{color:#6E7A4E}
+  .tpl-champetre .crule{background:#D9A67E}
+  .tpl-champetre .pv-chip2{background:#F3E3D1;border-color:#E4C9AC;color:#9A4E2C}
+  .tpl-champetre .book3d .cv{background:linear-gradient(120deg,#7C4A30,#59331F)}
+  .tpl-champetre .book3d .cv .bl,.tpl-champetre .book3d .cv .blabel,.tpl-champetre .book3d .cv .bloc{color:#EAC9A0}
+  .tpl-champetre .book3d .cv .frame{border-color:rgba(234,201,160,.5)}
+
   .price-hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 
   .done-screen{display:none;text-align:center;padding:20px 10px}
@@ -213,6 +249,7 @@
 
   <form id="qForm" class="card" novalidate>
     <input type="hidden" name="_subject" value="Nouvelle demande — Carnet d'Hôte">
+    <input type="hidden" name="template" id="tplInput" value="Sérénité (nature)">
 
     <!-- STEP 1 -->
     <section class="step-panel on" data-step="0">
@@ -335,19 +372,40 @@
         <span>Ceci est un aperçu indicatif, généré depuis vos réponses. Le guide final est <strong>rédigé et peaufiné par notre équipe</strong>, avec une carte illustrée de vos environs, avant impression.</span>
       </div>
 
-      <div class="pv-sec">Feuilletez votre carnet</div>
-      <div class="flip-wrap">
-        <div class="flip-stage" id="pvFlipStage"></div>
-        <div class="flip-ctrls">
-          <button type="button" class="flip-btn" id="flipPrev" aria-label="Page précédente">‹</button>
-          <span class="flip-count" id="flipCount"></span>
-          <button type="button" class="flip-btn" id="flipNext" aria-label="Page suivante">›</button>
+      <div class="tpl-label">Choisissez le style de votre carnet</div>
+      <div class="tpl-picker">
+        <div class="tpl-opt active" data-cls="tpl-serenite" data-name="Sérénité (nature)">
+          <span class="chk">✓</span>
+          <span class="sw"><i style="background:#5B6A50"></i><i style="background:#B0663F"></i><i style="background:#EDE5D3"></i></span>
+          <div class="nm">Sérénité</div><div class="ds">Nature &amp; chaleureux</div>
         </div>
-        <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
+        <div class="tpl-opt" data-cls="tpl-elegance" data-name="Élégance (minimal)">
+          <span class="chk">✓</span>
+          <span class="sw"><i style="background:#1A1813"></i><i style="background:#B79246"></i><i style="background:#F1EFE8"></i></span>
+          <div class="nm">Élégance</div><div class="ds">Ivoire &amp; doré</div>
+        </div>
+        <div class="tpl-opt" data-cls="tpl-champetre" data-name="Champêtre (terroir)">
+          <span class="chk">✓</span>
+          <span class="sw"><i style="background:#B85C38"></i><i style="background:#6E7A4E"></i><i style="background:#F3E4D2"></i></span>
+          <div class="nm">Champêtre</div><div class="ds">Terracotta &amp; olive</div>
+        </div>
       </div>
 
-      <div class="pv-sec">Votre livre imprimé</div>
-      <div id="pvBook"></div>
+      <div id="pvArea" class="tpl-serenite">
+        <div class="pv-sec">Feuilletez votre carnet</div>
+        <div class="flip-wrap">
+          <div class="flip-stage" id="pvFlipStage"></div>
+          <div class="flip-ctrls">
+            <button type="button" class="flip-btn" id="flipPrev" aria-label="Page précédente">‹</button>
+            <span class="flip-count" id="flipCount"></span>
+            <button type="button" class="flip-btn" id="flipNext" aria-label="Page suivante">›</button>
+          </div>
+          <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
+        </div>
+
+        <div class="pv-sec">Votre livre imprimé</div>
+        <div id="pvBook"></div>
+      </div>
     </section>
 
     <!-- STEP 6 : COMMANDE -->
@@ -523,6 +581,16 @@
     upd();
   }
 
+  // Sélecteur de templates
+  const pvArea = document.getElementById('pvArea');
+  const tplInput = document.getElementById('tplInput');
+  document.querySelectorAll('.tpl-opt').forEach(o=>o.addEventListener('click', ()=>{
+    document.querySelectorAll('.tpl-opt').forEach(x=>x.classList.remove('active'));
+    o.classList.add('active');
+    pvArea.className = o.dataset.cls;
+    tplInput.value = o.dataset.name;
+  }));
+
   function buildRecap(){
     const d = collect();
     const langues = [].concat(d.langues||[]).join(', ');
@@ -530,6 +598,7 @@
       ['Gîte', d.giteName || '—'],
       ['Lieu', [d.city, d.postal].filter(Boolean).join(' ') || '—'],
       ['Capacité', d.capacity ? d.capacity+' voyageurs' : '—'],
+      ['Style', d.template || '—'],
       ['Formule', d.formule || '—'],
       ['Langue(s)', langues || '—'],
     ];

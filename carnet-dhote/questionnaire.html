@@ -151,6 +151,24 @@
   .book3d .cv .bloc{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:#C9A24B;margin-top:10px}
   .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:8px}
 
+  /* ===== LIVRE FEUILLETABLE (flipbook) ===== */
+  .flip-wrap{--pw:min(300px,74vw);--ph:calc(var(--pw)*1.34);margin-top:6px}
+  .flip-stage{position:relative;width:var(--pw);height:var(--ph);margin:0 auto;perspective:1900px;cursor:pointer;user-select:none}
+  .flip-page{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.4,.16,.2,1)}
+  .flip-page.flipped{transform:rotateY(-180deg)}
+  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:3px 9px 9px 3px;overflow:hidden;background:linear-gradient(180deg,#FCFAF3,#F2EBDC);box-shadow:0 20px 44px -24px rgba(40,30,15,.55);padding:26px 22px;display:flex;flex-direction:column}
+  .flip-face.cover,.flip-face.closing{align-items:center;justify-content:center;text-align:center}
+  .flip-face.back{transform:rotateY(180deg);align-items:center;justify-content:center;background:linear-gradient(180deg,#F4EEE0,#EDE5D3)}
+  .flip-face.back .cd-logo{width:42px;height:42px;color:#E0D5C1}
+  .flip-face .pv-h{font-size:1.35rem}
+  .flip-face .pv-txt{font-size:.8rem}
+  .flip-ctrls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}
+  .flip-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);font-size:1.3rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
+  .flip-btn:hover:not(:disabled){background:var(--sage);color:#fff;border-color:var(--sage);transform:translateY(-1px)}
+  .flip-btn:disabled{opacity:.32;cursor:default}
+  .flip-count{font-size:.84rem;color:var(--muted);min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
+  .flip-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:10px}
+
   .price-hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 
   .done-screen{display:none;text-align:center;padding:20px 10px}
@@ -317,8 +335,16 @@
         <span>Ceci est un aperçu indicatif, généré depuis vos réponses. Le guide final est <strong>rédigé et peaufiné par notre équipe</strong>, avec une carte illustrée de vos environs, avant impression.</span>
       </div>
 
-      <div class="pv-sec">Votre guide</div>
-      <div id="pvGuide"></div>
+      <div class="pv-sec">Feuilletez votre carnet</div>
+      <div class="flip-wrap">
+        <div class="flip-stage" id="pvFlipStage"></div>
+        <div class="flip-ctrls">
+          <button type="button" class="flip-btn" id="flipPrev" aria-label="Page précédente">‹</button>
+          <span class="flip-count" id="flipCount"></span>
+          <button type="button" class="flip-btn" id="flipNext" aria-label="Page suivante">›</button>
+        </div>
+        <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
+      </div>
 
       <div class="pv-sec">Votre livre imprimé</div>
       <div id="pvBook"></div>
@@ -444,50 +470,25 @@
     const loc  = [d.city, d.postal].filter(Boolean).join(' ');
     const hosts = d.hosts || 'Vos hôtes';
     const amb = d.ambiance ? esc(d.ambiance) : "Nous avons préparé cette maison avec soin pour que vous vous y sentiez comme chez vous.";
-    const mot = `Nous sommes ravis de vous accueillir à ${esc(gite)}. ${amb} Prenez le temps de vous poser — vous trouverez dans ce carnet tout le nécessaire pour votre séjour, ainsi que nos meilleures adresses des environs.`;
+    const mot = `Nous sommes ravis de vous accueillir à ${esc(gite)}. ${amb} Prenez le temps de vous poser — vous trouverez ici tout le nécessaire pour votre séjour et nos meilleures adresses.`;
     const ams = [].concat(d.amenities||[]);
     const rules = [].concat(d.rules||[]);
     const recos = [];
-    if(d.restos && d.restos.trim())     recos.push(d.restos.trim());
+    if(d.restos && d.restos.trim())      recos.push(d.restos.trim());
     if(d.activites && d.activites.trim()) recos.push(d.activites.trim());
 
-    document.getElementById('pvGuide').innerHTML = `
-      <div class="pv-spread">
-        <div class="pv-page left pv-cover">
-          <span class="cd-logo cl" aria-hidden="true"></span>
-          <div class="clabel">Carnet de bienvenue</div>
-          <div class="ctitle">${esc(gite)}</div>
-          <div class="crule"></div>
-          <div class="cloc">${esc(loc)}</div>
-        </div>
-        <div class="pv-page right">
-          <div class="pv-ey">Le mot d'accueil</div>
-          <div class="pv-h">Bienvenue chez vous.</div>
-          <p class="pv-txt">${mot}</p>
-          <div class="pv-sign">${esc(hosts)}</div>
-        </div>
-      </div>
-      <div class="pv-cards">
-        <div class="pv-card">
-          <div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div>
-          <ul class="pv-rlist">
-            <li><b>Arrivée</b><span>${esc(d.checkin)||'à préciser'}</span></li>
-            <li><b>Départ</b><span>${esc(d.checkout)||'à préciser'}</span></li>
-            <li><b>Wifi</b><span>${esc(d.wifiName)||'à préciser'}</span></li>
-            ${rules.map(r=>`<li><b>${esc(r)}</b><span>✓</span></li>`).join('')}
-          </ul>
-        </div>
-        <div class="pv-card">
-          <div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div>
-          <div class="pv-chips2">${ams.length? ams.map(a=>`<span class="pv-chip2">${esc(a)}</span>`).join('') : '<span class="pv-chip2">Vos équipements</span>'}</div>
-          ${d.highlights? `<p class="pv-txt">${esc(d.highlights)}</p>` : ''}
-        </div>
-        <div class="pv-card">
-          <div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>
-          ${recos.length ? recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${esc(r)}</span></div>`).join('') : '<p class="pv-txt">Vos adresses préférées, complétées par nos recommandations locales.</p>'}
-          <div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:12px">+ une carte illustrée de vos environs</div>
-        </div>
-      </div>`;
+    const back = `<div class="flip-face back"><span class="cd-logo" aria-hidden="true"></span></div>`;
+    const faces = [
+      `<div class="flip-face cover"><span class="cd-logo cl" aria-hidden="true"></span><div class="clabel">Carnet de bienvenue</div><div class="ctitle">${esc(gite)}</div><div class="crule"></div><div class="cloc">${esc(loc)}</div></div>`,
+      `<div class="flip-face"><div class="pv-ey">Le mot d'accueil</div><div class="pv-h">Bienvenue chez vous.</div><p class="pv-txt">${mot}</p><div class="pv-sign">${esc(hosts)}</div></div>`,
+      `<div class="flip-face"><div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div><ul class="pv-rlist"><li><b>Arrivée</b><span>${esc(d.checkin)||'à préciser'}</span></li><li><b>Départ</b><span>${esc(d.checkout)||'à préciser'}</span></li><li><b>Wifi</b><span>${esc(d.wifiName)||'à préciser'}</span></li>${rules.map(r=>`<li><b>${esc(r)}</b><span>✓</span></li>`).join('')}</ul></div>`,
+      `<div class="flip-face"><div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div><div class="pv-chips2">${ams.length? ams.map(a=>`<span class="pv-chip2">${esc(a)}</span>`).join('') : '<span class="pv-chip2">Vos équipements</span>'}</div>${d.highlights? `<p class="pv-txt">${esc(d.highlights)}</p>` : ''}</div>`,
+      `<div class="flip-face"><div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>${recos.length ? recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${esc(r)}</span></div>`).join('') : '<p class="pv-txt">Vos adresses préférées, complétées par nos recommandations locales.</p>'}<div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:10px">+ une carte illustrée de vos environs</div></div>`,
+      `<div class="flip-face closing"><div class="pv-h" style="margin-bottom:8px">Au plaisir de<br>vous accueillir.</div><div class="pv-sign" style="padding-top:0">${esc(hosts)}</div><span class="cd-logo" aria-hidden="true" style="width:36px;height:36px;color:var(--sage-deep);margin-top:20px"></span></div>`
+    ];
+    const stage = document.getElementById('pvFlipStage');
+    stage.innerHTML = faces.map(f=>`<div class="flip-page">${f}${back}</div>`).join('');
+    initFlip(stage);
 
     document.getElementById('pvBook').innerHTML = `
       <div class="book3d">
@@ -500,6 +501,26 @@
         </div>
       </div>
       <p class="book-cap">Votre carnet, imprimé sur beau papier et relié — livré chez vous.</p>`;
+  }
+
+  function initFlip(stage){
+    const pages = [...stage.querySelectorAll('.flip-page')];
+    const N = pages.length; let cur = 0, ignoreClick = false;
+    const count = document.getElementById('flipCount');
+    const prevB = document.getElementById('flipPrev'), nextB = document.getElementById('flipNext');
+    function upd(){
+      pages.forEach((p,i)=>{ const f = i<cur; p.classList.toggle('flipped', f); p.style.zIndex = f ? i : (N - i); });
+      count.textContent = (cur+1) + ' / ' + N;
+      prevB.disabled = cur===0; nextB.disabled = cur===N-1;
+    }
+    const go = delta => { const n = Math.min(Math.max(cur+delta, 0), N-1); if(n!==cur){ cur=n; upd(); } };
+    prevB.onclick = e => { e.stopPropagation(); go(-1); };
+    nextB.onclick = e => { e.stopPropagation(); go(1); };
+    stage.onclick = e => { if(ignoreClick){ ignoreClick=false; return; } const r = stage.getBoundingClientRect(); ((e.clientX - r.left) > r.width/2) ? go(1) : go(-1); };
+    let sx = null;
+    stage.ontouchstart = e => { sx = e.changedTouches[0].clientX; };
+    stage.ontouchend = e => { if(sx==null) return; const dx = e.changedTouches[0].clientX - sx; if(Math.abs(dx)>40){ ignoreClick=true; go(dx<0?1:-1); } sx=null; };
+    upd();
   }
 
   function buildRecap(){

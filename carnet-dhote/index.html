@@ -150,6 +150,9 @@
   @media(max-width:900px){.split{grid-template-columns:1fr;gap:44px}.split.rev .txt{order:0}}
   .split h2{margin-bottom:22px}
   .split p{margin-bottom:18px;font-size:1.04rem}
+  .split .fig{position:relative}
+  .split .fig>img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:6px;box-shadow:var(--shadow)}
+  .fig-cap{position:absolute;left:18px;bottom:18px;background:rgba(251,247,239,.85);backdrop-filter:blur(4px);padding:8px 18px;border-radius:24px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink);font-size:1.08rem;box-shadow:var(--shadow-sm)}
 
   /* Book-on-table scene (concept) */
   .scene{position:relative;aspect-ratio:1/.92;border-radius:6px;overflow:hidden;background:
@@ -192,10 +195,10 @@
   .feat li .d{color:var(--sage);flex:0 0 auto;margin-top:1px}
 
   /* Band */
-  .band{position:relative;color:#fff;text-align:center;padding:130px 0;background:linear-gradient(135deg,#404B38 0%,#5B6A50 55%,#6E7A5C 100%);overflow:hidden}
-  .band::before{content:"";position:absolute;inset:0;opacity:.5;background:
-    radial-gradient(circle at 18% 30%,rgba(199,130,92,.3),transparent 40%),
-    radial-gradient(circle at 82% 70%,rgba(255,255,255,.12),transparent 45%)}
+  .band{position:relative;color:#fff;text-align:center;padding:150px 0;overflow:hidden}
+  .band-bg{position:absolute;inset:0;z-index:0}
+  .band-bg img{width:100%;height:100%;object-fit:cover}
+  .band-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(38,32,22,.58),rgba(38,32,22,.7))}
   .band .wrap{position:relative;z-index:1}
   .band h2{color:#fff;font-size:clamp(2rem,4.6vw,3.4rem);max-width:900px;margin:0 auto 26px;font-style:italic;font-weight:400;line-height:1.2}
   .band p{color:rgba(255,255,255,.9);max-width:620px;margin:0 auto 34px;font-size:1.1rem;font-weight:300}
@@ -349,25 +352,8 @@
       <a href="#comment" class="link-arrow">Voir comment nous procédons →</a>
     </div>
     <div class="fig reveal">
-      <div class="scene" aria-hidden="true">
-        <div class="cap">Posé dans votre salon</div>
-        <div class="table"></div>
-        <div class="cast"></div>
-        <div class="tent">
-          <div class="tp l"><div class="thd">Bienvenue</div><div class="tl" style="width:60%"></div><div class="tl" style="width:80%"></div><div class="tl" style="width:50%"></div></div>
-          <div class="tp r"><div class="thd" style="text-align:right">Le coin</div><div class="tl" style="width:80%;margin-left:auto"></div><div class="tl" style="width:55%;margin-left:auto"></div><div class="tl" style="width:70%;margin-left:auto"></div></div>
-        </div>
-        <svg class="plant" width="58" height="80" viewBox="0 0 58 80" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M29 46c0-12-8-20-16-24M29 46c0-14 9-22 18-25M29 46c0-8-3-15-3-15M29 46c0-9 4-16 4-16" stroke-linecap="round"/>
-          <path d="M20 22c-6-1-10 3-11 7 5 1 9-2 11-7zM40 20c6-2 11 2 12 6-5 2-10-1-12-6zM26 31c-3-4-2-9 0-12 3 3 3 8 0 12z" fill="currentColor" opacity=".18"/>
-          <path d="M22 46h14l-2 12H24z" fill="#B98A5B" stroke="#8A6E52"/>
-        </svg>
-        <svg class="cup" width="52" height="40" viewBox="0 0 52 40" fill="none" stroke="currentColor" stroke-width="1.6">
-          <path d="M6 12h30v12a10 10 0 01-10 10H16A10 10 0 016 24z" fill="#FBF7EF"/>
-          <path d="M36 15h6a5 5 0 010 10h-6"/>
-          <path d="M14 6c0-2 2-2 2-4M22 6c0-2 2-2 2-4M30 6c0-2 2-2 2-4" opacity=".5"/>
-        </svg>
-      </div>
+      <img src="images/welcome-living.jpg" alt="Carnet de bienvenue ouvert sur la table basse d'un salon de gîte chaleureux">
+      <span class="fig-cap">Posé bien en vue dans votre salon</span>
     </div>
   </div>
 </section>
@@ -432,6 +418,7 @@
 
 <!-- BAND -->
 <section class="band">
+  <div class="band-bg"><img src="images/welcome-kitchen.jpg" alt="Table d'accueil : carnet de bienvenue, vin local, corbeille de fruits et mot manuscrit"></div>
   <div class="wrap">
     <span class="eyebrow reveal" style="color:#E7C9A8">Pourquoi ça change tout</span>
     <h2 class="reveal">« Un carnet posé sur la table, et tout un séjour qui s'illumine. »</h2>

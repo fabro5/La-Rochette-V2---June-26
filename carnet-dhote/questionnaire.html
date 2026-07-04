@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Playfair+Display:wght@500;600;700;800&family=Zilla+Slab:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ivory:#F7F2E9; --ivory-2:#EFE7D8; --paper:#FFFFFF; --paper-2:#FBF7EF;
@@ -117,13 +117,13 @@
   .pv-page.right{box-shadow:inset 16px 0 30px -20px rgba(60,45,20,.3)}
   @media(max-width:560px){.pv-page{min-height:auto}}
   .pv-cover{text-align:center;align-items:center;justify-content:center}
-  .pv-cover .cl{width:46px;height:46px;color:var(--sage-deep);margin:0 auto 14px}
-  .pv-cover .clabel{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--clay);margin-bottom:14px}
-  .pv-cover .ctitle{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:var(--ink);line-height:1.04}
-  .pv-cover .crule{width:40px;height:1px;background:var(--line-2);margin:14px auto}
-  .pv-cover .cloc{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-  .pv-ey{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--clay);margin-bottom:10px}
-  .pv-h{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:500;color:var(--ink);margin-bottom:12px;line-height:1.05}
+  .cl{width:46px;height:46px;color:var(--accent,var(--sage-deep));margin:0 auto 14px}
+  .clabel{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent,var(--clay));margin-bottom:14px}
+  .ctitle{font-family:var(--title,'Cormorant Garamond'),serif;font-size:1.7rem;font-weight:var(--tw,600);letter-spacing:var(--tsp,0);text-transform:var(--tt,none);color:var(--heading,var(--ink));line-height:1.04}
+  .crule{width:40px;height:1px;background:var(--accent,var(--line-2));margin:14px auto}
+  .cloc{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .pv-ey{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent,var(--clay));margin-bottom:10px}
+  .pv-h{font-family:var(--title,'Cormorant Garamond'),serif;font-size:1.5rem;font-weight:var(--tw,500);letter-spacing:var(--tsp,0);text-transform:var(--tt,none);color:var(--heading,var(--ink));margin-bottom:12px;line-height:1.05}
   .pv-txt{font-size:.82rem;line-height:1.7;color:var(--ink-2)}
   .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--sage-deep);margin-top:auto;padding-top:14px}
   .pv-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
@@ -137,28 +137,43 @@
   .pv-chips2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .pv-chip2{font-size:.68rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:4px 10px;border-radius:16px}
   .pv-reco2{font-size:.76rem;color:var(--ink-2);display:flex;gap:6px;margin-top:8px;line-height:1.4}
-  .pv-reco2 .pin{color:var(--clay);flex:0 0 auto;margin-top:1px}
+  .pv-reco2 .pin{color:var(--accent,var(--clay));flex:0 0 auto;margin-top:1px}
 
-  .book3d{perspective:1300px;display:flex;justify-content:center;padding:20px 0 6px}
-  .book3d .cv{width:224px;height:296px;transform:rotateY(-24deg);position:relative;border-radius:3px 8px 8px 3px;
-    background:linear-gradient(120deg,#35322b 0%,#211E19 100%);box-shadow:-18px 26px 48px -18px rgba(40,30,15,.6);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 26px;color:#EFE7D8}
-  .book3d .cv::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:rgba(0,0,0,.34);border-radius:3px 0 0 3px}
-  .book3d .cv .frame{position:absolute;inset:15px;border:1px solid rgba(199,153,70,.42);border-radius:3px}
-  .book3d .cv .bl{width:44px;height:44px;color:#C9A24B;margin-bottom:14px}
-  .book3d .cv .blabel{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:#C9A24B;margin-bottom:12px}
-  .book3d .cv h4{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;line-height:1.05;color:#F3EDE1}
-  .book3d .cv .bloc{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:#C9A24B;margin-top:10px}
-  .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:8px}
+  /* ===== LIVRE 3D avec épaisseur ===== */
+  .b3-wrap{display:flex;justify-content:center;padding:30px 0 4px;perspective:1500px}
+  .b3{--w:190px;--h:262px;--d:28px;position:relative;width:var(--w);height:var(--h);transform-style:preserve-3d;transform:rotateX(6deg) rotateY(-31deg);filter:drop-shadow(-22px 26px 28px rgba(40,30,15,.42))}
+  .b3 .fc{position:absolute;top:50%;left:50%;overflow:hidden}
+  .b3 .b3-front{width:var(--w);height:var(--h);transform:translate(-50%,-50%) translateZ(calc(var(--d)/2));background:var(--cover-bg);color:var(--cover-fg);border-radius:2px 6px 6px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 20px}
+  .b3 .b3-spine{width:var(--d);height:var(--h);transform:translate(-50%,-50%) rotateY(-90deg) translateZ(calc(var(--w)/2));background:var(--cover-bg);filter:brightness(.78);border-radius:2px 0 0 2px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:20px 0}
+  .b3 .b3-fore{width:var(--d);height:var(--h);transform:translate(-50%,-50%) rotateY(90deg) translateZ(calc(var(--w)/2));background:repeating-linear-gradient(90deg,#F4EDDD,#F4EDDD 1px,#E2D6BE 1px,#E2D6BE 3px)}
+  .b3 .b3-top{width:var(--w);height:var(--d);transform:translate(-50%,-50%) rotateX(90deg) translateZ(calc(var(--h)/2));background:repeating-linear-gradient(90deg,#F4EDDD,#F4EDDD 1px,#E2D6BE 1px,#E2D6BE 3px)}
+  .b3-spine i{width:56%;height:1px;background:rgba(255,255,255,.22)}
+  .b3-spine .sa{width:60%;height:2px;background:var(--cover-accent);opacity:.75}
+  .b3-front .b3-label{font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;color:var(--cover-accent);margin-bottom:10px}
+  .b3-front .b3-title{font-family:var(--title,'Cormorant Garamond'),serif;font-weight:var(--tw,600);letter-spacing:var(--tsp,0);text-transform:var(--tt,none);font-size:1.4rem;line-height:1.05;color:var(--cover-fg)}
+  .b3-front .b3-rule{width:32px;height:1px;background:var(--cover-accent);margin:10px 0}
+  .b3-front .b3-loc{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cover-accent)}
+  .b3-front .cd-logo{width:38px;height:38px;color:var(--cover-accent);margin-bottom:12px}
+
+  /* ===== RELIURE (livre ouvert, couture) ===== */
+  .reli-wrap{display:flex;flex-direction:column;align-items:center;padding:16px 0 4px}
+  .reli{display:flex;width:min(300px,84vw);height:180px;border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+  .reli .rp{flex:1;background:linear-gradient(180deg,var(--page1,#FCFAF3),var(--page2,#F2EBDC));padding:22px 18px;display:flex;flex-direction:column;gap:8px}
+  .reli .rp.l{box-shadow:inset -16px 0 24px -16px rgba(40,30,15,.3)}
+  .reli .rp.r{box-shadow:inset 16px 0 24px -16px rgba(40,30,15,.3)}
+  .reli .rl{height:4px;border-radius:2px;background:#E4DAC4}
+  .reli .gut{width:14px;background:var(--cover-bg);position:relative;display:flex;flex-direction:column;justify-content:space-around;align-items:center;box-shadow:inset 0 0 8px rgba(0,0,0,.35)}
+  .reli .gut i{width:8px;height:2px;background:var(--cover-accent);opacity:.85;border-radius:2px;transform:rotate(20deg)}
+  .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:12px}
 
   /* ===== LIVRE FEUILLETABLE (flipbook) ===== */
   .flip-wrap{--pw:min(300px,74vw);--ph:calc(var(--pw)*1.34);margin-top:6px}
   .flip-stage{position:relative;width:var(--pw);height:var(--ph);margin:0 auto;perspective:1900px;cursor:pointer;user-select:none}
   .flip-page{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.4,.16,.2,1)}
   .flip-page.flipped{transform:rotateY(-180deg)}
-  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:3px 9px 9px 3px;overflow:hidden;background:linear-gradient(180deg,#FCFAF3,#F2EBDC);box-shadow:0 20px 44px -24px rgba(40,30,15,.55);padding:26px 22px;display:flex;flex-direction:column}
+  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:3px 9px 9px 3px;overflow:hidden;background:linear-gradient(180deg,var(--page1,#FCFAF3),var(--page2,#F2EBDC));box-shadow:0 20px 44px -24px rgba(40,30,15,.55);padding:26px 22px;display:flex;flex-direction:column}
   .flip-face.cover,.flip-face.closing{align-items:center;justify-content:center;text-align:center}
-  .flip-face.back{transform:rotateY(180deg);align-items:center;justify-content:center;background:linear-gradient(180deg,#F4EEE0,#EDE5D3)}
+  .flip-face.back{transform:rotateY(180deg);align-items:center;justify-content:center;background:linear-gradient(180deg,var(--page2,#F4EEE0),#E9E1CE)}
   .flip-face.back .cd-logo{width:42px;height:42px;color:#E0D5C1}
   .flip-face .pv-h{font-size:1.35rem}
   .flip-face .pv-txt{font-size:.8rem}
@@ -178,32 +193,37 @@
   .tpl-opt.active{border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
   .tpl-opt .sw{display:flex;gap:5px;justify-content:center;margin-bottom:9px}
   .tpl-opt .sw i{width:16px;height:16px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-  .tpl-opt .nm{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.1}
+  .tpl-opt .nm{font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.1}
   .tpl-opt .ds{font-size:.72rem;color:var(--muted)}
+  .tpl-opt.o1 .nm{font-family:'Fraunces',serif}
+  .tpl-opt.o2 .nm{font-family:'Playfair Display',serif;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}
+  .tpl-opt.o3 .nm{font-family:'Zilla Slab',serif;font-weight:700}
   .tpl-opt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
   .tpl-opt.active .chk{display:flex}
 
-  /* Thème ÉLÉGANCE — ivoire & doré */
-  .tpl-elegance .flip-face{background:linear-gradient(180deg,#FCFBF8,#F1EFE8)}
-  .tpl-elegance .flip-face.back{background:linear-gradient(180deg,#F1EFE8,#E9E6DC)}
-  .tpl-elegance .pv-ey,.tpl-elegance .clabel,.tpl-elegance .cl,.tpl-elegance .pv-reco2 .pin{color:#B79246}
-  .tpl-elegance .pv-h,.tpl-elegance .ctitle{color:#1A1813}
-  .tpl-elegance .pv-sign{color:#6B6459}
-  .tpl-elegance .crule{background:#CDB56A}
+  /* ============ THÈMES ============ */
+  .tpl-serenite{
+    --title:'Fraunces','Cormorant Garamond',serif; --tsp:0; --tt:none; --tw:600;
+    --cover-bg:linear-gradient(135deg,#6E7E5F,#48533C); --cover-fg:#F3EEE2; --cover-accent:#DAC58C;
+    --page1:#FCFAF3; --page2:#F2EBDC; --accent:var(--clay); --heading:var(--ink);
+  }
+  .tpl-elegance{
+    --title:'Playfair Display',serif; --tsp:.08em; --tt:uppercase; --tw:600;
+    --cover-bg:linear-gradient(120deg,#26231c,#0f0e0b); --cover-fg:#F1EDE4; --cover-accent:#C9A24B;
+    --page1:#FCFBF8; --page2:#EFEDE4; --accent:#B79246; --heading:#161310;
+  }
+  .tpl-elegance .flip-face.cover::before{content:"";position:absolute;inset:14px;border:1px solid #CDB56A;border-radius:2px;pointer-events:none}
   .tpl-elegance .pv-chip2{background:#F3ECD9;border-color:#E4D6AB;color:#8A6D24}
-  .tpl-elegance .book3d .cv{background:linear-gradient(120deg,#232019,#131210)}
-
-  /* Thème CHAMPÊTRE — terracotta & olive */
-  .tpl-champetre .flip-face{background:linear-gradient(180deg,#FCF4EA,#F3E4D2)}
-  .tpl-champetre .flip-face.back{background:linear-gradient(180deg,#F3E4D2,#EAD7C0)}
-  .tpl-champetre .pv-ey,.tpl-champetre .clabel,.tpl-champetre .cl,.tpl-champetre .pv-reco2 .pin{color:#B85C38}
-  .tpl-champetre .pv-h,.tpl-champetre .ctitle{color:#3A2A20}
-  .tpl-champetre .pv-sign{color:#6E7A4E}
-  .tpl-champetre .crule{background:#D9A67E}
+  .tpl-elegance .pv-sign{color:#7A7364}
+  .tpl-elegance .flip-btn:hover:not(:disabled){background:#1A1813;border-color:#1A1813}
+  .tpl-champetre{
+    --title:'Zilla Slab',serif; --tsp:.01em; --tt:none; --tw:700;
+    --cover-bg:linear-gradient(120deg,#8B5636,#5C3420); --cover-fg:#F6ECDB; --cover-accent:#E7C79E;
+    --page1:#FCF4EA; --page2:#F1E0CB; --accent:#B85C38; --heading:#3A2A20;
+  }
   .tpl-champetre .pv-chip2{background:#F3E3D1;border-color:#E4C9AC;color:#9A4E2C}
-  .tpl-champetre .book3d .cv{background:linear-gradient(120deg,#7C4A30,#59331F)}
-  .tpl-champetre .book3d .cv .bl,.tpl-champetre .book3d .cv .blabel,.tpl-champetre .book3d .cv .bloc{color:#EAC9A0}
-  .tpl-champetre .book3d .cv .frame{border-color:rgba(234,201,160,.5)}
+  .tpl-champetre .pv-sign{color:#6E7A4E}
+  .tpl-champetre .flip-btn:hover:not(:disabled){background:#8B5636;border-color:#8B5636}
 
   .price-hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 
@@ -374,20 +394,20 @@
 
       <div class="tpl-label">Choisissez le style de votre carnet</div>
       <div class="tpl-picker">
-        <div class="tpl-opt active" data-cls="tpl-serenite" data-name="Sérénité (nature)">
+        <div class="tpl-opt o1 active" data-cls="tpl-serenite" data-name="Sérénité (nature)">
           <span class="chk">✓</span>
           <span class="sw"><i style="background:#5B6A50"></i><i style="background:#B0663F"></i><i style="background:#EDE5D3"></i></span>
-          <div class="nm">Sérénité</div><div class="ds">Nature &amp; chaleureux</div>
+          <div class="nm">Sérénité</div><div class="ds">Douce &amp; nature</div>
         </div>
-        <div class="tpl-opt" data-cls="tpl-elegance" data-name="Élégance (minimal)">
+        <div class="tpl-opt o2" data-cls="tpl-elegance" data-name="Élégance (minimal)">
           <span class="chk">✓</span>
-          <span class="sw"><i style="background:#1A1813"></i><i style="background:#B79246"></i><i style="background:#F1EFE8"></i></span>
-          <div class="nm">Élégance</div><div class="ds">Ivoire &amp; doré</div>
+          <span class="sw"><i style="background:#0f0e0b"></i><i style="background:#C9A24B"></i><i style="background:#FCFBF8"></i></span>
+          <div class="nm">Élégance</div><div class="ds">Noir &amp; or, capitales</div>
         </div>
-        <div class="tpl-opt" data-cls="tpl-champetre" data-name="Champêtre (terroir)">
+        <div class="tpl-opt o3" data-cls="tpl-champetre" data-name="Champêtre (terroir)">
           <span class="chk">✓</span>
-          <span class="sw"><i style="background:#B85C38"></i><i style="background:#6E7A4E"></i><i style="background:#F3E4D2"></i></span>
-          <div class="nm">Champêtre</div><div class="ds">Terracotta &amp; olive</div>
+          <span class="sw"><i style="background:#8B5636"></i><i style="background:#6E7A4E"></i><i style="background:#F1E0CB"></i></span>
+          <div class="nm">Champêtre</div><div class="ds">Terroir &amp; slab</div>
         </div>
       </div>
 
@@ -403,8 +423,11 @@
           <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
         </div>
 
-        <div class="pv-sec">Votre livre imprimé</div>
+        <div class="pv-sec">Le livre, vue 3D</div>
         <div id="pvBook"></div>
+
+        <div class="pv-sec">La reliure</div>
+        <div id="pvReli"></div>
       </div>
     </section>
 
@@ -542,23 +565,34 @@
       `<div class="flip-face"><div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div><ul class="pv-rlist"><li><b>Arrivée</b><span>${esc(d.checkin)||'à préciser'}</span></li><li><b>Départ</b><span>${esc(d.checkout)||'à préciser'}</span></li><li><b>Wifi</b><span>${esc(d.wifiName)||'à préciser'}</span></li>${rules.map(r=>`<li><b>${esc(r)}</b><span>✓</span></li>`).join('')}</ul></div>`,
       `<div class="flip-face"><div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div><div class="pv-chips2">${ams.length? ams.map(a=>`<span class="pv-chip2">${esc(a)}</span>`).join('') : '<span class="pv-chip2">Vos équipements</span>'}</div>${d.highlights? `<p class="pv-txt">${esc(d.highlights)}</p>` : ''}</div>`,
       `<div class="flip-face"><div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>${recos.length ? recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${esc(r)}</span></div>`).join('') : '<p class="pv-txt">Vos adresses préférées, complétées par nos recommandations locales.</p>'}<div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:10px">+ une carte illustrée de vos environs</div></div>`,
-      `<div class="flip-face closing"><div class="pv-h" style="margin-bottom:8px">Au plaisir de<br>vous accueillir.</div><div class="pv-sign" style="padding-top:0">${esc(hosts)}</div><span class="cd-logo" aria-hidden="true" style="width:36px;height:36px;color:var(--sage-deep);margin-top:20px"></span></div>`
+      `<div class="flip-face closing"><div class="pv-h" style="margin-bottom:8px">Au plaisir de<br>vous accueillir.</div><div class="pv-sign" style="padding-top:0">${esc(hosts)}</div><span class="cd-logo" aria-hidden="true" style="width:36px;height:36px;color:var(--accent);margin-top:20px"></span></div>`
     ];
     const stage = document.getElementById('pvFlipStage');
     stage.innerHTML = faces.map(f=>`<div class="flip-page">${f}${back}</div>`).join('');
     initFlip(stage);
 
     document.getElementById('pvBook').innerHTML = `
-      <div class="book3d">
-        <div class="cv">
-          <div class="frame"></div>
-          <span class="cd-logo bl" aria-hidden="true"></span>
-          <div class="blabel">Carnet de bienvenue</div>
-          <h4>${esc(gite)}</h4>
-          <div class="bloc">${esc(loc)}</div>
+      <div class="b3-wrap"><div class="b3">
+        <div class="fc b3-spine"><span class="sa"></span><i></i><i></i><i></i><span class="sa"></span></div>
+        <div class="fc b3-fore"></div>
+        <div class="fc b3-top"></div>
+        <div class="fc b3-front">
+          <span class="cd-logo" aria-hidden="true"></span>
+          <div class="b3-label">Carnet de bienvenue</div>
+          <div class="b3-title">${esc(gite)}</div>
+          <div class="b3-rule"></div>
+          <div class="b3-loc">${esc(loc)}</div>
         </div>
+      </div></div>
+      <p class="book-cap">Épaisseur &amp; dos visibles — imprimé sur beau papier, relié.</p>`;
+
+    document.getElementById('pvReli').innerHTML = `
+      <div class="reli-wrap"><div class="reli">
+        <div class="rp l"><div class="rl" style="width:58%"></div><div class="rl" style="width:85%"></div><div class="rl" style="width:72%"></div><div class="rl" style="width:80%"></div></div>
+        <div class="gut"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="rp r"><div class="rl" style="width:80%"></div><div class="rl" style="width:64%"></div><div class="rl" style="width:88%"></div><div class="rl" style="width:54%"></div></div>
       </div>
-      <p class="book-cap">Votre carnet, imprimé sur beau papier et relié — livré chez vous.</p>`;
+      <p class="book-cap">Reliure cousue, dos soigné — un objet qu'on garde.</p></div>`;
   }
 
   function initFlip(stage){

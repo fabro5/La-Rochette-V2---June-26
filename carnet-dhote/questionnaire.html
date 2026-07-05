@@ -302,6 +302,14 @@
         </div>
       </div>
       <div class="field">
+        <label for="address">Adresse précise <span class="opt">(rue / lieu-dit — pour des bons plans justes autour de vous)</span></label>
+        <input type="text" id="address" name="address" placeholder="Lieu-dit La Rochette, route de Saignes">
+      </div>
+      <div class="grid2">
+        <div class="field half"><label for="bedrooms">Chambres</label><input type="number" id="bedrooms" name="bedrooms" min="0" max="30" placeholder="3"></div>
+        <div class="field half"><label for="bathrooms">Salles de bain</label><input type="number" id="bathrooms" name="bathrooms" min="0" max="20" placeholder="2"></div>
+      </div>
+      <div class="field">
         <label for="ambiance">En une phrase, l'ambiance de votre gîte <span class="opt">(facultatif)</span></label>
         <input type="text" id="ambiance" name="ambiance" placeholder="Une maison de famille chaleureuse, au calme, face aux montagnes.">
       </div>
@@ -326,6 +334,9 @@
           <span class="chip"><input type="checkbox" id="r3" name="rules" value="Fêtes non autorisées"><label for="r3">🔇 Pas de fêtes</label></span>
           <span class="chip"><input type="checkbox" id="r4" name="rules" value="Parking sur place"><label for="r4">🅿️ Parking sur place</label></span>
         </div>
+      </div>
+      <div class="field"><label for="access">Arrivée &amp; accès <span class="opt">(boîte à clés, code, parking, comment entrer…)</span></label>
+        <textarea id="access" name="access" placeholder="Boîte à clés à droite de la porte (code 1234). Parking devant la maison. Le portail se ferme à clé."></textarea>
       </div>
       <div class="field"><label for="checkoutInstr">Consignes de départ <span class="opt">(tri, poubelles, clés…)</span></label>
         <textarea id="checkoutInstr" name="checkoutInstr" placeholder="Merci de sortir les poubelles (tri au portail), lancer le lave-vaisselle et laisser les clés dans la boîte."></textarea>
@@ -366,17 +377,24 @@
 
     <!-- STEP 4 -->
     <section class="step-panel" data-step="3">
-      <div class="step-head"><div class="kx">Étape 4 / 6</div><h2>Les alentours &amp; vos bons plans</h2><p>Vos adresses préférées — nous en trouverons d'autres autour de vous.</p></div>
-      <div class="field"><label for="restos">Restaurants &amp; tables à recommander</label>
+      <div class="step-head"><div class="kx">Étape 4 / 6</div><h2>Les alentours &amp; vos bons plans</h2><p>Donnez-nous vos adresses préférées comme « graines » — notre IA les complétera avec les meilleures adresses autour de vous.</p></div>
+      <div class="pv-note" style="margin-bottom:22px">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex:0 0 auto;margin-top:1px"><path d="M12 3l2 5 5 .5-3.8 3.3L16.5 17 12 14.2 7.5 17l1.3-5.2L5 8.5 10 8z"/></svg>
+        <span>Pas besoin d'être exhaustif : quelques adresses suffisent. L'IA trouvera restaurants, activités et coups de cœur autour de votre adresse pour composer une section riche.</span>
+      </div>
+      <div class="field"><label for="restos">🍽️ Restaurants &amp; tables</label>
         <textarea id="restos" name="restos" placeholder="L'Auberge du Village (cuisine du terroir, 5 min), la crêperie sur la place…"></textarea>
       </div>
-      <div class="field"><label for="activites">Activités, sites &amp; balades à ne pas manquer</label>
-        <textarea id="activites" name="activites" placeholder="Le sentier des Crêtes, le lac à 15 min, les ruines du château, le marché du samedi…"></textarea>
+      <div class="field"><label for="activites">🥾 Nature, activités &amp; balades</label>
+        <textarea id="activites" name="activites" placeholder="Le sentier des Crêtes, le lac à 15 min, les ruines du château…"></textarea>
       </div>
-      <div class="field"><label for="commerces">Commerces utiles <span class="opt">(boulangerie, marché, supérette…)</span></label>
+      <div class="field"><label for="commerces">🛒 Commerces &amp; marché</label>
         <textarea id="commerces" name="commerces" placeholder="Boulangerie à 800 m, supérette au village, marché le samedi matin."></textarea>
       </div>
-      <div class="field"><label for="secret">Vos adresses secrètes &amp; coups de cœur <span class="opt">(facultatif)</span></label>
+      <div class="field"><label for="family">👨‍👩‍👧 En famille &amp; jours de pluie <span class="opt">(facultatif)</span></label>
+        <textarea id="family" name="family" placeholder="La ferme pédagogique, la piscine couverte, le musée à 20 min pour les jours de pluie…"></textarea>
+      </div>
+      <div class="field"><label for="secret">💛 Vos adresses secrètes &amp; coups de cœur <span class="opt">(facultatif)</span></label>
         <textarea id="secret" name="secret" placeholder="Le producteur de fromage sur la route de…, le point de vue au lever du soleil."></textarea>
       </div>
     </section>

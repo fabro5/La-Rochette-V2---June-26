@@ -75,6 +75,18 @@
   input:focus,select:focus,textarea:focus{outline:none;border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
   textarea{resize:vertical;min-height:80px}
   .hint{font-size:.78rem;color:var(--muted);margin-top:6px}
+  .upl{position:relative;border:1px dashed var(--line-2);border-radius:10px;padding:18px 14px;text-align:center;background:var(--paper-2);cursor:pointer;transition:.2s;overflow:hidden;min-height:118px;display:flex;flex-direction:column;justify-content:center}
+  .upl:hover{border-color:var(--sage);background:#fff}
+  .upl input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+  .upl .ico{color:var(--muted);margin-bottom:7px;display:flex;justify-content:center}
+  .upl .t{font-size:.86rem;font-weight:500;color:var(--ink)}
+  .upl .s{font-size:.74rem;color:var(--muted);margin-top:2px}
+  .upl .thumb{display:none;width:100%;height:130px;object-fit:cover;border-radius:6px}
+  .upl .upl-clear{display:none;position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;border:none;background:rgba(33,30,25,.72);color:#fff;font-size:1rem;line-height:1;cursor:pointer;z-index:3}
+  .upl.has{border-style:solid;padding:8px}
+  .upl.has .thumb{display:block}
+  .upl.has .ph{display:none}
+  .upl.has .upl-clear{display:flex;align-items:center;justify-content:center}
   .invalid{border-color:var(--clay)!important;box-shadow:0 0 0 3px rgba(176,102,63,.12)!important}
   .err-msg{color:var(--clay);font-size:.78rem;margin-top:6px;display:none}
   .err-msg.show{display:block}
@@ -256,6 +268,23 @@
         <label for="ambiance">En une phrase, l'ambiance de votre gîte <span class="opt">(facultatif)</span></label>
         <input type="text" id="ambiance" name="ambiance" placeholder="Une maison de famille chaleureuse, au calme, face aux montagnes.">
       </div>
+      <div class="field">
+        <label>Vos photos <span class="opt">(facultatif — utilisées dans l'aperçu ; vous pourrez les remplacer ensuite)</span></label>
+        <div class="grid2">
+          <div class="upl" data-slot="cover">
+            <input type="file" id="coverPhoto" accept="image/*" aria-label="Photo de couverture">
+            <div class="ph"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-4 4 3 3-2 4 3"/></svg></div><div class="t">Photo de couverture</div><div class="s">Cliquez ou déposez une image</div></div>
+            <img class="thumb" alt=""><button type="button" class="upl-clear" aria-label="Retirer">×</button>
+          </div>
+          <div class="upl" data-slot="host">
+            <input type="file" id="hostPhoto" accept="image/*" aria-label="Photo des hôtes">
+            <div class="ph"><div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg></div><div class="t">Photo des hôtes</div><div class="s">Cliquez ou déposez une image</div></div>
+            <img class="thumb" alt=""><button type="button" class="upl-clear" aria-label="Retirer">×</button>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="photoCouverture" id="photoCoverFlag" value="Non fournie">
+      <input type="hidden" name="photoHotes" id="photoHostFlag" value="Non fournie">
     </section>
 
     <!-- STEP 2 -->
@@ -600,14 +629,48 @@
 
   const DESIGN_FN = {d1:D1, d2:D2, d3:D3};
   let curDesign = 'd1';
+  // photos uploadées par le client (dataURL) — sinon images d'illustration
+  const DEF_COVER = 'images/welcome-living.jpg', DEF_ROUND = 'images/welcome-kitchen.jpg';
+  let upCover = null, upHost = null;
   function build(key){
     curDesign = key;
+    IMG.cover = upCover || DEF_COVER;
+    IMG.round = upHost || DEF_ROUND;
     const pages = DESIGN_FN[key](prep());
     const stage = document.getElementById('pvFlipStage');
     stage.innerHTML = pages.map(s=>`<div class="flip-page"><div class="flip-face"><div class="sheet">${s}</div></div><div class="flip-face back"><i></i></div></div>`).join('');
     initFlip(stage);
   }
   function buildPreview(){ build(curDesign); }
+
+  // ===== uploads photo (couverture + hôtes) =====
+  function wireUpload(inputId, flagId, assign){
+    const input = document.getElementById(inputId);
+    const box = input.closest('.upl');
+    const thumb = box.querySelector('.thumb');
+    const flag = document.getElementById(flagId);
+    const clearBtn = box.querySelector('.upl-clear');
+    input.addEventListener('change', ()=>{
+      const file = input.files && input.files[0];
+      if(!file){ return; }
+      if(!/^image\//.test(file.type)){ alert("Merci de choisir un fichier image."); input.value=''; return; }
+      const reader = new FileReader();
+      reader.onload = e => {
+        const url = e.target.result;
+        assign(url);
+        thumb.src = url; box.classList.add('has');
+        flag.value = 'Fournie (' + file.name + ')';
+      };
+      reader.readAsDataURL(file);
+    });
+    clearBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      assign(null); input.value=''; thumb.src=''; box.classList.remove('has');
+      flag.value = 'Non fournie';
+    });
+  }
+  wireUpload('coverPhoto','photoCoverFlag', v => upCover = v);
+  wireUpload('hostPhoto','photoHostFlag', v => upHost = v);
 
   function initFlip(stage){
     const pages = [...stage.querySelectorAll('.flip-page')];

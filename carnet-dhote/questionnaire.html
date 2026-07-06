@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Playfair+Display:wght@500;600;700;800&family=Zilla+Slab:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&family=Sacramento&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ivory:#F7F2E9; --ivory-2:#EFE7D8; --paper:#FFFFFF; --paper-2:#FBF7EF;
@@ -110,117 +110,60 @@
   .pv-note{background:#EDF0E5;border:1px solid #DAE0CD;color:var(--sage-deep);font-size:.85rem;padding:12px 16px;border-radius:8px;margin-bottom:24px;display:flex;gap:9px;align-items:flex-start}
   .pv-sec{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--ink);margin:26px 0 16px;text-align:center;position:relative}
   .pv-sec::after{content:"";display:block;width:36px;height:1px;background:var(--line-2);margin:12px auto 0}
-  .pv-spread{display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
-  @media(max-width:560px){.pv-spread{grid-template-columns:1fr}}
-  .pv-page{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);padding:28px 24px;min-height:280px;display:flex;flex-direction:column;position:relative}
-  .pv-page.left{box-shadow:inset -16px 0 30px -20px rgba(60,45,20,.3)}
-  .pv-page.right{box-shadow:inset 16px 0 30px -20px rgba(60,45,20,.3)}
-  @media(max-width:560px){.pv-page{min-height:auto}}
-  .pv-cover{text-align:center;align-items:center;justify-content:center}
-  .cl{width:46px;height:46px;color:var(--accent,var(--sage-deep));margin:0 auto 14px}
-  .clabel{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent,var(--clay));margin-bottom:14px}
-  .ctitle{font-family:var(--title,'Cormorant Garamond'),serif;font-size:1.7rem;font-weight:var(--tw,600);letter-spacing:var(--tsp,0);text-transform:var(--tt,none);color:var(--heading,var(--ink));line-height:1.04}
-  .crule{width:40px;height:1px;background:var(--accent,var(--line-2));margin:14px auto}
-  .cloc{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-  .pv-ey{font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent,var(--clay));margin-bottom:10px}
-  .pv-h{font-family:var(--title,'Cormorant Garamond'),serif;font-size:1.5rem;font-weight:var(--tw,500);letter-spacing:var(--tsp,0);text-transform:var(--tt,none);color:var(--heading,var(--ink));margin-bottom:12px;line-height:1.05}
-  .pv-txt{font-size:.82rem;line-height:1.7;color:var(--ink-2)}
-  .pv-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:var(--sage-deep);margin-top:auto;padding-top:14px}
-  .pv-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-  @media(max-width:640px){.pv-cards{grid-template-columns:1fr}}
-  .pv-card{background:linear-gradient(180deg,#FCF9F1,#F4EEE0);border:1px solid var(--line);border-radius:6px;padding:20px 18px;box-shadow:var(--shadow-sm)}
-  .pv-card .pv-h{font-size:1.2rem;margin-bottom:12px}
-  .pv-rlist{list-style:none;display:flex;flex-direction:column;gap:7px}
-  .pv-rlist li{font-size:.76rem;display:flex;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:1px dotted var(--line-2)}
-  .pv-rlist li b{color:var(--ink);font-weight:500}
-  .pv-rlist li span{color:var(--sage-deep);text-align:right}
-  .pv-chips2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .pv-chip2{font-size:.68rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;padding:4px 10px;border-radius:16px}
-  .pv-reco2{font-size:.76rem;color:var(--ink-2);display:flex;gap:6px;margin-top:8px;line-height:1.4}
-  .pv-reco2 .pin{color:var(--accent,var(--clay));flex:0 0 auto;margin-top:1px}
-
-  /* ===== LIVRE 3D — vraie épaisseur (boîte 6 faces) ===== */
-  .b3-wrap{position:relative;display:flex;justify-content:center;padding:44px 0 28px;perspective:1300px}
-  .b3-sh{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:160px;height:26px;background:radial-gradient(ellipse,rgba(40,30,15,.36),transparent 72%);filter:blur(7px)}
-  .b3{--w:172px;--h:238px;--d:42px;position:relative;width:var(--w);height:var(--h);transform-style:preserve-3d}
-  .b3.v-cover{transform:rotateX(7deg) rotateY(-40deg)}
-  .b3.v-spine{transform:rotateX(6deg) rotateY(56deg)}
-  .b3 .fc{position:absolute;top:50%;left:50%;overflow:hidden}
-  .b3 .b3-front{width:var(--w);height:var(--h);transform:translate(-50%,-50%) translateZ(calc(var(--d)/2));background:var(--cover-bg);color:var(--cover-fg);border-radius:2px 5px 5px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px 16px;box-shadow:inset -34px 0 44px -32px rgba(0,0,0,.5)}
-  .b3 .b3-back{width:var(--w);height:var(--h);transform:translate(-50%,-50%) rotateY(180deg) translateZ(calc(var(--d)/2));background:var(--cover-bg);filter:brightness(.7);border-radius:5px 2px 2px 5px}
-  .b3 .b3-spine{width:var(--d);height:var(--h);transform:translate(-50%,-50%) rotateY(-90deg) translateZ(calc(var(--w)/2));background:var(--cover-bg);filter:brightness(.85);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:20px 0}
-  .b3 .b3-fore{width:var(--d);height:var(--h);transform:translate(-50%,-50%) rotateY(90deg) translateZ(calc(var(--w)/2));background:repeating-linear-gradient(0deg,#F6EFE0,#F6EFE0 1.2px,#DBCFB4 1.2px,#DBCFB4 2.6px)}
-  .b3 .b3-top{width:var(--w);height:var(--d);transform:translate(-50%,-50%) rotateX(90deg) translateZ(calc(var(--h)/2));background:repeating-linear-gradient(90deg,#F6EFE0,#F6EFE0 1.2px,#DBCFB4 1.2px,#DBCFB4 2.6px)}
-  .b3 .b3-bottom{width:var(--w);height:var(--d);transform:translate(-50%,-50%) rotateX(-90deg) translateZ(calc(var(--h)/2));background:repeating-linear-gradient(90deg,#F6EFE0,#F6EFE0 1.2px,#DBCFB4 1.2px,#DBCFB4 2.6px)}
-  .b3-spine .band{width:66%;height:2px;background:rgba(255,255,255,.2);border-radius:1px}
-  .b3-spine .stitle{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--title,'Cormorant Garamond'),serif;font-weight:var(--tw,600);text-transform:var(--tt,none);letter-spacing:.05em;font-size:.6rem;color:var(--cover-accent);max-height:56%;overflow:hidden;white-space:nowrap}
-  .b3-spine .stitch{display:flex;flex-direction:column;gap:7px}
-  .b3-spine .stitch i{width:5px;height:2px;background:var(--cover-accent);opacity:.85;border-radius:1px}
-  .b3-front .b3-label{font-size:.48rem;letter-spacing:.26em;text-transform:uppercase;color:var(--cover-accent);margin-bottom:9px}
-  .b3-front .b3-title{font-family:var(--title,'Cormorant Garamond'),serif;font-weight:var(--tw,600);text-transform:var(--tt,none);letter-spacing:var(--tsp,0);font-size:1.28rem;line-height:1.05;color:var(--cover-fg)}
-  .b3-front .b3-rule{width:30px;height:1px;background:var(--cover-accent);margin:9px 0}
-  .b3-front .b3-loc{font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cover-accent)}
-  .b3-front .cd-logo{width:36px;height:36px;color:var(--cover-accent);margin-bottom:11px}
-  .book-cap{text-align:center;font-size:.84rem;color:var(--muted);font-style:italic;margin-top:12px}
-
-  /* ===== LIVRE FEUILLETABLE (flipbook) ===== */
-  .flip-wrap{--pw:min(300px,74vw);--ph:calc(var(--pw)*1.34);margin-top:6px}
-  .flip-stage{position:relative;width:var(--pw);height:var(--ph);margin:0 auto;perspective:1900px;cursor:pointer;user-select:none}
+  /* ===== FLIPBOOK (carnet feuilletable — pages pleine page 480×679) ===== */
+  .flip-wrap{--w:340px;--h:481px;margin-top:6px}
+  .flip-stage{position:relative;width:var(--w);height:var(--h);margin:0 auto;perspective:1900px;cursor:pointer;user-select:none}
   .flip-page{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform .75s cubic-bezier(.4,.16,.2,1)}
   .flip-page.flipped{transform:rotateY(-180deg)}
-  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:3px 9px 9px 3px;overflow:hidden;background:linear-gradient(180deg,var(--page1,#FCFAF3),var(--page2,#F2EBDC));box-shadow:0 20px 44px -24px rgba(40,30,15,.55);padding:26px 22px;display:flex;flex-direction:column}
-  .flip-face.cover,.flip-face.closing{align-items:center;justify-content:center;text-align:center}
-  .flip-face.back{transform:rotateY(180deg);align-items:center;justify-content:center;background:linear-gradient(180deg,var(--page2,#F4EEE0),#E9E1CE)}
-  .flip-face.back .cd-logo{width:42px;height:42px;color:#E0D5C1}
-  .flip-face .pv-h{font-size:1.35rem}
-  .flip-face .pv-txt{font-size:.8rem}
+  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;overflow:hidden;border-radius:3px 8px 8px 3px;box-shadow:0 22px 46px -24px rgba(40,30,15,.5);background:#FBF8F2}
+  .flip-face.back{transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;background:#EFE8DC}
+  .flip-face.back i{display:block;width:34px;height:34px;border:1px solid #D8CEBD;border-radius:50%}
+  .sheet{position:absolute;top:0;left:0;width:480px;height:679px;zoom:.708;overflow:hidden;font-family:'Jost',sans-serif;color:#2B2823}
   .flip-ctrls{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:20px}
   .flip-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);font-size:1.3rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s}
   .flip-btn:hover:not(:disabled){background:var(--sage);color:#fff;border-color:var(--sage);transform:translateY(-1px)}
   .flip-btn:disabled{opacity:.32;cursor:default}
   .flip-count{font-size:.84rem;color:var(--muted);min-width:58px;text-align:center;font-variant-numeric:tabular-nums}
   .flip-hint{text-align:center;font-size:.76rem;color:var(--muted);margin-top:10px}
+  @media(max-width:430px){.flip-wrap{--w:300px;--h:424px}.sheet{zoom:.625}}
 
-  /* ===== SÉLECTEUR DE TEMPLATES ===== */
+  /* ===== SÉLECTEUR DE DESIGN ===== */
   .tpl-label{text-align:center;font-size:.82rem;font-weight:500;letter-spacing:.02em;color:var(--ink);margin-bottom:12px}
-  .tpl-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px}
-  @media(max-width:480px){.tpl-picker{grid-template-columns:1fr}}
-  .tpl-opt{cursor:pointer;border:1px solid var(--line-2);border-radius:10px;padding:14px 12px;text-align:center;background:var(--paper-2);transition:.2s;position:relative}
-  .tpl-opt:hover{border-color:#7C8A6B}
-  .tpl-opt.active{border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
-  .tpl-opt .sw{display:flex;gap:5px;justify-content:center;margin-bottom:9px}
-  .tpl-opt .sw i{width:16px;height:16px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-  .tpl-opt .nm{font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.1}
-  .tpl-opt .ds{font-size:.72rem;color:var(--muted)}
-  .tpl-opt.o1 .nm{font-family:'Fraunces',serif}
-  .tpl-opt.o2 .nm{font-family:'Playfair Display',serif;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}
-  .tpl-opt.o3 .nm{font-family:'Zilla Slab',serif;font-weight:700}
-  .tpl-opt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
-  .tpl-opt.active .chk{display:flex}
+  .dsel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px}
+  @media(max-width:480px){.dsel{grid-template-columns:1fr}}
+  .dopt{cursor:pointer;border:1px solid var(--line-2);border-radius:10px;padding:14px 12px;text-align:center;background:var(--paper-2);transition:.2s;position:relative}
+  .dopt:hover{border-color:#7C8A6B}
+  .dopt.active{border-color:var(--sage);box-shadow:0 0 0 3px rgba(91,106,80,.14);background:#fff}
+  .dopt .sw{display:flex;gap:5px;justify-content:center;margin-bottom:9px}
+  .dopt .sw i{width:16px;height:16px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+  .dopt .nm{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--ink);line-height:1.1}
+  .dopt .ds{font-size:.72rem;color:var(--muted);margin-top:1px}
+  .dopt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
+  .dopt.active .chk{display:flex}
 
-  /* ============ THÈMES ============ */
-  .tpl-serenite{
-    --title:'Fraunces','Cormorant Garamond',serif; --tsp:0; --tt:none; --tw:600;
-    --cover-bg:linear-gradient(135deg,#6E7E5F,#48533C); --cover-fg:#F3EEE2; --cover-accent:#DAC58C;
-    --page1:#FCFAF3; --page2:#F2EBDC; --accent:var(--clay); --heading:var(--ink);
-  }
-  .tpl-elegance{
-    --title:'Playfair Display',serif; --tsp:.08em; --tt:uppercase; --tw:600;
-    --cover-bg:linear-gradient(120deg,#26231c,#0f0e0b); --cover-fg:#F1EDE4; --cover-accent:#C9A24B;
-    --page1:#FCFBF8; --page2:#EFEDE4; --accent:#B79246; --heading:#161310;
-  }
-  .tpl-elegance .flip-face.cover::before{content:"";position:absolute;inset:14px;border:1px solid #CDB56A;border-radius:2px;pointer-events:none}
-  .tpl-elegance .pv-chip2{background:#F3ECD9;border-color:#E4D6AB;color:#8A6D24}
-  .tpl-elegance .pv-sign{color:#7A7364}
-  .tpl-elegance .flip-btn:hover:not(:disabled){background:#1A1813;border-color:#1A1813}
-  .tpl-champetre{
-    --title:'Zilla Slab',serif; --tsp:.01em; --tt:none; --tw:700;
-    --cover-bg:linear-gradient(120deg,#8B5636,#5C3420); --cover-fg:#F6ECDB; --cover-accent:#E7C79E;
-    --page1:#FCF4EA; --page2:#F1E0CB; --accent:#B85C38; --heading:#3A2A20;
-  }
-  .tpl-champetre .pv-chip2{background:#F3E3D1;border-color:#E4C9AC;color:#9A4E2C}
-  .tpl-champetre .pv-sign{color:#6E7A4E}
-  .tpl-champetre .flip-btn:hover:not(:disabled){background:#8B5636;border-color:#8B5636}
+  /* ===== DESIGNS (pages 480×679) ===== */
+  .d1-serif{font-family:'Cormorant Garamond',serif}
+  .d1-big{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:#2B2823}
+  .d1-lab{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#8C8375}
+  .d1-ital{font-family:'Cormorant Garamond',serif;font-style:italic;color:#5B554C}
+  .d1-div{width:60px;height:1px;background:#C4B9A6;margin:14px auto}
+  .d1-body{font-weight:300;font-size:10.5px;line-height:1.85;color:#4A443C;text-align:justify}
+  .d1-pn{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:22px;height:22px;border:1px solid #CFC5B4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#8C8375}
+  .d1-script{font-family:'Pinyon Script',cursive;color:#2B2823}
+  .d1-arch{border-radius:150px 150px 12px 12px}
+  .s-script{font-family:'Sacramento',cursive}
+  .s-lab{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#8C8C7B}
+  .s-body{font-weight:300;font-size:10.5px;line-height:1.8;color:#4A4A3E}
+  .s-name{font-family:'Jost';font-weight:500;letter-spacing:1px;font-size:11px;text-transform:uppercase;color:#33352C}
+  .s-pn{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-family:'Jost';font-size:10px;color:#9C9C8B}
+  .e-h{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:6px;text-transform:uppercase;color:#4B443A;line-height:1.05}
+  .e-sub{font-family:'Jost',sans-serif;font-weight:300;letter-spacing:4px;font-size:8px;text-transform:uppercase;color:#A99B85}
+  .e-script{font-family:'Pinyon Script',cursive;color:#9E9078}
+  .e-body{font-family:'Jost',sans-serif;font-weight:300;font-size:10.5px;line-height:1.85;color:#575047}
+  .e-lab{font-family:'Jost',sans-serif;font-weight:400;letter-spacing:2.5px;font-size:8.5px;text-transform:uppercase;color:#7E7157}
+  .e-cat{font-family:'Jost',sans-serif;font-weight:500;letter-spacing:2.5px;font-size:9.5px;text-transform:uppercase;color:#4B443A}
+  .e-div{width:46px;height:1px;background:#D8CFBE;margin:14px auto}
+  .e-pn{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-family:'Jost',sans-serif;font-weight:400;font-size:9px;letter-spacing:1px;color:#B3A791}
 
   .price-hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 
@@ -256,7 +199,7 @@
   <div class="intro" id="intro">
     <span class="eyebrow">Créons votre carnet</span>
     <h1>Créez votre guide de bienvenue</h1>
-    <p>Décrivez votre gîte en quelques minutes. À la fin, vous découvrirez un <strong>aperçu de votre guide</strong> et un <strong>rendu du livre imprimé</strong> — et vous ne choisissez de commander <em>que</em> si le résultat vous plaît. Aucun engagement avant.</p>
+    <p>Décrivez votre gîte en quelques minutes. À la fin, vous découvrirez un <strong>aperçu feuilletable de votre carnet</strong>, dans le style de votre choix — et vous ne choisissez de commander <em>que</em> si le résultat vous plaît. Aucun engagement avant.</p>
     <div class="flow">
       <span><b>1.</b> Vous décrivez</span>
       <span><b>2.</b> Vous visualisez l'aperçu</span>
@@ -266,7 +209,7 @@
 
   <form id="qForm" class="card" novalidate>
     <input type="hidden" name="_subject" value="Nouvelle demande — Carnet d'Hôte">
-    <input type="hidden" name="template" id="tplInput" value="Sérénité (nature)">
+    <input type="hidden" name="template" id="tplInput" value="Bohème (arches)">
 
     <!-- STEP 1 -->
     <section class="step-panel on" data-step="0">
@@ -401,48 +344,40 @@
 
     <!-- STEP 5 : APERÇU -->
     <section class="step-panel" data-step="4">
-      <div class="step-head"><div class="kx">Étape 5 / 6</div><h2>Votre aperçu</h2><p>Voici un aperçu de votre guide et du livre imprimé, à partir de vos réponses.</p></div>
+      <div class="step-head"><div class="kx">Étape 5 / 6</div><h2>Votre aperçu</h2><p>Voici un aperçu feuilletable de votre carnet, à partir de vos réponses. Choisissez le style qui vous ressemble.</p></div>
       <div class="pv-note">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex:0 0 auto;margin-top:1px"><path d="M12 3l2 5 5 .5-3.8 3.3L16.5 17 12 14.2 7.5 17l1.3-5.2L5 8.5 10 8z"/></svg>
         <span>Ceci est un aperçu indicatif, généré depuis vos réponses. Le guide final est <strong>rédigé et peaufiné par notre équipe</strong>, avec une carte illustrée de vos environs, avant impression.</span>
       </div>
 
       <div class="tpl-label">Choisissez le style de votre carnet</div>
-      <div class="tpl-picker">
-        <div class="tpl-opt o1 active" data-cls="tpl-serenite" data-name="Sérénité (nature)">
+      <div class="dsel">
+        <div class="dopt active" data-k="d1" data-name="Bohème (arches)">
           <span class="chk">✓</span>
-          <span class="sw"><i style="background:#5B6A50"></i><i style="background:#B0663F"></i><i style="background:#EDE5D3"></i></span>
-          <div class="nm">Sérénité</div><div class="ds">Douce &amp; nature</div>
+          <span class="sw"><i style="background:#8C8375"></i><i style="background:#B0663F"></i><i style="background:#EDE5D3"></i></span>
+          <div class="nm">Bohème</div><div class="ds">Arches &amp; neutre</div>
         </div>
-        <div class="tpl-opt o2" data-cls="tpl-elegance" data-name="Élégance (minimal)">
+        <div class="dopt" data-k="d2" data-name="Nature Sauge">
           <span class="chk">✓</span>
-          <span class="sw"><i style="background:#0f0e0b"></i><i style="background:#C9A24B"></i><i style="background:#FCFBF8"></i></span>
-          <div class="nm">Élégance</div><div class="ds">Noir &amp; or, capitales</div>
+          <span class="sw"><i style="background:#8A9075"></i><i style="background:#6E7558"></i><i style="background:#F4F2EA"></i></span>
+          <div class="nm">Nature Sauge</div><div class="ds">Vert &amp; script</div>
         </div>
-        <div class="tpl-opt o3" data-cls="tpl-champetre" data-name="Champêtre (terroir)">
+        <div class="dopt" data-k="d3" data-name="Élégance (greige)">
           <span class="chk">✓</span>
-          <span class="sw"><i style="background:#8B5636"></i><i style="background:#6E7A4E"></i><i style="background:#F1E0CB"></i></span>
-          <div class="nm">Champêtre</div><div class="ds">Terroir &amp; slab</div>
+          <span class="sw"><i style="background:#9E9078"></i><i style="background:#C9BCA4"></i><i style="background:#F1EBDF"></i></span>
+          <div class="nm">Élégance</div><div class="ds">Greige &amp; serif</div>
         </div>
       </div>
 
-      <div id="pvArea" class="tpl-serenite">
-        <div class="pv-sec">Feuilletez votre carnet</div>
-        <div class="flip-wrap">
-          <div class="flip-stage" id="pvFlipStage"></div>
-          <div class="flip-ctrls">
-            <button type="button" class="flip-btn" id="flipPrev" aria-label="Page précédente">‹</button>
-            <span class="flip-count" id="flipCount"></span>
-            <button type="button" class="flip-btn" id="flipNext" aria-label="Page suivante">›</button>
-          </div>
-          <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
+      <div class="pv-sec">Feuilletez votre carnet</div>
+      <div class="flip-wrap">
+        <div class="flip-stage" id="pvFlipStage"></div>
+        <div class="flip-ctrls">
+          <button type="button" class="flip-btn" id="flipPrev" aria-label="Page précédente">‹</button>
+          <span class="flip-count" id="flipCount"></span>
+          <button type="button" class="flip-btn" id="flipNext" aria-label="Page suivante">›</button>
         </div>
-
-        <div class="pv-sec">Le livre, vue 3D</div>
-        <div id="pvBook"></div>
-
-        <div class="pv-sec">La reliure</div>
-        <div id="pvReli"></div>
+        <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
       </div>
     </section>
 
@@ -560,43 +495,119 @@
     f.addEventListener('input', ()=>{ f.classList.remove('invalid'); const m=f.parentElement.querySelector('.err-msg'); if(m) m.classList.remove('show'); });
   });
 
-  function buildPreview(){
+  // ===== moteur d'aperçu : 3 designs pleine page, personnalisés depuis le formulaire =====
+  const E = esc;
+  const IMG = {cover:'images/welcome-living.jpg',round:'images/welcome-kitchen.jpg',map:'images/local-map.jpg',room:'images/welcome-book.jpg',g1:'images/welcome-kitchen.jpg',g2:'images/welcome-living.jpg',g3:'images/welcome-book.jpg',g4:'images/local-map.jpg'};
+  const ic = (p,c='#2B2823')=>`<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  const SUN='<svg viewBox="0 0 40 26" fill="none" stroke="#2B2823" stroke-width="1" stroke-linecap="round"><path d="M20 3v-3M12 5 10.5 2.4M28 5l1.5-2.6M6.5 10 3.8 8.7M33.5 10l2.7-1.3"/><path d="M6 17a14 14 0 0 1 28 0"/><path d="M4 21h32"/></svg>';
+  const PIN='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>';
+  const Gu=ic('<circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>'),Bd=ic('<path d="M3 18v-6h18v6M3 12V8a2 2 0 0 1 2-2h5v6M21 12v-1a3 3 0 0 0-3-3h-4M3 18v2M21 18v2"/>'),Ba=ic('<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z M6 12V6a2 2 0 0 1 4 0M6 19l-1 2M18 19l1 2"/>'),Wf=ic('<path d="M4 9a12 12 0 0 1 16 0M7 12.5a7 7 0 0 1 10 0M10 16a2.8 2.8 0 0 1 4 0"/><circle cx="12" cy="19" r="0.6" fill="#2B2823"/>');
+  const NOSMOKE=ic('<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/><path d="M8 15h8v2H8z"/>','#fff'),NOPARTY=ic('<path d="M4 20l6-14 4 8-4 6z"/><path d="M14 8l6-3-2 6"/>','#fff'),MOON=ic('<path d="M20 14a8 8 0 1 1-9-11 6.5 6.5 0 0 0 9 11z"/>','#fff'),PAW=ic('<circle cx="7" cy="9" r="1.6"/><circle cx="12" cy="7" r="1.6"/><circle cx="17" cy="9" r="1.6"/><path d="M8 15a4 4 0 0 1 8 0c0 2-2 3-4 3s-4-1-4-3z"/>','#fff'),CLOCK=ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>','#fff'),KEY=ic('<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/>','#fff');
+  const GT='#7E7157';
+  const PINe=ic('<path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.3"/>',GT),ACC=ic('<rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 8h1M13 8h1M9 12h1M13 12h1M9 16h1M13 16h1"/>',GT),LGT=ic('<path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.6.6-1 1.4-1 2.5H9c0-1.1-.4-1.9-1-2.5A6 6 0 0 1 12 3z"/>',GT),WFe=ic('<path d="M4 9a12 12 0 0 1 16 0M7 12.5a7 7 0 0 1 10 0M10 16a2.8 2.8 0 0 1 4 0"/>',GT),SMK=ic('<path d="M3 16h13v3H3zM19 16v3M17 16c0-2 2-2 2-4s-2-2-2-4"/><path d="M4 5l16 14"/>',GT),PRT=ic('<path d="M4 20l7-15 3 8-3.5 7z"/><path d="M14 7l6-2-2 6"/><path d="M4 6l14 12"/>',GT),MNe=ic('<path d="M20 14a8 8 0 1 1-9-11 6.5 6.5 0 0 0 9 11z"/>',GT),PWe=ic('<circle cx="7" cy="9" r="1.5"/><circle cx="12" cy="7" r="1.5"/><circle cx="17" cy="9" r="1.5"/><path d="M8 15a4 4 0 0 1 8 0c0 2-2 3-4 3s-4-1-4-3z"/>',GT),CLe=ic('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',GT),KYe=ic('<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/>',GT),CFe=ic('<path d="M4 8h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z M17 9h2a2 2 0 0 1 0 4h-2M7 4V3M10 4V3M13 4V3"/>',GT),FKe=ic('<path d="M7 3v6a2 2 0 0 0 4 0V3M9 9v11M16 3c-1.4 0-2.3 2-2.3 4.5s.9 3.5 2.3 3.5v9"/>',GT),BGe=ic('<path d="M6 8h12l-1 12H7z M9 8V6a3 3 0 0 1 6 0v2"/>',GT),HKe=ic('<path d="M3 19h18M6 19l4.5-9 3 5 2-3.2 4.5 7.2"/><circle cx="16.5" cy="6" r="1.4"/>',GT);
+  function qrSvg(){const K='#4B443A';const f=(ox,oy)=>`<rect x="${ox}" y="${oy}" width="28" height="28" fill="none" stroke="${K}" stroke-width="5"/><rect x="${ox+9}" y="${oy+9}" width="10" height="10"/>`;let m=f(0,0)+f(62,0)+f(0,62);for(let y=0;y<15;y++)for(let x=0;x<15;x++){if((x<5&&y<5)||(x>9&&y<5)||(x<5&&y>9))continue;if((x*5+y*7+x*y*3)%3===0)m+=`<rect x="${x*6+1}" y="${y*6+1}" width="4.6" height="4.6"/>`;}return `<svg viewBox="0 0 92 92" fill="${K}" width="100%" height="100%">${m}</svg>`;}
+  const QR=qrSvg();
+
+  const splitLines = t => String(t||'').split(/[\n;]+/).map(s=>s.trim()).filter(Boolean);
+  function nameDesc(line){const m=String(line).match(/^(.*?)\s*[\(\-–—:,·]\s*(.*)$/);if(m)return [m[1].trim(), m[2].replace(/\)\s*$/,'').trim()];return [String(line).trim(),''];}
+
+  function prep(){
     const d = collect();
-    const gite = d.giteName || 'Votre Gîte';
-    const loc  = [d.city, d.postal].filter(Boolean).join(' ');
-    const hosts = d.hosts || 'Vos hôtes';
-    const amb = d.ambiance ? esc(d.ambiance) : "Nous avons préparé cette maison avec soin pour que vous vous y sentiez comme chez vous.";
-    const mot = `Nous sommes ravis de vous accueillir à ${esc(gite)}. ${amb} Prenez le temps de vous poser — vous trouverez ici tout le nécessaire pour votre séjour et nos meilleures adresses.`;
-    const ams = [].concat(d.amenities||[]);
-    const rules = [].concat(d.rules||[]);
-    const recos = [];
-    if(d.restos && d.restos.trim())      recos.push(d.restos.trim());
-    if(d.activites && d.activites.trim()) recos.push(d.activites.trim());
-
-    const back = `<div class="flip-face back"><span class="cd-logo" aria-hidden="true"></span></div>`;
-    const faces = [
-      `<div class="flip-face cover"><span class="cd-logo cl" aria-hidden="true"></span><div class="clabel">Carnet de bienvenue</div><div class="ctitle">${esc(gite)}</div><div class="crule"></div><div class="cloc">${esc(loc)}</div></div>`,
-      `<div class="flip-face"><div class="pv-ey">Le mot d'accueil</div><div class="pv-h">Bienvenue chez vous.</div><p class="pv-txt">${mot}</p><div class="pv-sign">${esc(hosts)}</div></div>`,
-      `<div class="flip-face"><div class="pv-ey">Le séjour</div><div class="pv-h">Le règlement</div><ul class="pv-rlist"><li><b>Arrivée</b><span>${esc(d.checkin)||'à préciser'}</span></li><li><b>Départ</b><span>${esc(d.checkout)||'à préciser'}</span></li><li><b>Wifi</b><span>${esc(d.wifiName)||'à préciser'}</span></li>${rules.map(r=>`<li><b>${esc(r)}</b><span>✓</span></li>`).join('')}</ul></div>`,
-      `<div class="flip-face"><div class="pv-ey">La maison</div><div class="pv-h">Les atouts</div><div class="pv-chips2">${ams.length? ams.map(a=>`<span class="pv-chip2">${esc(a)}</span>`).join('') : '<span class="pv-chip2">Vos équipements</span>'}</div>${d.highlights? `<p class="pv-txt">${esc(d.highlights)}</p>` : ''}</div>`,
-      `<div class="flip-face"><div class="pv-ey">Les alentours</div><div class="pv-h">Les bons plans</div>${recos.length ? recos.map(r=>`<div class="pv-reco2"><svg class="pin" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.2"/></svg><span>${esc(r)}</span></div>`).join('') : '<p class="pv-txt">Vos adresses préférées, complétées par nos recommandations locales.</p>'}<div class="pv-reco2" style="color:var(--muted);font-style:italic;margin-top:10px">+ une carte illustrée de vos environs</div></div>`,
-      `<div class="flip-face closing"><div class="pv-h" style="margin-bottom:8px">Au plaisir de<br>vous accueillir.</div><div class="pv-sign" style="padding-top:0">${esc(hosts)}</div><span class="cd-logo" aria-hidden="true" style="width:36px;height:36px;color:var(--accent);margin-top:20px"></span></div>`
+    const rulesSel = [].concat(d.rules||[]);
+    const gite = d.giteName || 'Votre gîte';
+    const amb  = d.ambiance || "Nous avons préparé cette maison avec soin pour que vous vous y sentiez comme chez vous.";
+    const badges = [
+      [SMK, NOSMOKE, 'NON-FUMEUR'],
+      [PRT, NOPARTY, 'PAS DE FÊTES'],
+      [MNe, MOON, 'CALME LA NUIT'],
+      [PWe, PAW, rulesSel.includes('Animaux bienvenus') ? 'ANIMAUX OK' : "PAS D'ANIMAUX"],
+      [CLe, CLOCK, 'DÉPART ' + (d.checkout || '10h30')],
+      [KYe, KEY, rulesSel.includes('Parking sur place') ? 'PARKING SUR PLACE' : 'CLÉS EN BOÎTE']
     ];
-    const stage = document.getElementById('pvFlipStage');
-    stage.innerHTML = faces.map(f=>`<div class="flip-page">${f}${back}</div>`).join('');
-    initFlip(stage);
-
-    const book3D = (view)=>`<div class="b3-wrap"><div class="b3-sh"></div><div class="b3 ${view}">
-        <div class="fc b3-back"></div>
-        <div class="fc b3-fore"></div>
-        <div class="fc b3-top"></div>
-        <div class="fc b3-bottom"></div>
-        <div class="fc b3-spine"><span class="band"></span><span class="stitle">${esc(gite)}</span><span class="stitch"><i></i><i></i><i></i><i></i></span><span class="band"></span></div>
-        <div class="fc b3-front"><span class="cd-logo" aria-hidden="true"></span><div class="b3-label">Carnet de bienvenue</div><div class="b3-title">${esc(gite)}</div><div class="b3-rule"></div><div class="b3-loc">${esc(loc)}</div></div>
-      </div></div>`;
-    document.getElementById('pvBook').innerHTML = book3D('v-cover') + `<p class="book-cap">Livre fermé — épaisseur, dos et tranche des pages visibles.</p>`;
-    document.getElementById('pvReli').innerHTML = book3D('v-spine') + `<p class="book-cap">Vue du dos — reliure cousue, titre au dos, finition soignée.</p>`;
+    return {
+      d, rulesSel, gite, amb,
+      loc: [d.city,d.postal].filter(Boolean).join(' ') || 'Votre région',
+      hosts: d.hosts || 'Vos hôtes',
+      mot: `Nous sommes ravis de vous accueillir à ${gite}. ${amb} Prenez le temps de vous poser — vous trouverez ici l'essentiel de votre séjour et nos meilleures adresses.`,
+      badges,
+      restos: splitLines(d.restos).slice(0,4).map(nameDesc),
+      activites: splitLines(d.activites).slice(0,3).map(nameDesc),
+      commerces: splitLines(d.commerces).slice(0,2).map(nameDesc),
+      address: d.address || d.city || '—',
+      access: d.access || "Boîte à clés à droite de la porte d'entrée.",
+      checkin: d.checkin || '16h00', checkout: d.checkout || '10h30',
+      wifiName: d.wifiName || '—', wifiPass: d.wifiPass || '—', contact: d.contact || '',
+      cap: d.capacity || '—', beds: d.bedrooms || '—', baths: d.bathrooms || '—',
+      highlights: d.highlights || ''
+    };
   }
+
+  // ---------- Design 1 : Bohème (arches) ----------
+  function D1(p){
+    const amen1=(i,v,l)=>`<div style="display:flex;flex-direction:column;align-items:center;gap:7px"><div style="width:26px;height:26px">${i}</div><div class="d1-serif" style="font-size:18px;line-height:1">${v}</div><div class="d1-lab" style="letter-spacing:2px;font-size:8px">${l}</div></div>`;
+    const reco1=(t,dd)=>`<div style="display:flex;gap:10px;margin:11px 0;text-align:left"><span style="color:#9C8F7A;margin-top:2px">${PIN}</span><div><div class="d1-serif" style="font-size:15px;line-height:1.1">${t}</div>${dd?`<div class="d1-body" style="font-size:9.5px;text-align:left;margin-top:1px">${dd}</div>`:''}</div></div>`;
+    const row1=(k,v)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dotted #D3C9B8"><span class="d1-serif" style="font-size:16px">${k}</span><span style="font-size:11px;color:#5B554C;letter-spacing:.5px">${v}</span></div>`;
+    const recoItems=[...p.restos,...p.activites,...p.commerces].slice(0,4);
+    const recoHtml=recoItems.length? recoItems.map(r=>reco1(E(r[0]),E(r[1]))).join('') : reco1('Vos adresses préférées','Complétées par nos recommandations locales.');
+    return [
+      `<img src="${IMG.cover}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(rgba(40,34,26,.18),rgba(40,34,26,.32))"></div><div class="d1-arch" style="position:absolute;left:52px;right:52px;top:70px;bottom:90px;background:rgba(245,240,232,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 34px"><div style="width:44px;height:29px">${SUN}</div><div class="d1-big" style="font-size:40px;margin:22px 0 6px">Bienvenue</div><div class="d1-lab">${E(p.gite)}</div><div class="d1-div"></div><div class="d1-ital" style="font-size:13px;line-height:1.6;max-width:230px">${E(p.amb)}</div><div style="margin-top:26px;display:flex;align-items:center;gap:6px;color:#5B554C;font-size:10px;letter-spacing:1px">${PIN}<span>${E(p.loc)}</span></div></div>`,
+      `<div style="padding:44px 46px;display:flex;flex-direction:column;align-items:center;height:100%"><div style="width:44px;height:29px">${SUN}</div><img src="${IMG.round}" style="width:150px;height:150px;border-radius:50%;object-fit:cover;margin:22px 0 18px"><div class="d1-serif" style="font-size:34px;font-style:italic;font-weight:500">Bonjour</div>${p.contact?`<div style="margin:10px 0 4px;font-size:9px;letter-spacing:1px;color:#8C8375">${E(p.contact)}</div>`:''}<div class="d1-div"></div><p class="d1-body" style="margin-top:6px">${E(p.mot)}</p><div class="d1-script" style="font-size:30px;margin-top:20px">${E(p.hosts)}</div><div class="d1-pn">2</div></div>`,
+      `<div style="padding:48px 46px;display:flex;flex-direction:column;align-items:center;height:100%"><div class="d1-big" style="font-size:22px">La Maison</div><div class="d1-div"></div><div class="d1-arch" style="width:150px;height:126px;background:#EAE3D7;margin:8px 0 20px;overflow:hidden"><img src="${IMG.room}" style="width:100%;height:100%;object-fit:cover"></div><div class="d1-lab" style="margin-bottom:20px">${E(p.d.giteType||'Logement entier')}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:24px 40px;margin-bottom:22px">${amen1(Gu,E(p.cap),'Voyageurs')}${amen1(Bd,E(p.beds),'Chambres')}${amen1(Ba,E(p.baths),'Salles de bain')}${amen1(Wf,'OUI','Wifi')}</div>${p.highlights?`<p class="d1-body" style="text-align:center;max-width:300px">${E(p.highlights)}</p>`:''}<div class="d1-pn">3</div></div>`,
+      `<div style="padding:50px 46px;display:flex;flex-direction:column;align-items:center;height:100%"><div class="d1-big" style="font-size:22px">Le Séjour</div><div class="d1-div"></div><div style="width:100%;max-width:320px;margin-top:10px">${row1('Arrivée',E(p.checkin))}${row1('Départ',E(p.checkout))}${row1('Wifi',E(p.wifiName))}${row1('Mot de passe',E(p.wifiPass))}${p.rulesSel.map(r=>row1(E(r),'✓')).join('')}</div><div class="d1-pn">4</div></div>`,
+      `<div style="padding:46px 42px;display:flex;flex-direction:column;align-items:center;height:100%"><div class="d1-big" style="font-size:20px">Les bons plans</div><div class="d1-lab" style="margin-top:6px">${E(p.loc)}</div><div class="d1-div"></div><div style="width:100%;border-radius:110px 110px 12px 12px;overflow:hidden;height:140px;margin:6px 0 16px"><img src="${IMG.map}" style="width:100%;height:100%;object-fit:cover"></div><div style="width:100%;max-width:330px">${recoHtml}</div><div class="d1-pn">5</div></div>`,
+      `<img src="${IMG.room}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(rgba(40,34,26,.25),rgba(40,34,26,.42))"></div><div class="d1-arch" style="position:absolute;left:66px;right:66px;top:150px;bottom:150px;background:rgba(245,240,232,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px"><div style="width:44px;height:29px">${SUN}</div><div class="d1-script" style="font-size:46px;margin:12px 0 2px">Merci</div><div class="d1-big" style="font-size:15px">Profitez bien</div><div class="d1-div"></div><div class="d1-ital" style="font-size:12px;max-width:200px">Au plaisir de vous accueillir à nouveau.</div></div>`
+    ];
+  }
+
+  // ---------- Design 2 : Nature Sauge ----------
+  function D2(p){
+    const SG='#8A9075',SGD='#6E7558',CR='#F4F2EA';
+    const circ=(inner,lab)=>`<div style="display:flex;flex-direction:column;align-items:center;gap:9px"><div style="width:58px;height:58px;border-radius:50%;background:${SG};display:flex;align-items:center;justify-content:center"><div style="width:26px;height:26px">${inner}</div></div><div class="s-lab" style="font-size:8px;letter-spacing:1.5px;text-align:center;max-width:80px">${lab}</div></div>`;
+    const rest=(n,dd)=>`<div style="margin-bottom:16px"><div class="s-name">${n}</div>${dd?`<div class="s-body" style="margin-top:2px">${dd}</div>`:''}</div>`;
+    const rulesRow=p.badges.map(b=>circ(b[1],E(b[2]))).join('');
+    const eatList=(p.restos.length?p.restos:[['Vos bonnes adresses','Complétées par nos coups de cœur.']]).map(r=>rest(E(r[0]),E(r[1]))).join('');
+    return [
+      `<div style="position:absolute;inset:0;background:${SG}"></div><div style="position:absolute;top:56px;left:0;right:0;text-align:center;color:${CR}"><div class="s-script" style="font-size:58px;line-height:.9">Livret</div><div style="font-family:'Jost';font-weight:300;letter-spacing:14px;font-size:30px;margin-top:6px">BIENVENUE</div><div style="font-family:'Jost';letter-spacing:5px;font-size:9px;margin-top:12px;opacity:.85">D'ACCUEIL</div></div><div style="position:absolute;left:44px;right:44px;bottom:52px;height:300px;border-radius:6px;overflow:hidden"><img src="${IMG.cover}" style="width:100%;height:100%;object-fit:cover"></div><div style="position:absolute;bottom:22px;left:0;right:0;text-align:center;color:${CR};font-family:'Jost';font-size:9px;letter-spacing:2px;opacity:.85">${E((p.gite+' · '+p.loc).toUpperCase())}</div>`,
+      `<div style="position:absolute;left:0;top:0;bottom:0;width:14px;background:${SG}"></div><div style="padding:48px 44px 48px 54px;height:100%;display:flex;flex-direction:column;align-items:center"><img src="${IMG.round}" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid ${CR};box-shadow:0 0 0 1px #D8D6C8"><div style="font-family:'Jost';font-weight:300;letter-spacing:9px;font-size:24px;margin:20px 0 4px;color:#33352C">BIENVENUE</div><div class="s-lab" style="color:${SGD}">Cher voyageur, chère voyageuse</div><div style="width:44px;height:2px;background:${SG};margin:16px 0"></div><p class="s-body" style="text-align:center;max-width:290px">${E(p.mot)}</p><div class="s-script" style="font-size:34px;margin-top:18px;color:${SGD}">${E(p.hosts)}</div><div class="s-pn">2</div></div>`,
+      `<div style="padding:64px 46px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center"><div class="s-script" style="font-size:60px;color:${SGD}">Wifi</div><div style="width:44px;height:2px;background:${SG};margin:14px 0 34px"></div><div class="s-lab" style="color:${SGD}">Réseau</div><div style="width:230px;text-align:center;border:1px solid ${SG};border-radius:30px;padding:11px;margin:8px 0 22px;font-family:'Jost';font-size:14px;color:#33352C">${E(p.wifiName)}</div><div class="s-lab" style="color:${SGD}">Mot de passe</div><div style="width:230px;text-align:center;border:1px solid ${SG};border-radius:30px;padding:11px;margin-top:8px;font-family:'Jost';font-size:14px;color:#33352C">${E(p.wifiPass)}</div><div class="s-pn">5</div></div>`,
+      `<div style="padding:52px 40px;height:100%;display:flex;flex-direction:column;align-items:center"><div style="font-family:'Jost';font-weight:300;letter-spacing:7px;font-size:20px;color:#33352C">LE RÈGLEMENT</div><div style="width:44px;height:2px;background:${SG};margin:14px 0 30px"></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px 20px">${rulesRow}</div><div class="s-pn">6</div></div>`,
+      `<div style="padding:50px 40px;height:100%;display:flex;flex-direction:column;align-items:center"><div style="font-family:'Jost';font-weight:300;letter-spacing:6px;font-size:19px;color:#33352C">OÙ MANGER</div><div style="width:44px;height:2px;background:${SG};margin:12px 0 22px"></div><div style="display:flex;gap:20px;width:100%"><div style="flex:1.15">${eatList}</div><div style="flex:.85;display:grid;grid-template-columns:1fr 1fr;gap:8px;align-content:start"><img src="${IMG.g1}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px"><img src="${IMG.g2}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px"><img src="${IMG.g3}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px"><img src="${IMG.g4}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px"></div></div><div class="s-pn">9</div></div>`,
+      `<div style="position:absolute;inset:0;background:${SG}"></div><div style="position:absolute;left:40px;right:40px;top:60px;height:250px;border-radius:6px;overflow:hidden"><img src="${IMG.room}" style="width:100%;height:100%;object-fit:cover"></div><div style="position:absolute;left:0;right:0;bottom:80px;text-align:center;color:${CR}"><div style="font-family:'Jost';font-weight:300;letter-spacing:11px;font-size:26px">MERCI</div><div class="s-script" style="font-size:40px;margin-top:2px">à bientôt</div></div>`
+    ];
+  }
+
+  // ---------- Design 3 : Élégance (greige) ----------
+  function D3(p){
+    const ELN='#DED6C6',ETX='#4B443A',ECR='#F5F1E9';
+    const einfo=(i,l,t)=>`<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:22px;text-align:left"><div style="flex:none;width:28px;height:28px;margin-top:1px">${i}</div><div><div class="e-lab">${l}</div><div class="e-body" style="margin-top:3px;max-width:255px">${t}</div></div></div>`;
+    const ebadge=(i,l)=>`<div style="display:flex;flex-direction:column;align-items:center;gap:11px"><div style="width:64px;height:64px;border-radius:50%;border:1px solid ${ELN};display:flex;align-items:center;justify-content:center"><div style="width:26px;height:26px">${i}</div></div><div class="e-lab" style="text-align:center;max-width:84px;font-size:7.5px;letter-spacing:1.5px">${l}</div></div>`;
+    const eitem=(n,dd)=>`<div style="margin-top:6px"><span class="e-body" style="color:${ETX};font-weight:400">${n}</span>${dd?`<span class="e-body" style="color:#A29A8C"> · ${dd}</span>`:''}</div>`;
+    const ereco=(i,cat,items)=>`<div style="display:flex;gap:15px;align-items:flex-start;margin-bottom:19px;text-align:left"><div style="flex:none;width:24px;height:24px;margin-top:3px">${i}</div><div style="flex:1"><div class="e-cat">${cat}</div>${items}</div></div>`;
+    const ekv=(k,v)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-bottom:1px solid ${ELN}"><span class="e-lab">${k}</span><span class="e-body" style="color:${ETX};font-weight:400">${v}</span></div>`;
+    const eRules=p.badges.map(b=>ebadge(b[0],E(b[2]))).join('');
+    const eRestos=(p.restos.length?p.restos:[['Vos tables préférées','']]).map(r=>eitem(E(r[0]),E(r[1]))).join('');
+    const eComm=(p.commerces.length?p.commerces:[['Commerces du village','']]).map(r=>eitem(E(r[0]),E(r[1]))).join('');
+    const eAct=(p.activites.length?p.activites:[['À découvrir autour','']]).map(r=>eitem(E(r[0]),E(r[1]))).join('');
+    return [
+      `<div style="display:flex;height:100%;background:${ECR}"><div style="flex:1.08;padding:0 30px 0 42px;display:flex;flex-direction:column;justify-content:center"><div class="e-h" style="font-size:31px;letter-spacing:8px">Bienvenue</div><div class="e-sub" style="margin-top:9px">${E(p.gite)}</div><div class="e-div" style="margin:22px 0"></div><p class="e-body">${E(p.mot)}</p><div class="e-script" style="font-size:36px;margin-top:24px">${E(p.hosts)}</div></div><div style="flex:.9"><img src="${IMG.cover}" style="width:100%;height:100%;object-fit:cover"></div></div>`,
+      `<div style="padding:52px 46px;height:100%;background:${ECR}"><div style="text-align:center"><div class="e-sub">la maison</div><div class="e-h" style="font-size:22px;margin-top:6px">Informations</div><div class="e-div"></div></div><div style="margin-top:30px">${einfo(PINe,'Adresse',E(p.address))}${einfo(ACC,'Accès',E(p.access))}${einfo(LGT,'Électricité',"Le tableau se trouve dans l'entrée. Merci d'éteindre en partant.")}${einfo(WFe,'Wifi','Réseau '+E(p.wifiName)+' · mot de passe '+E(p.wifiPass))}</div><div class="e-pn">3</div></div>`,
+      `<div style="padding:52px 40px;height:100%;background:${ECR};display:flex;flex-direction:column;align-items:center"><div class="e-sub">à respecter</div><div class="e-h" style="font-size:22px;margin-top:6px">Le règlement</div><div class="e-div"></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px 18px;margin-top:24px">${eRules}</div><div class="e-pn">5</div></div>`,
+      `<div style="padding:50px 46px;height:100%;background:${ECR}"><div style="text-align:center"><div class="e-sub">nos adresses</div><div class="e-h" style="font-size:22px;margin-top:6px">Nos conseils</div><div class="e-div"></div></div><div style="margin-top:28px">${ereco(FKe,'RESTAURANTS',eRestos)}${ereco(BGe,'COMMERCES',eComm)}${ereco(HKe,'À FAIRE',eAct)}</div><div class="e-pn">6</div></div>`,
+      `<div style="padding:52px 46px;height:100%;background:${ECR};display:flex;flex-direction:column;align-items:center"><div class="e-sub">restons en lien</div><div class="e-h" style="font-size:19px;margin-top:6px;letter-spacing:6px">Wifi &amp; contacts</div><div class="e-div"></div><div style="width:134px;height:134px;padding:13px;border:1px solid ${ELN};border-radius:8px;background:#fff;margin:10px 0 28px">${QR}</div><div style="width:100%;max-width:272px">${ekv('Réseau',E(p.wifiName))}${ekv('Mot de passe',E(p.wifiPass))}${ekv('Hôte',E(p.contact||p.hosts))}</div><div class="e-pn">7</div></div>`,
+      `<div style="display:flex;height:100%;background:${ECR}"><div style="flex:.86"><img src="${IMG.room}" style="width:100%;height:100%;object-fit:cover"></div><div style="flex:1.08;padding:0 40px 0 34px;display:flex;flex-direction:column;justify-content:center"><div class="e-h" style="font-size:26px;letter-spacing:7px">Merci</div><div class="e-sub" style="margin-top:8px">à très vite</div><div class="e-div" style="margin:18px 0"></div><p class="e-body">Merci d'avoir choisi ${E(p.gite)}. Nous espérons que vous y passerez un séjour doux et reposant.</p><div style="border:1px solid ${ELN};border-radius:12px;padding:15px 18px;margin-top:20px"><div class="e-lab" style="color:${GT}">Un petit mot ?</div><div class="e-body" style="margin-top:5px">Votre avis compte : n'hésitez pas à nous laisser quelques lignes avant de partir.</div></div><div class="e-script" style="font-size:32px;margin-top:22px">${E(p.hosts)}</div></div></div>`
+    ];
+  }
+
+  const DESIGN_FN = {d1:D1, d2:D2, d3:D3};
+  let curDesign = 'd1';
+  function build(key){
+    curDesign = key;
+    const pages = DESIGN_FN[key](prep());
+    const stage = document.getElementById('pvFlipStage');
+    stage.innerHTML = pages.map(s=>`<div class="flip-page"><div class="flip-face"><div class="sheet">${s}</div></div><div class="flip-face back"><i></i></div></div>`).join('');
+    initFlip(stage);
+  }
+  function buildPreview(){ build(curDesign); }
 
   function initFlip(stage){
     const pages = [...stage.querySelectorAll('.flip-page')];
@@ -618,14 +629,13 @@
     upd();
   }
 
-  // Sélecteur de templates
-  const pvArea = document.getElementById('pvArea');
-  const tplInput = document.getElementById('tplInput');
-  document.querySelectorAll('.tpl-opt').forEach(o=>o.addEventListener('click', ()=>{
-    document.querySelectorAll('.tpl-opt').forEach(x=>x.classList.remove('active'));
+  // Sélecteur de design — l'aperçu s'adapte automatiquement à la sélection
+  document.querySelectorAll('.dopt').forEach(o=>o.addEventListener('click', ()=>{
+    if(o.classList.contains('active')) return;
+    document.querySelectorAll('.dopt').forEach(x=>x.classList.remove('active'));
     o.classList.add('active');
-    pvArea.className = o.dataset.cls;
-    tplInput.value = o.dataset.name;
+    document.getElementById('tplInput').value = o.dataset.name;
+    build(o.dataset.k);
   }));
 
   function buildRecap(){

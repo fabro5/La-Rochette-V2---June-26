@@ -152,6 +152,15 @@
   .dopt .ds{font-size:.72rem;color:var(--muted);margin-top:1px}
   .dopt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
   .dopt.active .chk{display:flex}
+  .ai-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 14px;margin:-6px 0 22px}
+  .ai-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter';font-size:.9rem;font-weight:500;color:var(--clay);background:#FBF4EC;border:1px solid #E9D3BF;border-radius:30px;padding:10px 20px;cursor:pointer;transition:.2s}
+  .ai-btn:hover:not(:disabled){background:#F6E9DA;border-color:var(--clay);transform:translateY(-1px)}
+  .ai-btn:disabled{opacity:.55;cursor:default}
+  .ai-btn .ai-ic{font-size:.95rem}
+  .ai-status{font-size:.82rem;color:var(--muted)}
+  .ai-status.ok{color:var(--sage-deep)}
+  .ai-status.err{color:var(--clay)}
+  .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;border-radius:20px;padding:4px 11px}
 
   /* ===== DESIGNS (pages 480×679) ===== */
   .d1-serif{font-family:'Cormorant Garamond',serif}
@@ -398,6 +407,11 @@
         </div>
       </div>
 
+      <div class="ai-row">
+        <button type="button" class="ai-btn" id="aiBtn"><span class="ai-ic">✦</span> Enrichir les textes avec l'IA</button>
+        <span class="ai-status" id="aiStatus"></span>
+      </div>
+
       <div class="pv-sec">Feuilletez votre carnet</div>
       <div class="flip-wrap">
         <div class="flip-stage" id="pvFlipStage"></div>
@@ -553,15 +567,24 @@
       [CLe, CLOCK, 'DÉPART ' + (d.checkout || '10h30')],
       [KYe, KEY, rulesSel.includes('Parking sur place') ? 'PARKING SUR PLACE' : 'CLÉS EN BOÎTE']
     ];
+    let mot = `Nous sommes ravis de vous accueillir à ${gite}. ${amb} Prenez le temps de vous poser — vous trouverez ici l'essentiel de votre séjour et nos meilleures adresses.`;
+    let restos = splitLines(d.restos).slice(0,4).map(nameDesc);
+    let activites = splitLines(d.activites).slice(0,3).map(nameDesc);
+    let commerces = splitLines(d.commerces).slice(0,2).map(nameDesc);
+    // Contenu enrichi par l'IA (si disponible) — prioritaire sur le texte brut
+    if (aiContent) {
+      const conv = a => (Array.isArray(a) ? a : []).map(x => [x.nom, x.description]);
+      if (aiContent.motAccueil) mot = aiContent.motAccueil;
+      const bp = aiContent.bonsPlans || {};
+      if (bp.restaurants && bp.restaurants.length) restos = conv(bp.restaurants).slice(0,4);
+      if (bp.activites && bp.activites.length)     activites = conv(bp.activites).slice(0,3);
+      if (bp.commerces && bp.commerces.length)     commerces = conv(bp.commerces).slice(0,2);
+    }
     return {
       d, rulesSel, gite, amb,
       loc: [d.city,d.postal].filter(Boolean).join(' ') || 'Votre région',
       hosts: d.hosts || 'Vos hôtes',
-      mot: `Nous sommes ravis de vous accueillir à ${gite}. ${amb} Prenez le temps de vous poser — vous trouverez ici l'essentiel de votre séjour et nos meilleures adresses.`,
-      badges,
-      restos: splitLines(d.restos).slice(0,4).map(nameDesc),
-      activites: splitLines(d.activites).slice(0,3).map(nameDesc),
-      commerces: splitLines(d.commerces).slice(0,2).map(nameDesc),
+      mot, badges, restos, activites, commerces,
       address: d.address || d.city || '—',
       access: d.access || "Boîte à clés à droite de la porte d'entrée.",
       checkin: d.checkin || '16h00', checkout: d.checkout || '10h30',
@@ -629,6 +652,7 @@
 
   const DESIGN_FN = {d1:D1, d2:D2, d3:D3};
   let curDesign = 'd1';
+  let aiContent = null;   // contenu enrichi par l'IA (rempli via /api/generate)
   // photos uploadées par le client (dataURL) — sinon images d'illustration
   const DEF_COVER = 'images/welcome-living.jpg', DEF_ROUND = 'images/welcome-kitchen.jpg';
   let upCover = null, upHost = null;
@@ -700,6 +724,37 @@
     document.getElementById('tplInput').value = o.dataset.name;
     build(o.dataset.k);
   }));
+
+  // ===== Enrichissement IA (moteur serverless) =====
+  const AI_ENDPOINT = '/api/generate';
+  const aiBtn = document.getElementById('aiBtn');
+  const aiStatus = document.getElementById('aiStatus');
+  aiBtn.addEventListener('click', async ()=>{
+    aiBtn.disabled = true;
+    aiStatus.className = 'ai-status';
+    aiStatus.textContent = 'Rédaction en cours…';
+    try{
+      const resp = await fetch(AI_ENDPOINT, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(collect())
+      });
+      if(!resp.ok){
+        let msg = 'Le moteur IA est indisponible pour le moment.';
+        try{ const e = await resp.json(); if(e && e.message) msg = e.message; }catch(_){}
+        throw new Error(msg);
+      }
+      aiContent = await resp.json();
+      build(curDesign);
+      aiStatus.className = 'ai-status ok';
+      aiStatus.innerHTML = '<span class="ai-badge">✦ Textes enrichis par l\'IA</span>';
+      aiBtn.innerHTML = '<span class="ai-ic">✦</span> Régénérer';
+    }catch(err){
+      aiStatus.className = 'ai-status err';
+      aiStatus.textContent = err.message || 'Une erreur est survenue.';
+    }finally{
+      aiBtn.disabled = false;
+    }
+  });
 
   function buildRecap(){
     const d = collect();

@@ -1,0 +1,10 @@
+{
+  "name": "carnet-dhote",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Carnet d'Hôte — génération de guides de bienvenue pour gîtes",
+  "dependencies": {
+    "@anthropic-ai/sdk": "latest"
+  }
+}

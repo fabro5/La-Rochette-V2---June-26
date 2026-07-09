@@ -1,23 +1,28 @@
-// Fonction serverless Vercel : enrichit le contenu du carnet avec Claude.
-// Reçoit les réponses du questionnaire, renvoie du contenu rédigé (mot d'accueil,
-// texte "découvrir la région", bons plans par catégorie) au format JSON.
+// Fonction serverless Vercel : concierge local IA.
+// À partir de la localisation du gîte, Claude RECHERCHE sur le web de vraies
+// adresses autour et compose une sélection riche (mot d'accueil, découverte de
+// la région, bons plans par catégorie). Renvoie du JSON structuré.
 import Anthropic from "@anthropic-ai/sdk";
+
+// Vercel : laisser le temps à la recherche web (jusqu'à 60 s).
+export const maxDuration = 60;
 
 const clip = (v, n = 500) => String(v == null ? "" : v).slice(0, n).trim();
 
 function buildBrief(d) {
   const arr = (x) => [].concat(x || []).filter(Boolean).map((s) => clip(s, 60)).join(", ");
   const L = [];
-  L.push(`Nom du gîte : ${clip(d.giteName) || "—"}`);
-  L.push(`Type : ${clip(d.giteType) || "—"} · Capacité : ${clip(d.capacity) || "—"} voyageurs · ${clip(d.bedrooms) || "?"} chambres`);
-  L.push(`Lieu : ${[clip(d.city), clip(d.postal)].filter(Boolean).join(" ") || "—"}${d.address ? " · " + clip(d.address) : ""}`);
-  if (d.ambiance) L.push(`Ambiance : ${clip(d.ambiance)}`);
+  L.push(`GÎTE À DOCUMENTER`);
+  L.push(`Nom : ${clip(d.giteName) || "—"}`);
+  L.push(`Type : ${clip(d.giteType) || "—"} · Capacité : ${clip(d.capacity) || "—"} voyageurs`);
+  L.push(`LOCALISATION (à utiliser pour la recherche web) : ${[clip(d.address), clip(d.city), clip(d.postal)].filter(Boolean).join(", ") || "—"}`);
+  if (d.ambiance) L.push(`Ambiance du gîte : ${clip(d.ambiance)}`);
   if (d.highlights) L.push(`Atouts phares : ${clip(d.highlights)}`);
   const ams = arr(d.amenities);
   if (ams) L.push(`Équipements : ${ams}`);
-  if (d.hosts) L.push(`Hôtes : ${clip(d.hosts, 80)}`);
+  if (d.hosts) L.push(`Signature des hôtes : ${clip(d.hosts, 80)}`);
   L.push("");
-  L.push("Adresses fournies par l'hôte (à sublimer, ne pas inventer d'autres noms précis) :");
+  L.push("ADRESSES DÉJÀ CONNUES DE L'HÔTE (à reprendre en priorité et à enrichir) :");
   L.push(`- Restaurants & tables : ${clip(d.restos, 800) || "(aucune)"}`);
   L.push(`- Nature, activités & balades : ${clip(d.activites, 800) || "(aucune)"}`);
   L.push(`- Commerces & marché : ${clip(d.commerces, 800) || "(aucun)"}`);
@@ -26,25 +31,30 @@ function buildBrief(d) {
   return L.join("\n");
 }
 
-const SYSTEM = `Tu es la plume éditoriale de "Carnet d'Hôte", une marque premium qui crée des livrets de bienvenue pour gîtes et maisons d'hôtes. Ton style : chaleureux, élégant, sobre — jamais mièvre ni "marketing", jamais de superlatifs creux ni d'emojis. Tu écris en français, à la 1re personne du pluriel (les hôtes qui accueillent).
+const SYSTEM = `Tu es le concierge local de "Carnet d'Hôte", une marque premium de livrets de bienvenue pour gîtes et maisons d'hôtes. Ton rôle : composer une sélection RICHE et RÉELLE d'adresses et d'activités autour d'un gîte, comme le ferait un habitant qui connaît sa région par cœur.
 
-À partir du brief d'un gîte, tu rédiges le contenu d'un carnet :
-- "motAccueil" : un mot d'accueil personnalisé de 3 à 4 phrases (utilise le nom du gîte et l'ambiance décrite).
-- "decouvrir" : un court paragraphe (2-3 phrases) qui donne envie de découvrir la région autour du gîte, dans un esprit "art de vivre".
-- "bonsPlans" : pour chaque catégorie (restaurants, activites, commerces, famille), une liste d'entrées {nom, description}. Description = une phrase courte et évocatrice.
+MÉTHODE (obligatoire) :
+1. Utilise l'outil de recherche web pour trouver de VRAIES adresses situées autour de la localisation fournie (commune, code postal, région). Fais plusieurs recherches ciblées : restaurants et tables du coin, activités de nature et randonnées, sites à visiter / patrimoine / villages, marchés et producteurs locaux, sorties en famille et options jours de pluie, curiosités et coups de cœur. Croise les résultats.
+2. Reprends d'abord les adresses déjà fournies par l'hôte (enrichis-les), puis complète ABONDAMMENT avec tes trouvailles.
 
-RÈGLES STRICTES :
-- N'invente JAMAIS de noms d'établissements, d'adresses, d'horaires ou de distances précises que l'hôte n'a pas fournis. Reformule et sublime uniquement les adresses données.
-- Tu peux compléter chaque catégorie avec 1 à 2 suggestions GÉNÉRIQUES (sans nom propre inventé), par ex. {"nom":"Le marché du samedi","description":"..."} ou {"nom":"Balade au fil de la rivière","description":"..."}, clairement génériques.
-- Si une catégorie est vide et que tu n'as aucune matière, renvoie une liste vide.
-- Reste concis : chaque description ≤ 120 caractères.
+RÉDACTION (français, ton chaleureux, élégant et sobre — jamais "marketing", pas d'emojis) :
+- "motAccueil" : 3 à 4 phrases d'accueil personnalisées (nom du gîte, ambiance).
+- "decouvrir" : 3 à 5 phrases qui plantent le décor de la région (paysages, art de vivre, incontournables tout proches).
+- "bonsPlans" : pour CHAQUE catégorie, propose entre 4 et 6 entrées {nom, description, detail} quand la zone le permet.
+  - "nom" : le nom réel du lieu/établissement/site.
+  - "description" : une phrase courte et évocatrice (≤ 130 caractères).
+  - "detail" : une info pratique courte (distance ou temps approximatif depuis la commune, jour de marché, "réservation conseillée"…). Reste général si tu n'es pas sûr.
+  Catégories : restaurants, activites, visites, commerces, famille, secrets.
 
-Réponds UNIQUEMENT par un objet JSON valide, sans texte autour, sans balises de code, exactement dans cette forme :
-{"motAccueil":"...","decouvrir":"...","bonsPlans":{"restaurants":[{"nom":"...","description":"..."}],"activites":[...],"commerces":[...],"famille":[...]}}`;
+RÈGLES :
+- Privilégie des lieux RÉELS et vérifiables trouvés via la recherche. N'invente pas de numéros de téléphone ni d'horaires précis ; si tu n'es pas sûr d'un détail, reste général.
+- Vise l'abondance et la vraie valeur locale : le voyageur doit sentir qu'on lui a préparé une sélection généreuse et sur-mesure.
+
+SORTIE : après tes recherches, réponds en DERNIER par UNIQUEMENT un objet JSON valide, sans aucun texte autour ni balise de code, dans cette forme exacte :
+{"motAccueil":"...","decouvrir":"...","bonsPlans":{"restaurants":[{"nom":"","description":"","detail":""}],"activites":[],"visites":[],"commerces":[],"famille":[],"secrets":[]}}`;
 
 function parseJson(text) {
   let t = String(text || "").trim();
-  // retire d'éventuelles balises de code
   const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
   if (fence) t = fence[1].trim();
   const start = t.indexOf("{");
@@ -71,29 +81,42 @@ export default async function handler(req, res) {
     const client = new Anthropic({ apiKey });
     const response = await client.messages.create({
       model: "claude-opus-4-8",
-      max_tokens: 3000,
+      max_tokens: 8000,
       system: SYSTEM,
+      tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 8 }],
       messages: [{ role: "user", content: buildBrief(d) }],
     });
-    const text = (response.content.find((b) => b.type === "text") || {}).text || "";
+    // le JSON final est le dernier bloc texte de la réponse
+    const textBlocks = (response.content || []).filter((b) => b.type === "text").map((b) => b.text);
     let data;
     try {
-      data = parseJson(text);
-    } catch (e) {
-      res.status(502).json({ error: "bad_output", message: "La réponse de l'IA n'a pas pu être lue." });
-      return;
+      data = parseJson(textBlocks[textBlocks.length - 1] || "");
+    } catch (_) {
+      try { data = parseJson(textBlocks.join("\n")); }
+      catch (e2) {
+        res.status(502).json({ error: "bad_output", message: "La réponse de l'IA n'a pas pu être lue. Réessayez." });
+        return;
+      }
     }
-    // normalisation défensive
-    const items = (a) => (Array.isArray(a) ? a : []).filter((x) => x && x.nom).map((x) => ({ nom: String(x.nom).slice(0, 80), description: String(x.description || "").slice(0, 160) }));
+    const items = (a) => (Array.isArray(a) ? a : [])
+      .filter((x) => x && x.nom)
+      .slice(0, 8)
+      .map((x) => ({
+        nom: String(x.nom).slice(0, 90),
+        description: String(x.description || "").slice(0, 190),
+        detail: String(x.detail || "").slice(0, 90),
+      }));
     const bp = data.bonsPlans || {};
     res.status(200).json({
       motAccueil: String(data.motAccueil || "").slice(0, 900),
-      decouvrir: String(data.decouvrir || "").slice(0, 700),
+      decouvrir: String(data.decouvrir || "").slice(0, 800),
       bonsPlans: {
         restaurants: items(bp.restaurants),
         activites: items(bp.activites),
+        visites: items(bp.visites),
         commerces: items(bp.commerces),
         famille: items(bp.famille),
+        secrets: items(bp.secrets),
       },
     });
   } catch (e) {

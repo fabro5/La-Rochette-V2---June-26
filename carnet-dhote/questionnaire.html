@@ -161,6 +161,21 @@
   .ai-status.ok{color:var(--sage-deep)}
   .ai-status.err{color:var(--clay)}
   .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:.74rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;border-radius:20px;padding:4px 11px}
+  /* Sélection IA (liste complète des recommandations) */
+  .airecos{margin-top:34px;border-top:1px solid var(--line);padding-top:26px}
+  .airecos-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .airecos-head h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.6rem;color:var(--ink)}
+  .airecos-badge{font-size:.74rem;color:var(--sage-deep);background:#EDF0E5;border:1px solid #DAE0CD;border-radius:20px;padding:5px 12px;white-space:nowrap}
+  .airecos-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.06rem;line-height:1.65;color:var(--ink-2);margin:6px 0 22px}
+  .airecos-cat{margin-bottom:22px}
+  .airecos-cat-t{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:600;color:var(--sage-deep);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:11px;display:flex;align-items:center;gap:9px}
+  .airecos-n{font-family:'Inter';font-size:.68rem;font-weight:600;color:#fff;background:var(--sage);border-radius:20px;padding:1px 8px;line-height:1.6}
+  .airecos-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px dotted var(--line-2)}
+  .airecos-item:last-child{border-bottom:none}
+  .airecos-pin{color:var(--clay);flex:0 0 auto;margin-top:3px}
+  .airecos-item b{font-size:.94rem;color:var(--ink);font-weight:600}
+  .airecos-detail{font-size:.78rem;color:var(--muted);font-weight:400}
+  .airecos-desc{font-size:.86rem;color:var(--ink-2);line-height:1.55;margin-top:1px}
 
   /* ===== DESIGNS (pages 480×679) ===== */
   .d1-serif{font-family:'Cormorant Garamond',serif}
@@ -422,6 +437,8 @@
         </div>
         <div class="flip-hint">Touchez le côté droit/gauche, glissez, ou utilisez les flèches pour tourner les pages</div>
       </div>
+
+      <div id="aiRecos"></div>
     </section>
 
     <!-- STEP 6 : COMMANDE -->
@@ -725,14 +742,37 @@
     build(o.dataset.k);
   }));
 
-  // ===== Enrichissement IA (moteur serverless) =====
+  // ===== Enrichissement IA (moteur serverless + recherche web) =====
   const AI_ENDPOINT = '/api/generate';
+  const AI_CATS = [
+    ['restaurants','Tables & terroir'],
+    ['activites','Nature & balades'],
+    ['visites','Culture & patrimoine'],
+    ['commerces','Marchés & producteurs'],
+    ['famille','En famille'],
+    ['secrets','Coups de cœur']
+  ];
+  function renderAiRecos(){
+    const host = document.getElementById('aiRecos');
+    const bp = (aiContent && aiContent.bonsPlans) || {};
+    const total = AI_CATS.reduce((n,[k])=> n + ((bp[k]||[]).length), 0);
+    if(!total){ host.innerHTML=''; return; }
+    let body = '';
+    if(aiContent.decouvrir) body += `<p class="airecos-intro">${E(aiContent.decouvrir)}</p>`;
+    AI_CATS.forEach(([k,label])=>{
+      const items = bp[k]||[]; if(!items.length) return;
+      body += `<div class="airecos-cat"><div class="airecos-cat-t">${label}<span class="airecos-n">${items.length}</span></div>`;
+      body += items.map(it=>`<div class="airecos-item"><span class="airecos-pin">${PIN}</span><div><b>${E(it.nom)}</b>${it.detail?` <span class="airecos-detail">· ${E(it.detail)}</span>`:''}<div class="airecos-desc">${E(it.description)}</div></div></div>`).join('');
+      body += `</div>`;
+    });
+    host.innerHTML = `<div class="airecos"><div class="airecos-head"><h3>La sélection de votre carnet</h3><span class="airecos-badge">✦ ${total} adresses proposées par l'IA</span></div>${body}</div>`;
+  }
   const aiBtn = document.getElementById('aiBtn');
   const aiStatus = document.getElementById('aiStatus');
   aiBtn.addEventListener('click', async ()=>{
     aiBtn.disabled = true;
     aiStatus.className = 'ai-status';
-    aiStatus.textContent = 'Rédaction en cours…';
+    aiStatus.textContent = 'Recherche des meilleures adresses autour de votre gîte… (~30 s)';
     try{
       const resp = await fetch(AI_ENDPOINT, {
         method:'POST', headers:{'Content-Type':'application/json'},
@@ -745,9 +785,11 @@
       }
       aiContent = await resp.json();
       build(curDesign);
+      renderAiRecos();
       aiStatus.className = 'ai-status ok';
-      aiStatus.innerHTML = '<span class="ai-badge">✦ Textes enrichis par l\'IA</span>';
+      aiStatus.innerHTML = '<span class="ai-badge">✦ Sélection enrichie par l\'IA</span>';
       aiBtn.innerHTML = '<span class="ai-ic">✦</span> Régénérer';
+      document.getElementById('aiRecos').scrollIntoView({behavior:'smooth',block:'start'});
     }catch(err){
       aiStatus.className = 'ai-status err';
       aiStatus.textContent = err.message || 'Une erreur est survenue.';

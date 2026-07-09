@@ -78,6 +78,11 @@ export default async function handler(req, res) {
   }
   try {
     const d = req.body && typeof req.body === "object" ? req.body : JSON.parse(req.body || "{}");
+    // Garde-fou : un email valide est requis pour déclencher la génération (capture du lead + anti-abus).
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(d.email || "").trim())) {
+      res.status(400).json({ error: "email_required", message: "Un email valide est requis pour générer l'aperçu." });
+      return;
+    }
     const client = new Anthropic({ apiKey });
     const response = await client.messages.create({
       model: "claude-opus-4-8",

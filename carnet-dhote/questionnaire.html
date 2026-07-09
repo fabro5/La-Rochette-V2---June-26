@@ -152,6 +152,13 @@
   .dopt .ds{font-size:.72rem;color:var(--muted);margin-top:1px}
   .dopt .chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--sage);color:#fff;font-size:.66rem;display:none;align-items:center;justify-content:center}
   .dopt.active .chk{display:flex}
+  .ai-gate{background:#FBF4EC;border:1px solid #E9D3BF;border-radius:12px;padding:18px 18px 16px;margin:-6px 0 24px;text-align:center}
+  .ai-gate-t{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--clay);display:flex;align-items:center;justify-content:center;gap:8px}
+  .ai-gate-s{font-size:.85rem;color:var(--ink-2);max-width:440px;margin:5px auto 14px}
+  .ai-gate-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .ai-gate-row input[type=email]{flex:1;min-width:200px;max-width:280px;padding:12px 14px;border:1px solid var(--line-2);border-radius:8px;background:#fff;font-family:'Inter';font-size:.95rem}
+  .ai-gate-row input[type=email]:focus{outline:none;border-color:var(--clay);box-shadow:0 0 0 3px rgba(176,102,63,.12)}
+  .ai-gate.done .ai-gate-s,.ai-gate.done .ai-gate-row input{display:none}
   .ai-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px 14px;margin:-6px 0 22px}
   .ai-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Inter';font-size:.9rem;font-weight:500;color:var(--clay);background:#FBF4EC;border:1px solid #E9D3BF;border-radius:30px;padding:10px 20px;cursor:pointer;transition:.2s}
   .ai-btn:hover:not(:disabled){background:#F6E9DA;border-color:var(--clay);transform:translateY(-1px)}
@@ -422,8 +429,13 @@
         </div>
       </div>
 
-      <div class="ai-row">
-        <button type="button" class="ai-btn" id="aiBtn"><span class="ai-ic">✦</span> Enrichir les textes avec l'IA</button>
+      <div class="ai-gate" id="aiGate">
+        <div class="ai-gate-t"><span class="ai-ic">✦</span> Débloquez votre aperçu enrichi par l'IA</div>
+        <p class="ai-gate-s">Saisissez votre email : nous composons une sélection sur-mesure de vraies adresses autour de votre gîte. Sans engagement.</p>
+        <div class="ai-gate-row">
+          <input type="email" id="aiEmail" placeholder="vous@exemple.fr" autocomplete="email">
+          <button type="button" class="ai-btn" id="aiBtn"><span class="ai-ic">✦</span> Générer mon aperçu</button>
+        </div>
         <span class="ai-status" id="aiStatus"></span>
       </div>
 
@@ -769,14 +781,53 @@
   }
   const aiBtn = document.getElementById('aiBtn');
   const aiStatus = document.getElementById('aiStatus');
+  const aiEmail = document.getElementById('aiEmail');
+  const aiGate = document.getElementById('aiGate');
+  const validEmail = e => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(e||'').trim());
+  const AI_MAX = 4;   // garde-fou anti-abus : nombre max de générations par navigateur
+  function aiCount(inc){
+    let n = parseInt(localStorage.getItem('cd_ai_gen')||'0',10) || 0;
+    if(inc){ n++; localStorage.setItem('cd_ai_gen', n); }
+    return n;
+  }
+  // Capture du prospect (best-effort) — l'hôte reçoit le lead même sans commande
+  function captureLead(email){
+    try{
+      const d = collect();
+      const fd = new FormData();
+      fd.append('_subject', 'Nouveau prospect — aperçu enrichi (Carnet d\'Hôte)');
+      fd.append('type', 'Lead (aperçu IA, sans commande)');
+      fd.append('email', email);
+      fd.append('gite', d.giteName || '');
+      fd.append('ville', [d.city, d.postal].filter(Boolean).join(' '));
+      if(FORM_ENDPOINT) fetch(FORM_ENDPOINT, {method:'POST', headers:{'Accept':'application/json'}, body:fd}).catch(()=>{});
+    }catch(_){}
+  }
   aiBtn.addEventListener('click', async ()=>{
+    const email = (aiEmail.value||'').trim();
+    if(!validEmail(email)){
+      aiStatus.className = 'ai-status err';
+      aiStatus.textContent = 'Merci d\'indiquer un email valide pour débloquer votre aperçu.';
+      aiEmail.focus();
+      return;
+    }
+    if(aiCount(false) >= AI_MAX){
+      aiStatus.className = 'ai-status err';
+      aiStatus.textContent = 'Limite d\'aperçus atteinte sur cet appareil. Finalisez votre commande pour la version définitive.';
+      return;
+    }
+    // pré-remplit l'email de commande + capture le lead à la 1re génération
+    const orderEmail = document.getElementById('email');
+    if(orderEmail && !orderEmail.value) orderEmail.value = email;
+    if(!aiContent) captureLead(email);
+
     aiBtn.disabled = true;
     aiStatus.className = 'ai-status';
     aiStatus.textContent = 'Recherche des meilleures adresses autour de votre gîte… (~30 s)';
     try{
       const resp = await fetch(AI_ENDPOINT, {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(collect())
+        body: JSON.stringify({ ...collect(), email })
       });
       if(!resp.ok){
         let msg = 'Le moteur IA est indisponible pour le moment.';
@@ -784,8 +835,10 @@
         throw new Error(msg);
       }
       aiContent = await resp.json();
+      aiCount(true);
       build(curDesign);
       renderAiRecos();
+      aiGate.classList.add('done');
       aiStatus.className = 'ai-status ok';
       aiStatus.innerHTML = '<span class="ai-badge">✦ Sélection enrichie par l\'IA</span>';
       aiBtn.innerHTML = '<span class="ai-ic">✦</span> Régénérer';

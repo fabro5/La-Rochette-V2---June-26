@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Carnet d'Hôte — génération de guides de bienvenue pour gîtes",
   "dependencies": {
-    "@anthropic-ai/sdk": "latest"
+    "@anthropic-ai/sdk": "latest",
+    "@google/genai": "^2.11.0"
   }
 }

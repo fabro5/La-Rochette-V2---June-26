@@ -1,13 +1,14 @@
-// Fonction serverless Vercel : concierge local IA.
-// À partir de la localisation du gîte, Claude RECHERCHE sur le web de vraies
-// adresses autour et compose une sélection riche (mot d'accueil, découverte de
-// la région, bons plans par catégorie). Renvoie du JSON structuré.
-import Anthropic from "@anthropic-ai/sdk";
+// Fonction serverless Vercel : concierge local IA (Google Gemini).
+// À partir de la localisation du gîte, Gemini utilise Google Search (grounding)
+// pour trouver de vraies adresses autour et compose une sélection riche.
+// Sortie JSON identique à l'ancienne version (l'aperçu ne change pas).
+import { GoogleGenAI } from "@google/genai";
 
 // Vercel : laisser le temps à la recherche web (jusqu'à 60 s).
 export const maxDuration = 60;
 
 const clip = (v, n = 500) => String(v == null ? "" : v).slice(0, n).trim();
+const emailOk = (e) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(e || "").trim());
 
 function buildBrief(d) {
   const arr = (x) => [].concat(x || []).filter(Boolean).map((s) => clip(s, 60)).join(", ");
@@ -34,23 +35,23 @@ function buildBrief(d) {
 const SYSTEM = `Tu es le concierge local de "Carnet d'Hôte", une marque premium de livrets de bienvenue pour gîtes et maisons d'hôtes. Ton rôle : composer une sélection RICHE et RÉELLE d'adresses et d'activités autour d'un gîte, comme le ferait un habitant qui connaît sa région par cœur.
 
 MÉTHODE (obligatoire) :
-1. Utilise l'outil de recherche web pour trouver de VRAIES adresses situées autour de la localisation fournie (commune, code postal, région). Fais plusieurs recherches ciblées : restaurants et tables du coin, activités de nature et randonnées, sites à visiter / patrimoine / villages, marchés et producteurs locaux, sorties en famille et options jours de pluie, curiosités et coups de cœur. Croise les résultats.
+1. Utilise la recherche Google pour trouver de VRAIES adresses situées autour de la localisation fournie (commune, code postal, région). Fais plusieurs recherches ciblées : restaurants et tables du coin, activités de nature et randonnées, sites à visiter / patrimoine / villages, marchés et producteurs locaux, sorties en famille et options jours de pluie, curiosités et coups de cœur.
 2. Reprends d'abord les adresses déjà fournies par l'hôte (enrichis-les), puis complète ABONDAMMENT avec tes trouvailles.
 
 RÉDACTION (français, ton chaleureux, élégant et sobre — jamais "marketing", pas d'emojis) :
 - "motAccueil" : 3 à 4 phrases d'accueil personnalisées (nom du gîte, ambiance).
-- "decouvrir" : 3 à 5 phrases qui plantent le décor de la région (paysages, art de vivre, incontournables tout proches).
-- "bonsPlans" : pour CHAQUE catégorie, propose entre 4 et 6 entrées {nom, description, detail} quand la zone le permet.
+- "decouvrir" : 3 à 5 phrases qui plantent le décor de la région.
+- "bonsPlans" : pour CHAQUE catégorie, entre 4 et 6 entrées {nom, description, detail} quand la zone le permet.
   - "nom" : le nom réel du lieu/établissement/site.
   - "description" : une phrase courte et évocatrice (≤ 130 caractères).
-  - "detail" : une info pratique courte (distance ou temps approximatif depuis la commune, jour de marché, "réservation conseillée"…). Reste général si tu n'es pas sûr.
+  - "detail" : une info pratique courte (distance/temps approximatif depuis la commune, jour de marché…). Reste général si tu n'es pas sûr.
   Catégories : restaurants, activites, visites, commerces, famille, secrets.
 
 RÈGLES :
 - Privilégie des lieux RÉELS et vérifiables trouvés via la recherche. N'invente pas de numéros de téléphone ni d'horaires précis ; si tu n'es pas sûr d'un détail, reste général.
-- Vise l'abondance et la vraie valeur locale : le voyageur doit sentir qu'on lui a préparé une sélection généreuse et sur-mesure.
+- Vise l'abondance et la vraie valeur locale.
 
-SORTIE : après tes recherches, réponds en DERNIER par UNIQUEMENT un objet JSON valide, sans aucun texte autour ni balise de code, dans cette forme exacte :
+SORTIE : réponds UNIQUEMENT par un objet JSON valide, sans aucun texte autour ni balise de code, dans cette forme exacte :
 {"motAccueil":"...","decouvrir":"...","bonsPlans":{"restaurants":[{"nom":"","description":"","detail":""}],"activites":[],"visites":[],"commerces":[],"famille":[],"secrets":[]}}`;
 
 function parseJson(text) {
@@ -68,40 +69,37 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "method_not_allowed" });
     return;
   }
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     res.status(503).json({
       error: "not_configured",
-      message: "Le moteur IA n'est pas encore activé (clé API manquante). Ajoutez ANTHROPIC_API_KEY dans les réglages Vercel.",
+      message: "Le moteur IA n'est pas encore activé (clé API manquante). Ajoutez GEMINI_API_KEY dans les réglages Vercel.",
     });
     return;
   }
   try {
     const d = req.body && typeof req.body === "object" ? req.body : JSON.parse(req.body || "{}");
-    // Garde-fou : un email valide est requis pour déclencher la génération (capture du lead + anti-abus).
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(d.email || "").trim())) {
+    if (!emailOk(d.email)) {
       res.status(400).json({ error: "email_required", message: "Un email valide est requis pour générer l'aperçu." });
       return;
     }
-    const client = new Anthropic({ apiKey });
-    const response = await client.messages.create({
-      model: "claude-opus-4-8",
-      max_tokens: 8000,
-      system: SYSTEM,
-      tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 8 }],
-      messages: [{ role: "user", content: buildBrief(d) }],
+    const ai = new GoogleGenAI({ apiKey });
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: buildBrief(d),
+      config: {
+        systemInstruction: SYSTEM,
+        maxOutputTokens: 8000,
+        tools: [{ googleSearch: {} }],
+      },
     });
-    // le JSON final est le dernier bloc texte de la réponse
-    const textBlocks = (response.content || []).filter((b) => b.type === "text").map((b) => b.text);
+    const text = typeof response.text === "function" ? response.text() : response.text;
     let data;
     try {
-      data = parseJson(textBlocks[textBlocks.length - 1] || "");
+      data = parseJson(text);
     } catch (_) {
-      try { data = parseJson(textBlocks.join("\n")); }
-      catch (e2) {
-        res.status(502).json({ error: "bad_output", message: "La réponse de l'IA n'a pas pu être lue. Réessayez." });
-        return;
-      }
+      res.status(502).json({ error: "bad_output", message: "La réponse de l'IA n'a pas pu être lue. Réessayez." });
+      return;
     }
     const items = (a) => (Array.isArray(a) ? a : [])
       .filter((x) => x && x.nom)
@@ -125,10 +123,11 @@ export default async function handler(req, res) {
       },
     });
   } catch (e) {
-    const status = e && e.status === 401 ? 401 : 500;
+    const msg = String((e && e.message) || e || "");
+    const status = /api key|permission|invalid|unauthenticated|401|403/i.test(msg) ? 401 : 500;
     res.status(status).json({
       error: "generation_failed",
-      message: status === 401 ? "Clé API refusée." : "La génération a échoué. Réessayez dans un instant.",
+      message: status === 401 ? "Clé API refusée ou invalide." : "La génération a échoué. Réessayez dans un instant.",
     });
   }
 }

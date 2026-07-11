@@ -84,15 +84,51 @@ export default async function handler(req, res) {
       return;
     }
     const ai = new GoogleGenAI({ apiKey });
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: buildBrief(d),
-      config: {
-        systemInstruction: SYSTEM,
-        maxOutputTokens: 8000,
-        tools: [{ googleSearch: {} }],
-      },
-    });
+
+    // Liste les modèles réellement disponibles sur ce compte (supportant generateContent).
+    async function availableModels() {
+      const out = [];
+      try {
+        const pager = await ai.models.list();
+        for await (const md of pager) {
+          const acts = md.supportedActions || md.supportedGenerationMethods || [];
+          if (!acts.length || acts.includes("generateContent")) {
+            out.push(String(md.name || "").replace(/^models\//, ""));
+          }
+        }
+      } catch (_) {}
+      return out;
+    }
+
+    // Choix du modèle : override par env GEMINI_MODEL, sinon auto-sélection d'un "flash".
+    let model = clip(process.env.GEMINI_MODEL, 60);
+    let avail = [];
+    if (!model) {
+      avail = await availableModels();
+      const pref = ["gemini-flash-latest", "gemini-2.0-flash", "gemini-2.5-flash", "gemini-2.0-flash-001"];
+      model =
+        pref.find((p) => avail.includes(p)) ||
+        avail.find((c) => /flash/i.test(c) && !/lite|thinking|exp|preview/i.test(c)) ||
+        avail.find((c) => /flash/i.test(c)) ||
+        avail.find((c) => /gemini/i.test(c)) ||
+        "gemini-2.0-flash";
+    }
+
+    let response;
+    try {
+      response = await ai.models.generateContent({
+        model,
+        contents: buildBrief(d),
+        config: {
+          systemInstruction: SYSTEM,
+          maxOutputTokens: 8000,
+          tools: [{ googleSearch: {} }],
+        },
+      });
+    } catch (err) {
+      if (!avail.length) avail = await availableModels();
+      throw new Error(`[modele ${model}] ${String((err && err.message) || err)} — dispo: ${avail.slice(0, 12).join(", ")}`);
+    }
     const text = typeof response.text === "function" ? response.text() : response.text;
     let data;
     try {

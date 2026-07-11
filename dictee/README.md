@@ -35,3 +35,9 @@ python3 -m http.server 8080
 Aucune donnée n'est envoyée sur un serveur applicatif : la reconnaissance
 utilise l'API Web Speech du navigateur, et l'historique, les réglages et le
 dictionnaire sont stockés dans le `localStorage` de l'appareil.
+
+## Version tout-en-un
+
+`standalone/index.html` embarque CSS et JS dans un seul fichier : à utiliser quand
+l'hébergement réécrit les URL inconnues (SPA Vercel/Netlify) et casse le chargement
+des fichiers annexes.

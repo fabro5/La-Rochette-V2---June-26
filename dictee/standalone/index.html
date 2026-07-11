@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0f14">
+  <meta name="description" content="Dictée vocale intelligente : parlez, le texte propre est copié automatiquement.">
+  <title>Flow Dictée — dictée vocale intelligente</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%99%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <style>
+/* ===== Flow Dictée ===== */
+
+:root {
+  --bg: #0d0f14;
+  --bg-soft: #141822;
+  --card: #171c28;
+  --card-border: #232a3a;
+  --text: #eef1f7;
+  --text-dim: #9aa3b5;
+  --accent: #7c5cff;
+  --accent-soft: rgba(124, 92, 255, 0.18);
+  --accent-2: #4dd0e1;
+  --danger: #ff6b6b;
+  --ok: #4ade80;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(124, 92, 255, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 90% 110%, rgba(77, 208, 225, 0.07), transparent 60%),
+    var(--bg);
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 100vh;
+}
+
+.hidden { display: none !important; }
+
+/* ===== Top bar ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: env(safe-area-inset-top);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.2px; }
+.brand-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px var(--accent);
+}
+
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.lang-select {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.icon-btn {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  border-radius: 10px;
+  width: 38px; height: 38px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.icon-btn:hover { background: var(--bg-soft); }
+
+/* ===== Unsupported ===== */
+.unsupported {
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.35);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ===== Stage / orb ===== */
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 26px 0 6px;
+}
+
+.orb-wrap { position: relative; width: 148px; height: 148px; }
+
+.orb {
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(145deg, #6a48f5, #8f6bff 55%, #4dd0e1 130%);
+  box-shadow:
+    0 10px 34px rgba(124, 92, 255, 0.4),
+    inset 0 -6px 18px rgba(0, 0, 0, 0.25),
+    inset 0 4px 10px rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+.orb:active { transform: scale(0.96); }
+.mic-icon { width: 44px; height: 44px; }
+
+.orb-rings span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+}
+
+body.recording .orb {
+  background: linear-gradient(145deg, #ff5d7d, #ff7b5d 60%, #ffb15d 130%);
+  box-shadow:
+    0 10px 38px rgba(255, 93, 125, 0.45),
+    inset 0 -6px 18px rgba(0, 0, 0, 0.25),
+    inset 0 4px 10px rgba(255, 255, 255, 0.22);
+}
+body.recording .orb-rings span {
+  animation: ring 1.8s ease-out infinite;
+  border-color: #ff5d7d;
+}
+body.recording .orb-rings span:nth-child(2) { animation-delay: 0.6s; }
+body.recording .orb-rings span:nth-child(3) { animation-delay: 1.2s; }
+
+@keyframes ring {
+  0%   { transform: scale(0.75); opacity: 0.75; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+.status {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-align: center;
+  min-height: 1.4em;
+}
+.status.rec { color: #ff8fa3; font-weight: 600; }
+
+kbd {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 1px 7px;
+  font-family: inherit;
+  font-size: 0.85em;
+}
+
+/* Sur mobile (pas de clavier physique) on masque l'astuce Espace */
+@media (hover: none) and (pointer: coarse) {
+  .kbd-hint { display: none; }
+  .status::before { content: "Touche le micro pour dicter"; }
+  body.recording .status::before { content: ""; }
+}
+
+.live-text {
+  min-height: 1.5em;
+  max-width: 560px;
+  text-align: center;
+  color: var(--accent-2);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  font-style: italic;
+  opacity: 0.95;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.card-head h2 { font-size: 0.95rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; }
+
+.copied-badge {
+  color: var(--ok);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+textarea {
+  width: 100%;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  outline: none;
+}
+textarea:focus { border-color: var(--accent); }
+
+.result-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: 1px solid var(--card-border);
+  background: var(--bg-soft);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn.primary {
+  background: linear-gradient(135deg, var(--accent), #9a7bff);
+  border-color: transparent;
+  color: #fff;
+}
+.btn.ghost { background: transparent; }
+.btn.small { padding: 6px 12px; font-size: 0.8rem; }
+
+/* ===== History ===== */
+.history-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.history-item {
+  background: var(--bg-soft);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.history-text {
+  flex: 1;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
+}
+.history-date { font-size: 0.72rem; color: var(--text-dim); display: block; margin-top: 2px; }
+.history-actions { display: flex; gap: 4px; }
+.history-actions button {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+.history-actions button:hover { background: var(--card); color: var(--text); }
+
+.history-empty { color: var(--text-dim); font-size: 0.88rem; text-align: center; padding: 8px 0; }
+
+/* ===== Footer ===== */
+.foot { text-align: center; color: var(--text-dim); font-size: 0.78rem; margin-top: auto; padding-top: 8px; }
+
+/* ===== Settings sheet ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.66);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+
+.sheet {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 640px;
+  max-height: 86vh;
+  overflow-y: auto;
+  padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: slideUp 0.22s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(28px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@media (min-width: 600px) {
+  .overlay { align-items: center; }
+  .sheet { border-radius: 20px; }
+}
+
+.sheet-head { display: flex; align-items: center; justify-content: space-between; }
+.sheet-head h2 { font-size: 1.05rem; }
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--card-border);
+  cursor: pointer;
+}
+.setting-row span { display: flex; flex-direction: column; gap: 2px; }
+.setting-row small { color: var(--text-dim); font-size: 0.8rem; }
+
+.setting-row input[type="checkbox"] {
+  appearance: none;
+  width: 46px; height: 26px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: var(--bg-soft);
+  border: 1px solid var(--card-border);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.setting-row input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  transition: transform 0.2s, background 0.2s;
+}
+.setting-row input[type="checkbox"]:checked { background: var(--accent-soft); border-color: var(--accent); }
+.setting-row input[type="checkbox"]:checked::after { transform: translateX(20px); background: var(--accent); }
+
+.setting-block { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.setting-block small { color: var(--text-dim); font-size: 0.8rem; line-height: 1.5; }
+.setting-block code { background: var(--bg-soft); padding: 1px 5px; border-radius: 5px; font-size: 0.85em; }
+.setting-block .btn { align-self: flex-start; }
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: calc(26px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  background: #22293a;
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  animation: toastIn 0.2s ease-out;
+}
+@keyframes toastIn {
+  from { transform: translate(-50%, 12px); opacity: 0; }
+  to   { transform: translate(-50%, 0); opacity: 1; }
+}
+  </style>
+</head>
+<body>
+
+  <main class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <h1>Flow Dictée</h1>
+      </div>
+      <div class="topbar-actions">
+        <select id="langSelect" class="lang-select" title="Langue de dictée">
+          <option value="fr-FR" selected>Français</option>
+          <option value="en-US">English</option>
+          <option value="es-ES">Español</option>
+          <option value="it-IT">Italiano</option>
+          <option value="de-DE">Deutsch</option>
+          <option value="pt-PT">Português</option>
+          <option value="nl-NL">Nederlands</option>
+          <option value="ar-SA">العربية</option>
+        </select>
+        <button id="settingsBtn" class="icon-btn" title="Réglages" aria-label="Réglages">⚙️</button>
+      </div>
+    </header>
+
+    <div id="unsupported" class="unsupported hidden">
+      <p>😕 Ton navigateur ne prend pas en charge la reconnaissance vocale.</p>
+      <p>Utilise <strong>Chrome</strong>, <strong>Edge</strong> ou <strong>Safari</strong> pour profiter de la dictée.</p>
+    </div>
+
+    <!-- Zone principale : orbe micro -->
+    <section class="stage">
+      <div class="orb-wrap">
+        <div id="orbRings" class="orb-rings" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <button id="micBtn" class="orb" aria-label="Démarrer ou arrêter la dictée">
+          <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="2.5" width="6" height="12" rx="3"></rect>
+            <path d="M5 11a7 7 0 0 0 14 0"></path>
+            <line x1="12" y1="18" x2="12" y2="21.5"></line>
+          </svg>
+        </button>
+      </div>
+      <p id="statusLine" class="status">
+        <span class="kbd-hint">Maintiens <kbd>Espace</kbd> pour dicter&nbsp;· ou touche le micro</span>
+      </p>
+      <p id="liveText" class="live-text" aria-live="polite"></p>
+    </section>
+
+    <!-- Résultat -->
+    <section id="resultCard" class="card result-card hidden">
+      <div class="card-head">
+        <h2>Texte nettoyé</h2>
+        <span id="copiedBadge" class="copied-badge hidden">✓ Copié</span>
+      </div>
+      <textarea id="resultText" rows="5" spellcheck="true" placeholder="Ton texte apparaîtra ici…"></textarea>
+      <div class="result-actions">
+        <button id="copyBtn" class="btn primary">📋 Copier</button>
+        <button id="redoBtn" class="btn ghost">🎙️ Redicter</button>
+        <button id="clearBtn" class="btn ghost">✕ Effacer</button>
+      </div>
+    </section>
+
+    <!-- Historique -->
+    <section class="card history-card">
+      <div class="card-head">
+        <h2>Historique</h2>
+        <button id="clearHistoryBtn" class="btn ghost small">Tout effacer</button>
+      </div>
+      <ul id="historyList" class="history-list"></ul>
+      <p id="historyEmpty" class="history-empty">Tes dictées apparaîtront ici. Elles sont stockées uniquement sur cet appareil.</p>
+    </section>
+
+    <footer class="foot">
+      <p>🔒 Tout se passe dans ton navigateur — aucune donnée envoyée sur un serveur.</p>
+    </footer>
+  </main>
+
+  <!-- Panneau réglages -->
+  <div id="settingsOverlay" class="overlay hidden">
+    <div class="sheet" role="dialog" aria-label="Réglages">
+      <div class="sheet-head">
+        <h2>Réglages</h2>
+        <button id="settingsClose" class="icon-btn" aria-label="Fermer">✕</button>
+      </div>
+
+      <label class="setting-row">
+        <span>
+          <strong>Supprimer les hésitations</strong>
+          <small>« euh », « hum », mots répétés…</small>
+        </span>
+        <input type="checkbox" id="optFillers" checked>
+      </label>
+
+      <label class="setting-row">
+        <span>
+          <strong>Ponctuation vocale</strong>
+          <small>Dis « point », « virgule », « à la ligne »…</small>
+        </span>
+        <input type="checkbox" id="optVoicePunct" checked>
+      </label>
+
+      <label class="setting-row">
+        <span>
+          <strong>Majuscules automatiques</strong>
+          <small>Début de phrase capitalisé</small>
+        </span>
+        <input type="checkbox" id="optCaps" checked>
+      </label>
+
+      <label class="setting-row">
+        <span>
+          <strong>Copie automatique</strong>
+          <small>Le texte est copié dès la fin de la dictée</small>
+        </span>
+        <input type="checkbox" id="optAutoCopy" checked>
+      </label>
+
+      <div class="setting-block">
+        <strong>Dictionnaire personnel</strong>
+        <small>Corrige les mots que la reconnaissance écorche (noms propres, jargon…). Un remplacement par ligne, au format <code>mot entendu =&gt; mot voulu</code>.</small>
+        <textarea id="dictText" rows="4" placeholder="la rochette => La Rochette&#10;wisp flow => Wispr Flow"></textarea>
+        <button id="dictSave" class="btn primary small">Enregistrer le dictionnaire</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+<script>
+/* ===== Flow Dictée — dictée vocale intelligente, 100 % navigateur ===== */
+(function () {
+  'use strict';
+
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  var micBtn = $('micBtn');
+  var statusLine = $('statusLine');
+  var liveText = $('liveText');
+  var resultCard = $('resultCard');
+  var resultText = $('resultText');
+  var copiedBadge = $('copiedBadge');
+  var langSelect = $('langSelect');
+  var historyList = $('historyList');
+  var historyEmpty = $('historyEmpty');
+  var toast = $('toast');
+
+  var STORAGE = {
+    settings: 'flowDictee.settings',
+    history: 'flowDictee.history',
+    dict: 'flowDictee.dictionary'
+  };
+
+  /* ---------- Réglages ---------- */
+
+  var defaults = { fillers: true, voicePunct: true, caps: true, autoCopy: true, lang: 'fr-FR' };
+  var settings = loadJSON(STORAGE.settings, defaults);
+
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? Object.assign({}, fallback, JSON.parse(raw)) : Object.assign({}, fallback);
+    } catch (e) { return Object.assign({}, fallback); }
+  }
+
+  function saveSettings() {
+    try { localStorage.setItem(STORAGE.settings, JSON.stringify(settings)); } catch (e) {}
+  }
+
+  /* ---------- Support ---------- */
+
+  if (!SpeechRecognition) {
+    $('unsupported').classList.remove('hidden');
+    micBtn.disabled = true;
+    micBtn.style.opacity = '0.4';
+  }
+
+  /* ---------- Reconnaissance vocale ---------- */
+
+  var recognition = null;
+  var state = 'idle'; // idle | recording | stopping
+  var finalTranscript = '';
+  var interimTranscript = '';
+
+  function buildRecognition() {
+    var rec = new SpeechRecognition();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = settings.lang;
+
+    rec.onresult = function (event) {
+      interimTranscript = '';
+      for (var i = event.resultIndex; i < event.results.length; i++) {
+        var chunk = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += chunk + ' ';
+        } else {
+          interimTranscript += chunk;
+        }
+      }
+      liveText.textContent = (finalTranscript + interimTranscript).trim();
+    };
+
+    rec.onerror = function (event) {
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        state = 'idle';
+        setRecordingUI(false);
+        showToast('🎤 Autorise l’accès au micro pour dicter');
+      } else if (event.error === 'no-speech') {
+        // silence : on laisse onend décider (redémarrage si toujours en cours)
+      }
+    };
+
+    rec.onend = function () {
+      if (state === 'recording') {
+        // Le navigateur coupe parfois tout seul après un silence : on relance.
+        try { rec.start(); } catch (e) { /* déjà relancé */ }
+      } else if (state === 'stopping') {
+        state = 'idle';
+        finishDictation();
+      }
+    };
+
+    return rec;
+  }
+
+  function startRecording() {
+    if (!SpeechRecognition || state === 'recording') return;
+    finalTranscript = '';
+    interimTranscript = '';
+    liveText.textContent = '';
+    recognition = buildRecognition();
+    try {
+      recognition.start();
+      state = 'recording';
+      setRecordingUI(true);
+    } catch (e) {
+      state = 'idle';
+      setRecordingUI(false);
+    }
+  }
+
+  function stopRecording(cancelled) {
+    if (state !== 'recording') return;
+    state = cancelled ? 'idle' : 'stopping';
+    setRecordingUI(false);
+    if (recognition) {
+      try { recognition.stop(); } catch (e) {}
+    }
+    if (cancelled) {
+      liveText.textContent = '';
+      showToast('Dictée annulée');
+    }
+  }
+
+  function setRecordingUI(on) {
+    document.body.classList.toggle('recording', on);
+    statusLine.classList.toggle('rec', on);
+    if (on) {
+      statusLine.innerHTML = '● Enregistrement… relâche ou touche pour terminer';
+    } else {
+      statusLine.innerHTML = '<span class="kbd-hint">Maintiens <kbd>Espace</kbd> pour dicter&nbsp;· ou touche le micro</span>';
+    }
+  }
+
+  function finishDictation() {
+    var raw = (finalTranscript + ' ' + interimTranscript).trim();
+    liveText.textContent = '';
+    if (!raw) {
+      showToast('Je n’ai rien entendu 🤫');
+      return;
+    }
+    var clean = cleanText(raw);
+    resultText.value = clean;
+    resultCard.classList.remove('hidden');
+    addToHistory(clean);
+    if (settings.autoCopy) {
+      copyToClipboard(clean, true);
+    }
+  }
+
+  /* ---------- Nettoyage du texte ---------- */
+
+  var FILLERS_FR = /\b(?:euh+|heu+|hum+|hem+|mmh+|bah\s+euh|ben\s+euh)\b/gi;
+  var FILLERS_EN = /\b(?:uh+|um+|erm+|hmm+)\b/gi;
+
+  var PUNCT_FR = [
+    [/\bpoint d[’']interrogation\b/gi, ' ?'],
+    [/\bpoint d[’']exclamation\b/gi, ' !'],
+    [/\bpoints? de suspension\b/gi, '…'],
+    [/\bpoint[- ]virgule\b/gi, ' ;'],
+    [/\bdeux[- ]points\b/gi, ' :'],
+    [/\bnouveau paragraphe\b/gi, '\n\n'],
+    // (^|\s) plutôt que \b : les regex JS ne voient pas de limite de mot avant « à »
+    [/(^|\s)(?:à la ligne|a la ligne|nouvelle ligne|retour à la ligne)(?=\s|$)/gi, '$1\n'],
+    [/\bouvrez? (?:la |les )?parenth[èe]ses?\b/gi, ' ('],
+    [/\bfermez? (?:la |les )?parenth[èe]ses?\b/gi, ')'],
+    [/\bouvrez? (?:les )?guillemets\b/gi, ' «'],
+    [/\bfermez? (?:les )?guillemets\b/gi, '»'],
+    [/\bvirgule\b/gi, ','],
+    // « point » seulement s'il n'est pas suivi d'un complément (« point de vue », « point final »…)
+    [/\bpoint\b(?!\s+(?:de|d[’']|final|com|fr|net|org))/gi, '.']
+  ];
+
+  var PUNCT_EN = [
+    [/\bquestion mark\b/gi, '?'],
+    [/\bexclamation (?:mark|point)\b/gi, '!'],
+    [/\bsemicolon\b/gi, ';'],
+    [/\bcolon\b/gi, ':'],
+    [/\bnew paragraph\b/gi, '\n\n'],
+    [/\bnew line\b/gi, '\n'],
+    [/\bcomma\b/gi, ','],
+    [/\bperiod\b/gi, '.'],
+    [/\bfull stop\b/gi, '.']
+  ];
+
+  function getDictionary() {
+    var raw = '';
+    try { raw = localStorage.getItem(STORAGE.dict) || ''; } catch (e) {}
+    var rules = [];
+    raw.split('\n').forEach(function (line) {
+      var parts = line.split('=>');
+      if (parts.length === 2) {
+        var from = parts[0].trim();
+        var to = parts[1].trim();
+        if (from && to) rules.push([from, to]);
+      }
+    });
+    return rules;
+  }
+
+  function escapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function cleanText(text) {
+    var isFrench = settings.lang.indexOf('fr') === 0;
+    var out = ' ' + text + ' ';
+
+    // 1. Dictionnaire personnel
+    getDictionary().forEach(function (rule) {
+      out = out.replace(new RegExp('\\b' + escapeRegExp(rule[0]) + '\\b', 'gi'), rule[1]);
+    });
+
+    // 2. Ponctuation vocale
+    if (settings.voicePunct) {
+      var punctRules = isFrench ? PUNCT_FR : PUNCT_EN;
+      punctRules.forEach(function (rule) {
+        out = out.replace(rule[0], rule[1]);
+      });
+    }
+
+    // 3. Hésitations et répétitions
+    if (settings.fillers) {
+      out = out.replace(isFrench ? FILLERS_FR : FILLERS_EN, ' ');
+      // mots doublés involontairement (« le le », « je je »)
+      out = out.replace(/\b(\p{L}+)(\s+\1\b)+/giu, '$1');
+    }
+
+    // 4. Espaces et ponctuation propres
+    out = out
+      .replace(/[ \t]+/g, ' ')
+      .replace(/ ?\n ?/g, '\n')
+      .replace(/\s+([,.])/g, '$1')
+      .replace(/([,.;:!?…])(?=\p{L})/gu, '$1 ');
+
+    if (isFrench) {
+      // espace insécable avant ? ! ; :
+      out = out.replace(/\s*([?!;:])/g, ' $1');
+      out = out.replace(/«\s*/g, '« ').replace(/\s*»/g, ' »');
+    }
+
+    out = out.trim();
+
+    // 5. Majuscules
+    if (settings.caps && out) {
+      out = out.charAt(0).toUpperCase() + out.slice(1);
+      out = out.replace(/([.!?…]\s*\n?|\n\n)(\p{Ll})/gu, function (m, sep, letter) {
+        return sep + letter.toUpperCase();
+      });
+    }
+
+    // 6. Point final si la phrase se termine sans ponctuation
+    if (settings.caps && out && !/[.!?…:»)\n]$/.test(out)) {
+      out += '.';
+    }
+
+    return out;
+  }
+
+  /* ---------- Presse-papiers ---------- */
+
+  function copyToClipboard(text, auto) {
+    function done() {
+      copiedBadge.classList.remove('hidden');
+      showToast(auto ? '✓ Copié automatiquement — colle où tu veux !' : '✓ Copié !');
+      setTimeout(function () { copiedBadge.classList.add('hidden'); }, 3000);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text); done(); });
+    } else {
+      fallbackCopy(text);
+      done();
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- Historique ---------- */
+
+  function getHistory() {
+    try { return JSON.parse(localStorage.getItem(STORAGE.history) || '[]'); } catch (e) { return []; }
+  }
+
+  function setHistory(items) {
+    try { localStorage.setItem(STORAGE.history, JSON.stringify(items.slice(0, 50))); } catch (e) {}
+  }
+
+  function addToHistory(text) {
+    var items = getHistory();
+    items.unshift({ text: text, date: new Date().toISOString() });
+    setHistory(items);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    var items = getHistory();
+    historyList.innerHTML = '';
+    historyEmpty.classList.toggle('hidden', items.length > 0);
+    items.forEach(function (item, index) {
+      var li = document.createElement('li');
+      li.className = 'history-item';
+
+      var textDiv = document.createElement('div');
+      textDiv.className = 'history-text';
+      textDiv.title = 'Toucher pour copier';
+      textDiv.textContent = item.text;
+
+      var dateSpan = document.createElement('span');
+      dateSpan.className = 'history-date';
+      dateSpan.textContent = formatDate(item.date);
+      textDiv.appendChild(dateSpan);
+
+      textDiv.addEventListener('click', function () { copyToClipboard(item.text, false); });
+
+      var actions = document.createElement('div');
+      actions.className = 'history-actions';
+
+      var copyB = document.createElement('button');
+      copyB.textContent = '📋';
+      copyB.title = 'Copier';
+      copyB.addEventListener('click', function () { copyToClipboard(item.text, false); });
+
+      var delB = document.createElement('button');
+      delB.textContent = '🗑️';
+      delB.title = 'Supprimer';
+      delB.addEventListener('click', function () {
+        var current = getHistory();
+        current.splice(index, 1);
+        setHistory(current);
+        renderHistory();
+      });
+
+      actions.appendChild(copyB);
+      actions.appendChild(delB);
+      li.appendChild(textDiv);
+      li.appendChild(actions);
+      historyList.appendChild(li);
+    });
+  }
+
+  function formatDate(iso) {
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) +
+        ' · ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return ''; }
+  }
+
+  /* ---------- Toast ---------- */
+
+  var toastTimer = null;
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.remove('hidden');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.classList.add('hidden'); }, 2600);
+  }
+
+  /* ---------- Événements ---------- */
+
+  // Micro : toucher pour démarrer / arrêter (mobile et desktop)
+  micBtn.addEventListener('click', function () {
+    if (state === 'recording') stopRecording(false);
+    else startRecording();
+  });
+
+  // Push-to-talk : maintenir Espace (desktop)
+  var spaceHeld = false;
+  document.addEventListener('keydown', function (e) {
+    var target = e.target;
+    var typing = target && (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.isContentEditable);
+    if (e.code === 'Space' && !typing && !e.repeat) {
+      e.preventDefault();
+      spaceHeld = true;
+      if (state !== 'recording') startRecording();
+    }
+    if (e.code === 'Escape' && state === 'recording') {
+      stopRecording(true);
+    }
+  });
+
+  document.addEventListener('keyup', function (e) {
+    if (e.code === 'Space' && spaceHeld) {
+      spaceHeld = false;
+      if (state === 'recording') stopRecording(false);
+    }
+  });
+
+  // Empêche le scroll quand on maintient Espace
+  window.addEventListener('keypress', function (e) {
+    if (e.code === 'Space' && spaceHeld) e.preventDefault();
+  });
+
+  // Résultat
+  $('copyBtn').addEventListener('click', function () { copyToClipboard(resultText.value, false); });
+  $('redoBtn').addEventListener('click', function () { startRecording(); });
+  $('clearBtn').addEventListener('click', function () {
+    resultText.value = '';
+    resultCard.classList.add('hidden');
+  });
+
+  // Langue
+  langSelect.value = settings.lang;
+  langSelect.addEventListener('change', function () {
+    settings.lang = langSelect.value;
+    saveSettings();
+  });
+
+  // Historique
+  $('clearHistoryBtn').addEventListener('click', function () {
+    if (getHistory().length === 0) return;
+    if (confirm('Effacer tout l’historique ?')) {
+      setHistory([]);
+      renderHistory();
+    }
+  });
+
+  // Réglages
+  var overlay = $('settingsOverlay');
+  var optIds = { fillers: 'optFillers', voicePunct: 'optVoicePunct', caps: 'optCaps', autoCopy: 'optAutoCopy' };
+
+  $('settingsBtn').addEventListener('click', function () {
+    Object.keys(optIds).forEach(function (key) { $(optIds[key]).checked = !!settings[key]; });
+    try { $('dictText').value = localStorage.getItem(STORAGE.dict) || ''; } catch (e) {}
+    overlay.classList.remove('hidden');
+  });
+
+  $('settingsClose').addEventListener('click', function () { overlay.classList.add('hidden'); });
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.add('hidden'); });
+
+  Object.keys(optIds).forEach(function (key) {
+    $(optIds[key]).addEventListener('change', function (e) {
+      settings[key] = e.target.checked;
+      saveSettings();
+    });
+  });
+
+  $('dictSave').addEventListener('click', function () {
+    try { localStorage.setItem(STORAGE.dict, $('dictText').value); } catch (e) {}
+    showToast('✓ Dictionnaire enregistré');
+  });
+
+  /* ---------- Init ---------- */
+  renderHistory();
+
+  // Exposé pour les tests
+  window.__flowDictee = { cleanText: cleanText, settings: settings };
+})();
+</script>
+</body>
+</html>

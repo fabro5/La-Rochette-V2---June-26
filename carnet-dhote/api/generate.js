@@ -123,11 +123,11 @@ export default async function handler(req, res) {
       },
     });
   } catch (e) {
+    // DEBUG TEMPORAIRE : on renvoie le détail technique pour diagnostiquer.
     const msg = String((e && e.message) || e || "");
-    const status = /api key|permission|invalid|unauthenticated|401|403/i.test(msg) ? 401 : 500;
-    res.status(status).json({
+    res.status(500).json({
       error: "generation_failed",
-      message: status === 401 ? "Clé API refusée ou invalide." : "La génération a échoué. Réessayez dans un instant.",
+      message: "Détail technique : " + msg.slice(0, 400),
     });
   }
 }

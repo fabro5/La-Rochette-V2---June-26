@@ -49,28 +49,54 @@
 
   /* ---------- Reconnaissance vocale ---------- */
 
+  // Sur mobile (Android surtout), les résultats sont CUMULATIFS : chaque événement
+  // renvoie la phrase entière depuis le début, pas le nouveau morceau. Il faut donc
+  // remplacer au lieu d'ajouter, et désactiver le mode continu (bugué là-bas).
+  var IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   var recognition = null;
   var state = 'idle'; // idle | recording | stopping
-  var finalTranscript = '';
+  var segments = [];        // phrases finalisées (une par segment de reconnaissance)
   var interimTranscript = '';
+
+  function fullTranscript() {
+    return (segments.join(' ') + ' ' + interimTranscript).replace(/\s+/g, ' ').trim();
+  }
 
   function buildRecognition() {
     var rec = new SpeechRecognition();
-    rec.continuous = true;
+    rec.continuous = !IS_MOBILE;
     rec.interimResults = true;
     rec.lang = settings.lang;
 
     rec.onresult = function (event) {
-      interimTranscript = '';
-      for (var i = event.resultIndex; i < event.results.length; i++) {
-        var chunk = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += chunk + ' ';
+      if (IS_MOBILE) {
+        // Résultats cumulatifs : on garde le dernier instantané, on n'additionne pas.
+        var interim = '';
+        var finalChunk = '';
+        for (var m = 0; m < event.results.length; m++) {
+          var t = event.results[m][0].transcript;
+          if (event.results[m].isFinal) finalChunk = t;
+          else interim = t;
+        }
+        if (finalChunk) {
+          segments.push(finalChunk.trim());
+          interimTranscript = '';
         } else {
-          interimTranscript += chunk;
+          interimTranscript = interim;
+        }
+      } else {
+        interimTranscript = '';
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+          var chunk = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            segments.push(chunk.trim());
+          } else {
+            interimTranscript += chunk;
+          }
         }
       }
-      liveText.textContent = (finalTranscript + interimTranscript).trim();
+      liveText.textContent = fullTranscript();
     };
 
     rec.onerror = function (event) {
@@ -85,8 +111,13 @@
 
     rec.onend = function () {
       if (state === 'recording') {
-        // Le navigateur coupe parfois tout seul après un silence : on relance.
-        try { rec.start(); } catch (e) { /* déjà relancé */ }
+        // Fin de segment (mobile) ou coupure après silence : on relance tant
+        // que l'utilisateur n'a pas arrêté la dictée.
+        try { rec.start(); } catch (e) {
+          setTimeout(function () {
+            if (state === 'recording') { try { rec.start(); } catch (e2) {} }
+          }, 150);
+        }
       } else if (state === 'stopping') {
         state = 'idle';
         finishDictation();
@@ -98,7 +129,7 @@
 
   function startRecording() {
     if (!SpeechRecognition || state === 'recording') return;
-    finalTranscript = '';
+    segments = [];
     interimTranscript = '';
     liveText.textContent = '';
     recognition = buildRecognition();
@@ -136,7 +167,7 @@
   }
 
   function finishDictation() {
-    var raw = (finalTranscript + ' ' + interimTranscript).trim();
+    var raw = fullTranscript();
     liveText.textContent = '';
     if (!raw) {
       showToast('Je n’ai rien entendu 🤫');

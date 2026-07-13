@@ -222,6 +222,28 @@ kbd {
   font-weight: 600;
 }
 
+.ai-badge {
+  color: var(--accent-2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: aiPulse 1.2s ease-in-out infinite;
+}
+@keyframes aiPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+.tone-select {
+  width: 100%;
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
 textarea {
   width: 100%;
   background: var(--bg-soft);
@@ -461,6 +483,7 @@ textarea:focus { border-color: var(--accent); }
     <section id="resultCard" class="card result-card hidden">
       <div class="card-head">
         <h2>Texte nettoyé</h2>
+        <span id="aiBadge" class="ai-badge hidden">✨ Reformulation IA…</span>
         <span id="copiedBadge" class="copied-badge hidden">✓ Copié</span>
       </div>
       <textarea id="resultText" rows="5" spellcheck="true" placeholder="Ton texte apparaîtra ici…"></textarea>
@@ -526,6 +549,23 @@ textarea:focus { border-color: var(--accent); }
         <input type="checkbox" id="optAutoCopy" checked>
       </label>
 
+      <label class="setting-row">
+        <span>
+          <strong>Reformulation IA ✨</strong>
+          <small>Ponctuation et corrections intelligentes par Claude</small>
+        </span>
+        <input type="checkbox" id="optAI" checked>
+      </label>
+
+      <div class="setting-block">
+        <strong>Ton de la reformulation</strong>
+        <select id="toneSelect" class="tone-select">
+          <option value="neutre" selected>Neutre — naturel, fidèle à la dictée</option>
+          <option value="professionnel">Professionnel — email ou courrier soigné</option>
+          <option value="decontracte">Décontracté — message entre proches</option>
+        </select>
+      </div>
+
       <div class="setting-block">
         <strong>Dictionnaire personnel</strong>
         <small>Corrige les mots que la reconnaissance écorche (noms propres, jargon…). Un remplacement par ligne, au format <code>mot entendu =&gt; mot voulu</code>.</small>
@@ -565,7 +605,12 @@ textarea:focus { border-color: var(--accent); }
 
   /* ---------- Réglages ---------- */
 
-  var defaults = { fillers: true, voicePunct: true, caps: true, autoCopy: true, lang: 'fr-FR' };
+  var defaults = { fillers: true, voicePunct: true, caps: true, autoCopy: true, ai: true, tone: 'neutre', lang: 'fr-FR' };
+
+  // Fonction serveur de reformulation (Vercel). Si absente ou en erreur,
+  // l'app retombe sur le nettoyage local.
+  var AI_ENDPOINT = '/api/rewrite';
+  var AI_TIMEOUT_MS = 25000;
   var settings = loadJSON(STORAGE.settings, defaults);
 
   function loadJSON(key, fallback) {
@@ -716,10 +761,53 @@ textarea:focus { border-color: var(--accent); }
     var clean = cleanText(raw);
     resultText.value = clean;
     resultCard.classList.remove('hidden');
-    addToHistory(clean);
-    if (settings.autoCopy) {
-      copyToClipboard(clean, true);
+    if (settings.ai) {
+      rewriteWithAI(clean);
+    } else {
+      deliver(clean);
     }
+  }
+
+  function deliver(text) {
+    addToHistory(text);
+    if (settings.autoCopy) {
+      copyToClipboard(text, true);
+    }
+  }
+
+  /* ---------- Reformulation IA ---------- */
+
+  var aiBadge = $('aiBadge');
+
+  function rewriteWithAI(localText) {
+    aiBadge.classList.remove('hidden');
+    var controller = ('AbortController' in window) ? new AbortController() : null;
+    var timer = controller && setTimeout(function () { controller.abort(); }, AI_TIMEOUT_MS);
+
+    fetch(AI_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: localText, lang: settings.lang, tone: settings.tone }),
+      signal: controller ? controller.signal : undefined
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var improved = data && typeof data.text === 'string' ? data.text.trim() : '';
+        if (!improved) throw new Error('réponse vide');
+        resultText.value = improved;
+        deliver(improved);
+      })
+      .catch(function () {
+        showToast('✨ IA indisponible — texte nettoyé localement');
+        deliver(localText);
+      })
+      .finally(function () {
+        if (timer) clearTimeout(timer);
+        aiBadge.classList.add('hidden');
+      });
   }
 
   /* ---------- Nettoyage du texte ---------- */
@@ -1000,12 +1088,19 @@ textarea:focus { border-color: var(--accent); }
 
   // Réglages
   var overlay = $('settingsOverlay');
-  var optIds = { fillers: 'optFillers', voicePunct: 'optVoicePunct', caps: 'optCaps', autoCopy: 'optAutoCopy' };
+  var optIds = { fillers: 'optFillers', voicePunct: 'optVoicePunct', caps: 'optCaps', autoCopy: 'optAutoCopy', ai: 'optAI' };
+  var toneSelect = $('toneSelect');
 
   $('settingsBtn').addEventListener('click', function () {
     Object.keys(optIds).forEach(function (key) { $(optIds[key]).checked = !!settings[key]; });
+    toneSelect.value = settings.tone;
     try { $('dictText').value = localStorage.getItem(STORAGE.dict) || ''; } catch (e) {}
     overlay.classList.remove('hidden');
+  });
+
+  toneSelect.addEventListener('change', function () {
+    settings.tone = toneSelect.value;
+    saveSettings();
   });
 
   $('settingsClose').addEventListener('click', function () { overlay.classList.add('hidden'); });

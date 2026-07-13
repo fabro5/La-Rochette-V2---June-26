@@ -63,6 +63,7 @@
     <section id="resultCard" class="card result-card hidden">
       <div class="card-head">
         <h2>Texte nettoyé</h2>
+        <span id="aiBadge" class="ai-badge hidden">✨ Reformulation IA…</span>
         <span id="copiedBadge" class="copied-badge hidden">✓ Copié</span>
       </div>
       <textarea id="resultText" rows="5" spellcheck="true" placeholder="Ton texte apparaîtra ici…"></textarea>
@@ -127,6 +128,23 @@
         </span>
         <input type="checkbox" id="optAutoCopy" checked>
       </label>
+
+      <label class="setting-row">
+        <span>
+          <strong>Reformulation IA ✨</strong>
+          <small>Ponctuation et corrections intelligentes par Claude</small>
+        </span>
+        <input type="checkbox" id="optAI" checked>
+      </label>
+
+      <div class="setting-block">
+        <strong>Ton de la reformulation</strong>
+        <select id="toneSelect" class="tone-select">
+          <option value="neutre" selected>Neutre — naturel, fidèle à la dictée</option>
+          <option value="professionnel">Professionnel — email ou courrier soigné</option>
+          <option value="decontracte">Décontracté — message entre proches</option>
+        </select>
+      </div>
 
       <div class="setting-block">
         <strong>Dictionnaire personnel</strong>

@@ -25,7 +25,12 @@
 
   /* ---------- Réglages ---------- */
 
-  var defaults = { fillers: true, voicePunct: true, caps: true, autoCopy: true, lang: 'fr-FR' };
+  var defaults = { fillers: true, voicePunct: true, caps: true, autoCopy: true, ai: true, tone: 'neutre', lang: 'fr-FR' };
+
+  // Fonction serveur de reformulation (Vercel). Si absente ou en erreur,
+  // l'app retombe sur le nettoyage local.
+  var AI_ENDPOINT = '/api/rewrite';
+  var AI_TIMEOUT_MS = 25000;
   var settings = loadJSON(STORAGE.settings, defaults);
 
   function loadJSON(key, fallback) {
@@ -176,10 +181,53 @@
     var clean = cleanText(raw);
     resultText.value = clean;
     resultCard.classList.remove('hidden');
-    addToHistory(clean);
-    if (settings.autoCopy) {
-      copyToClipboard(clean, true);
+    if (settings.ai) {
+      rewriteWithAI(clean);
+    } else {
+      deliver(clean);
     }
+  }
+
+  function deliver(text) {
+    addToHistory(text);
+    if (settings.autoCopy) {
+      copyToClipboard(text, true);
+    }
+  }
+
+  /* ---------- Reformulation IA ---------- */
+
+  var aiBadge = $('aiBadge');
+
+  function rewriteWithAI(localText) {
+    aiBadge.classList.remove('hidden');
+    var controller = ('AbortController' in window) ? new AbortController() : null;
+    var timer = controller && setTimeout(function () { controller.abort(); }, AI_TIMEOUT_MS);
+
+    fetch(AI_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: localText, lang: settings.lang, tone: settings.tone }),
+      signal: controller ? controller.signal : undefined
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var improved = data && typeof data.text === 'string' ? data.text.trim() : '';
+        if (!improved) throw new Error('réponse vide');
+        resultText.value = improved;
+        deliver(improved);
+      })
+      .catch(function () {
+        showToast('✨ IA indisponible — texte nettoyé localement');
+        deliver(localText);
+      })
+      .finally(function () {
+        if (timer) clearTimeout(timer);
+        aiBadge.classList.add('hidden');
+      });
   }
 
   /* ---------- Nettoyage du texte ---------- */
@@ -460,12 +508,19 @@
 
   // Réglages
   var overlay = $('settingsOverlay');
-  var optIds = { fillers: 'optFillers', voicePunct: 'optVoicePunct', caps: 'optCaps', autoCopy: 'optAutoCopy' };
+  var optIds = { fillers: 'optFillers', voicePunct: 'optVoicePunct', caps: 'optCaps', autoCopy: 'optAutoCopy', ai: 'optAI' };
+  var toneSelect = $('toneSelect');
 
   $('settingsBtn').addEventListener('click', function () {
     Object.keys(optIds).forEach(function (key) { $(optIds[key]).checked = !!settings[key]; });
+    toneSelect.value = settings.tone;
     try { $('dictText').value = localStorage.getItem(STORAGE.dict) || ''; } catch (e) {}
     overlay.classList.remove('hidden');
+  });
+
+  toneSelect.addEventListener('change', function () {
+    settings.tone = toneSelect.value;
+    saveSettings();
   });
 
   $('settingsClose').addEventListener('click', function () { overlay.classList.add('hidden'); });

@@ -20,7 +20,8 @@
   var STORAGE = {
     settings: 'flowDictee.settings',
     history: 'flowDictee.history',
-    dict: 'flowDictee.dictionary'
+    dict: 'flowDictee.dictionary',
+    aiSpend: 'flowDictee.aiSpend'
   };
 
   /* ---------- Réglages ---------- */
@@ -181,6 +182,7 @@
     var clean = cleanText(raw);
     resultText.value = clean;
     resultCard.classList.remove('hidden');
+    costLine.classList.add('hidden');
     if (settings.ai) {
       rewriteWithAI(clean);
     } else {
@@ -193,6 +195,45 @@
     if (settings.autoCopy) {
       copyToClipboard(text, true);
     }
+  }
+
+  /* ---------- Suivi du coût IA (cumul mensuel, stocké sur l'appareil) ---------- */
+
+  var costLine = $('costLine');
+
+  function currentMonth() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+
+  function getSpend() {
+    var spend = loadJSON(STORAGE.aiSpend, { month: currentMonth(), usd: 0, calls: 0 });
+    if (spend.month !== currentMonth()) {
+      spend = { month: currentMonth(), usd: 0, calls: 0 };
+    }
+    return spend;
+  }
+
+  function addSpend(usd) {
+    var spend = getSpend();
+    spend.usd += usd;
+    spend.calls += 1;
+    try { localStorage.setItem(STORAGE.aiSpend, JSON.stringify(spend)); } catch (e) {}
+    return spend;
+  }
+
+  function fmtFr(value, decimals) {
+    return value.toFixed(decimals).replace('.', ',');
+  }
+
+  function showCost(callUsd, spend) {
+    var callTxt = callUsd < 0.01
+      ? fmtFr(callUsd * 100, 2) + ' ¢'
+      : fmtFr(callUsd, 3) + ' $';
+    var monthTxt = fmtFr(spend.usd, spend.usd < 0.1 ? 3 : 2) + ' $';
+    costLine.textContent = '✨ Coût IA : ' + callTxt +
+      ' · Ce mois-ci : ' + monthTxt + ' (' + spend.calls + ' dictée' + (spend.calls > 1 ? 's' : '') + ')';
+    costLine.classList.remove('hidden');
   }
 
   /* ---------- Reformulation IA ---------- */
@@ -218,6 +259,9 @@
         var improved = data && typeof data.text === 'string' ? data.text.trim() : '';
         if (!improved) throw new Error('réponse vide');
         resultText.value = improved;
+        if (data && typeof data.cost_usd === 'number') {
+          showCost(data.cost_usd, addSpend(data.cost_usd));
+        }
         deliver(improved);
       })
       .catch(function () {

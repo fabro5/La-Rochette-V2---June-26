@@ -223,6 +223,13 @@ kbd {
   50%      { opacity: 0.45; }
 }
 
+.cost-line {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
 .tone-select {
   width: 100%;
   background: var(--bg-soft);

@@ -5,6 +5,13 @@
 const MODEL = "claude-opus-4-8"; // alternative plus rapide et économique : "claude-haiku-4-5"
 const MAX_INPUT_CHARS = 8000;
 
+// Tarifs officiels Anthropic en $ par million de tokens, pour estimer le coût
+// de chaque appel côté client.
+const PRICING_PER_MTOK: Record<string, { input: number; output: number }> = {
+  "claude-opus-4-8": { input: 5, output: 25 },
+  "claude-haiku-4-5": { input: 1, output: 5 },
+};
+
 const TONES: Record<string, string> = {
   neutre: "Garde un ton neutre et naturel, fidèle à la façon de parler du locuteur.",
   professionnel:
@@ -75,6 +82,7 @@ export async function POST(request: Request): Promise<Response> {
   const data = (await anthropicResponse.json()) as {
     stop_reason?: string;
     content?: Array<{ type: string; text?: string }>;
+    usage?: { input_tokens?: number; output_tokens?: number };
   };
 
   if (data.stop_reason === "refusal") {
@@ -91,5 +99,16 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ error: "Réponse vide" }, { status: 502 });
   }
 
-  return Response.json({ text: rewritten });
+  const inputTokens = data.usage?.input_tokens ?? 0;
+  const outputTokens = data.usage?.output_tokens ?? 0;
+  const price = PRICING_PER_MTOK[MODEL];
+  const costUsd = price
+    ? (inputTokens * price.input + outputTokens * price.output) / 1_000_000
+    : null;
+
+  return Response.json({
+    text: rewritten,
+    usage: { input_tokens: inputTokens, output_tokens: outputTokens },
+    cost_usd: costUsd,
+  });
 }

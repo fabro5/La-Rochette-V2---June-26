@@ -253,6 +253,7 @@
   <form id="qForm" class="card" novalidate>
     <input type="hidden" name="_subject" value="Nouvelle demande — Carnet d'Hôte">
     <input type="hidden" name="template" id="tplInput" value="Bohème (arches)">
+    <div id="resetBar" style="display:none;text-align:right;margin:-4px 0 8px"><button type="button" id="resetForm" style="background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;padding:2px 0">↺ Effacer mes réponses</button></div>
 
     <!-- STEP 1 -->
     <section class="step-panel on" data-step="0">
@@ -890,6 +891,78 @@
       alert("Une erreur est survenue. Réessayez ou écrivez-nous directement.");
     }
   });
+
+  // ===== Sauvegarde automatique + mode démo =====
+  const FORM_KEY = 'cd_form_v1';
+  const qForm = document.getElementById('qForm');
+  function saveForm(){
+    try{
+      const data = { vals:{}, checks:{} };
+      qForm.querySelectorAll('input,select,textarea').forEach(el=>{
+        if(el.type==='hidden') return;
+        if(el.type==='checkbox'||el.type==='radio'){ data.checks[(el.name||el.id)+'::'+el.value] = el.checked; }
+        else { const k = el.id||el.name; if(k) data.vals[k] = el.value; }
+      });
+      localStorage.setItem(FORM_KEY, JSON.stringify(data));
+    }catch(_){}
+  }
+  function restoreForm(){
+    try{
+      const raw = localStorage.getItem(FORM_KEY); if(!raw) return false;
+      const data = JSON.parse(raw);
+      qForm.querySelectorAll('input,select,textarea').forEach(el=>{
+        if(el.type==='hidden') return;
+        if(el.type==='checkbox'||el.type==='radio'){ const k=(el.name||el.id)+'::'+el.value; if(data.checks && k in data.checks) el.checked=!!data.checks[k]; }
+        else { const k=el.id||el.name; if(k && data.vals && k in data.vals) el.value=data.vals[k]; }
+      });
+      return true;
+    }catch(_){ return false; }
+  }
+  // Jeu de données de démonstration (URL ...?demo)
+  const DEMO = {
+    vals: {
+      giteName:"Le Gîte des Tilleuls", giteType:"Gîte / Maison entière", capacity:"6",
+      city:"Saignes", postal:"15240", address:"Lieu-dit La Rochette, route de Saignes",
+      bedrooms:"3", bathrooms:"2",
+      ambiance:"Une maison de famille chaleureuse, au calme, face aux montagnes du Cantal.",
+      checkin:"16h00", checkout:"10h30", wifiName:"LesTilleuls_24", wifiPass:"bienvenue2024",
+      access:"Boîte à clés à droite de la porte (code 1234). Parking devant la maison.",
+      checkoutInstr:"Merci de sortir les poubelles, lancer le lave-vaisselle et laisser les clés dans la boîte.",
+      contact:"Marie — 06 12 34 56 78",
+      highlights:"Le bain nordique face au coucher de soleil, la grande cheminée du salon, le silence absolu.",
+      hosts:"Marie & Julien",
+      restos:"L'Auberge du Village (cuisine du terroir, 5 min)\nLa crêperie sur la place",
+      activites:"Le sentier des Crêtes (2h)\nLe lac à 15 min",
+      commerces:"Boulangerie à 800 m\nMarché le samedi matin",
+      family:"La ferme pédagogique\nLa piscine couverte à 20 min",
+      secret:"Le producteur de fromage sur la route de Ydes, le point de vue au lever du soleil.",
+      email:"alexis.fabre@hotmail.fr"
+    },
+    checks: {
+      "rules::Non-fumeur":true, "rules::Parking sur place":true,
+      "amenities::Bain nordique":true, "amenities::Cheminée / Poêle":true, "amenities::Jardin":true,
+      "amenities::Vue exceptionnelle":true, "amenities::Wifi":true
+    }
+  };
+  function fillDemo(){
+    Object.entries(DEMO.vals).forEach(([k,v])=>{ const el=document.getElementById(k); if(el) el.value=v; });
+    qForm.querySelectorAll('input[type=checkbox]').forEach(el=>{ const k=(el.name||el.id)+'::'+el.value; if(DEMO.checks[k]) el.checked=true; });
+    saveForm();
+  }
+  // Bouton "effacer mes réponses"
+  const resetBar = document.getElementById('resetBar');
+  if(document.getElementById('resetForm')){
+    document.getElementById('resetForm').addEventListener('click', ()=>{
+      localStorage.removeItem(FORM_KEY);
+      location.href = location.pathname; // recharge sans ?demo
+    });
+  }
+  // Init : démo prioritaire, sinon restauration de la saisie précédente
+  const hadSaved = restoreForm();
+  if(/[?&]demo\b/.test(location.search)){ fillDemo(); }
+  if((hadSaved || /[?&]demo\b/.test(location.search)) && resetBar){ resetBar.style.display='block'; }
+  qForm.addEventListener('input', saveForm);
+  qForm.addEventListener('change', saveForm);
 
   render();
 </script>

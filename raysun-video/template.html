@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Poppins';
+    src: url('node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2') format('woff2');
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: 'Poppins';
+    src: url('node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2') format('woff2');
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: 'Gochi Hand';
+    src: url('node_modules/@fontsource/gochi-hand/files/gochi-hand-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; }
+  body { background: #ffffff; font-family: 'Poppins', sans-serif; }
+
+  #stage { position: relative; width: 1080px; height: 1920px; background: #ffffff; }
+
+  /* ---- Scene 1 : titre + typewriter ---- */
+  #title-scene {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 620px; text-align: center;
+  }
+  #headline {
+    font-weight: 700; font-size: 88px; line-height: 1.18;
+    color: #111111; letter-spacing: -1px;
+  }
+  #handwritten {
+    margin-top: 90px;
+    font-family: 'Gochi Hand', cursive;
+    font-size: 78px; color: #111111; letter-spacing: 2px;
+    min-height: 110px; white-space: pre;
+  }
+
+  /* ---- Scene 2 : logos ---- */
+  .logo-slide {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+  }
+  .logo-slide img { max-width: 520px; max-height: 380px; object-fit: contain; }
+  .logo-placeholder {
+    display: flex; flex-direction: column; align-items: center; gap: 22px;
+    font-weight: 700; color: #12355b; text-align: center;
+  }
+  .logo-placeholder .ph-name { font-size: 66px; letter-spacing: 0.5px; }
+  .logo-placeholder .ph-tag {
+    font-weight: 600; font-size: 26px; letter-spacing: 6px;
+    color: #9aa3ad; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="title-scene">
+    <div id="headline">De nouveaux clients<br>chez raysun</div>
+    <div id="handwritten"></div>
+  </div>
+  <div id="slides"></div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — modifiez ici les textes, mots du typewriter, logos.
+   Pour un logo réel : {img: "logos/monlogo.png"}
+   Pour un placeholder texte : {name: "Nom Client"}
+   ============================================================ */
+const CONFIG = {
+  typeWords: ["(chaque mois)", "(chaque jour)"],
+  slides: [], // rempli par le renderer via window.setSlides(...)
+  timings: {
+    headlineFade: 0.5,     // fondu du titre
+    typeCharSec: 0.075,    // vitesse de frappe
+    eraseCharSec: 0.04,    // vitesse d'effacement
+    wordHold: 0.9,         // pause mot affiché
+    titleOutFade: 0.4,     // fondu de sortie du titre
+    slideDur: 1.15,        // durée par logo client
+    slideFade: 0.28,       // fondu entre logos
+    finalDur: 2.0,         // durée du logo final (raysun)
+  }
+};
+
+const $ = id => document.getElementById(id);
+let timeline = null;
+
+function buildSlides(slides) {
+  const holder = $('slides');
+  holder.innerHTML = '';
+  for (const s of slides) {
+    const div = document.createElement('div');
+    div.className = 'logo-slide';
+    if (s.img) {
+      div.innerHTML = `<img src="${s.img}">`;
+    } else {
+      div.innerHTML = `<div class="logo-placeholder"><div class="ph-name">${s.name}</div><div class="ph-tag">logo à insérer</div></div>`;
+    }
+    holder.appendChild(div);
+  }
+}
+
+function computeTimeline() {
+  const T = CONFIG.timings;
+  // phase titre : fade-in puis frappe/effacement de chaque mot
+  let t = T.headlineFade + 0.3;
+  const words = [];
+  CONFIG.typeWords.forEach((w, i) => {
+    const typeEnd = t + w.length * T.typeCharSec;
+    const holdEnd = typeEnd + T.wordHold;
+    const last = i === CONFIG.typeWords.length - 1;
+    const eraseEnd = last ? holdEnd : holdEnd + w.length * T.eraseCharSec;
+    words.push({ word: w, typeStart: t, typeEnd, holdEnd, eraseEnd, last });
+    t = eraseEnd + 0.15;
+  });
+  const titleEnd = words[words.length - 1].holdEnd + 0.2;
+  const slidesStart = titleEnd + T.titleOutFade;
+  const n = CONFIG.slides.length;
+  const slideTimes = [];
+  let st = slidesStart;
+  for (let i = 0; i < n; i++) {
+    const dur = (i === n - 1) ? T.finalDur : T.slideDur;
+    slideTimes.push({ start: st, end: st + dur });
+    st += dur;
+  }
+  return { words, titleEnd, slidesStart, slideTimes, total: st + 0.3 };
+}
+
+function clamp01(x) { return Math.max(0, Math.min(1, x)); }
+function easeOut(x) { return 1 - Math.pow(1 - x, 3); }
+
+function seek(t) {
+  if (!timeline) timeline = computeTimeline();
+  const T = CONFIG.timings;
+  const tl = timeline;
+
+  // --- titre ---
+  const titleIn = easeOut(clamp01(t / T.headlineFade));
+  const titleOut = clamp01((t - tl.titleEnd) / T.titleOutFade);
+  const scene = $('title-scene');
+  scene.style.opacity = (titleIn * (1 - titleOut)).toFixed(3);
+  $('headline').style.transform = `translateY(${(1 - titleIn) * 40}px)`;
+
+  // --- typewriter ---
+  let text = '';
+  for (const w of tl.words) {
+    if (t < w.typeStart) break;
+    if (t < w.typeEnd) {
+      text = w.word.slice(0, Math.floor((t - w.typeStart) / T.typeCharSec) + 1);
+    } else if (t < w.holdEnd || w.last) {
+      text = w.word;
+    } else if (t < w.eraseEnd) {
+      const gone = Math.floor((t - w.holdEnd) / T.eraseCharSec);
+      text = w.word.slice(0, Math.max(0, w.word.length - gone));
+    } else {
+      text = '';
+    }
+  }
+  $('handwritten').textContent = text;
+
+  // --- logos ---
+  const slides = document.querySelectorAll('.logo-slide');
+  tl.slideTimes.forEach((s, i) => {
+    const el = slides[i];
+    if (!el) return;
+    const isFinal = i === tl.slideTimes.length - 1;
+    const fin = easeOut(clamp01((t - s.start) / T.slideFade));
+    const fout = isFinal ? 0 : clamp01((t - (s.end - T.slideFade * 0.5)) / (T.slideFade * 0.5));
+    el.style.opacity = (fin * (1 - fout)).toFixed(3);
+    const sc = 0.88 + 0.12 * fin + (isFinal ? 0.015 * clamp01((t - s.start) / T.finalDur) : 0);
+    el.style.transform = `scale(${sc.toFixed(4)})`;
+  });
+}
+
+window.setSlides = slides => { CONFIG.slides = slides; buildSlides(slides); timeline = null; };
+window.getTotal = () => { if (!timeline) timeline = computeTimeline(); return timeline.total; };
+window.seek = seek;
+</script>
+</body>
+</html>

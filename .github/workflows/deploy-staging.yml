@@ -1,0 +1,43 @@
+name: Déploiement staging
+
+# Publie la version de test sur https://staging.gitelarochette.com/
+# Le site en ligne (gitelarochette.com, hébergé par Lovable) n'est pas touché.
+
+on:
+  push:
+    branches:
+      - staging
+      - 'claude/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: staging
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assembler le staging
+        run: ./scripts/build-staging.sh
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _staging
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

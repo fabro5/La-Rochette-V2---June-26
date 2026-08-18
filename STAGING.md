@@ -97,3 +97,10 @@ formulaire de réservation, que le site en ligne n'a plus : la production a donc
 `carnet-dhote/` est un projet distinct (générateur de carnet d'accueil, avec
 une fonction serverless et une clé d'API). Il n'est pas inclus dans ce
 déploiement et garde son propre hébergement.
+
+## Carnet d'hôte
+
+Le générateur de carnet d'accueil, qui vivait dans `carnet-dhote/`, a été
+sorti de ce dépôt : c'est un produit distinct, avec sa propre fonction
+serverless et sa propre clé d'API. Il est désormais dans le dépôt
+`fabro5/carnet-dhote`, avec l'historique de ses 28 commits.
